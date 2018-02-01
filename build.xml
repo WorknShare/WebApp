@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="TestJenkins" default="ci" basedir=".">
+    <property name="source" value="src" />
+
+    <target name="ci"
+        description="Tâche principale d'intégration continue"
+        depends="setup,test"
+    />
+
+    <target name="setup" description="Download or updates the dependencies">
+		<exec command="composer install" passthru="true" checkreturn="true" dir="."/>
+		<echo file=".env" append="true">APP_NAME=WorknShare${line.separator}</echo>
+		<echo file=".env" append="true">APP_ENV=testing${line.separator}</echo>
+		<echo file=".env" append="true">APP_KEY=${line.separator}</echo>
+		<echo file=".env" append="true">APP_DEBUG=true${line.separator}</echo>
+		<echo file=".env" append="true">APP_LOG_LEVEL=debug${line.separator}</echo>
+		<echo file=".env" append="true">APP_URL=http://localhost${line.separator}</echo>
+		<echo file=".env" append="true">${line.separator}</echo>
+		<echo file=".env" append="true">DB_CONNECTION=mysql${line.separator}</echo>
+		<echo file=".env" append="true">DB_HOST=127.0.0.1${line.separator}</echo>
+		<echo file=".env" append="true">DB_PORT=3306${line.separator}</echo>
+		<echo file=".env" append="true">DB_DATABASE=worknshare_testing${line.separator}</echo>
+		<echo file=".env" append="true">DB_USERNAME=laravel${line.separator}</echo>
+		<echo file=".env" append="true">DB_PASSWORD=secret${line.separator}</echo>
+		<echo file=".env" append="true">${line.separator}</echo>
+		<echo file=".env" append="true">BROADCAST_DRIVER=log${line.separator}</echo>
+		<echo file=".env" append="true">CACHE_DRIVER=file${line.separator}</echo>
+		<echo file=".env" append="true">SESSION_DRIVER=file${line.separator}</echo>
+		<echo file=".env" append="true">QUEUE_DRIVER=sync${line.separator}</echo>
+		<echo file=".env" append="true">${line.separator}</echo>
+		<echo file=".env" append="true">REDIS_HOST=127.0.0.1${line.separator}</echo>
+		<echo file=".env" append="true">REDIS_PASSWORD=null${line.separator}</echo>
+		<echo file=".env" append="true">REDIS_PORT=6379${line.separator}</echo>
+		<echo file=".env" append="true">${line.separator}</echo>
+		<echo file=".env" append="true">MAIL_DRIVER=smtp${line.separator}</echo>
+		<echo file=".env" append="true">MAIL_HOST=smtp.mailtrap.io${line.separator}</echo>
+		<echo file=".env" append="true">MAIL_PORT=2525${line.separator}</echo>
+		<echo file=".env" append="true">MAIL_USERNAME=null${line.separator}</echo>
+		<echo file=".env" append="true">MAIL_PASSWORD=null${line.separator}</echo>
+		<echo file=".env" append="true">MAIL_ENCRYPTION=null${line.separator}</echo>
+		<echo file=".env" append="true">${line.separator}</echo>
+		<echo file=".env" append="true">PUSHER_APP_ID=${line.separator}</echo>
+		<echo file=".env" append="true">PUSHER_APP_KEY=${line.separator}</echo>
+		<echo file=".env" append="true">PUSHER_APP_SECRET=${line.separator}</echo>
+		<exec command="php artisan key:generate" passthru="true" checkreturn="true" dir="."/>
+
+		<exec command="php artisan migrate:install" passthru="true" checkreturn="true" dir="."/>
+		<exec command="php artisan migrate:rollback" passthru="true" checkreturn="true" dir="."/>
+		<exec command="php artisan migrate" passthru="true" checkreturn="true" dir="."/>
+		<exec command="php artisan db:seed" passthru="true" checkreturn="true" dir="."/>		
+		
+    </target>
+
+    <target name="test" description="Runs tests with PHPUnit">
+		<exec command="php ./vendor/phpunit/phpunit/phpunit" passthru="true" checkreturn="true" dir="."/>
+    </target>
+</project>
