@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="TestJenkins" default="ci">
+<project name="TestJenkins" default="ci" basedir=".">
     <property name="source" value="src" />
 
     <target name="ci"
@@ -8,6 +8,6 @@
     />
 
     <target name="test" description="Lance les tests PHPUnit">
-		<exec logoutput="true" command="php ./vendor/phpunit/phpunit/phpunit" escape="false" />
+		<exec logoutput="true" command="php ${project.basedir}/vendor/phpunit/phpunit/phpunit" escape="false" />
     </target>
 </project>
