@@ -8,7 +8,8 @@
     />
 
     <target name="test" description="Lance les tests PHPUnit">
-    	<exec command="pwd" passthru="true" dir="."/>
-		<exec command="php ./vendor/phpunit/phpunit/phpunit" passthru="true" checkreturn="true" dir="."/>
+    	<property name="relative_path" value="./vendor/phpunit/phpunit/phpunit"/>
+    	<resolvepath propertyName="absolute_path" file="${relative_path}"/>
+		<exec command="php ${absolute_path}" passthru="true" checkreturn="true" dir="." escape="false"/>
     </target>
 </project>
