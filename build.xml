@@ -8,6 +8,6 @@
     />
 
     <target name="test" description="Lance les tests PHPUnit">
-		<exec command="${basedir}/vendor/phpunit/phpunit/phpunit" checkreturn="true"/>
+		<exec command="php ${basedir}/vendor/phpunit/phpunit/phpunit" checkreturn="true"/>
     </target>
 </project>
