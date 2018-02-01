@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="TestJenkins" default="ci" basedir=".">
-    <property name="source" value="src" />
+    <taskdef name="phpunitlaravel" classname="PHPUnitSimpleTask" />
 
     <target name="ci"
         description="Tâche principale d'intégration continue"
@@ -8,8 +8,6 @@
     />
 
     <target name="test" description="Lance les tests PHPUnit">
-    	<property name="relative_path" value="./vendor/phpunit/phpunit/phpunit"/>
-    	<resolvepath propertyName="absolute_path" file="${relative_path}"/>
-		<exec command="php '${absolute_path}'" passthru="true" checkreturn="true" dir="." escape="true"/>
+    	<phpunitlaravel phpunit="${project.logdir}/${phpunit.config}" template="${project.basedir}/${phpunit.config}" phplist="${project.logdir}/${phplist.modelsoutfile}" junitlog="${project.logdir}/${phpunit.junitoutfile}" cloverlog="${project.logdir}/${phpunit.cloveroutfile}" htmllog="${project.logdir}/${phpunit.htmloutdir}" />
     </target>
 </project>
