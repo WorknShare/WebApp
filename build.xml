@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="TestJenkins" default="ci" basedir="../../..">
+    <property name="source" value="src" />
+
+    <target name="ci"
+        description="Tâche principale d'intégration continue"
+        depends="test"
+    />
+
+    <target name="test" description="Lance les tests PHPUnit">
+		<exec logoutput="true" dir="${project.basedir}/" command="php ${project.basedir}/vendor/phpunit/phpunit/phpunit" escape="false" />
+    </target>
+</project>
