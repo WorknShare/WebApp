@@ -8,6 +8,6 @@
     />
 
     <target name="test" description="Lance les tests PHPUnit">
-		<exec logoutput="true" command="php ${project.basedir}/vendor/phpunit/phpunit/phpunit" escape="false" />
+		<exec command="${basedir}/vendor/phpunit/phpunit/phpunit" failonerror="true"/>
     </target>
 </project>
