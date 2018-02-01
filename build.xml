@@ -8,7 +8,7 @@
     />
 
     <target name="test" description="Lance les tests PHPUnit">
-    	<exec command="pwd" passthru="true" dir=".">
+    	<exec command="pwd" passthru="true" dir="."/>
 		<exec command="php ./vendor/phpunit/phpunit/phpunit" passthru="true" checkreturn="true" dir="."/>
     </target>
 </project>
