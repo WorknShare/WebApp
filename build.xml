@@ -48,10 +48,8 @@
 		
 		<exec command="php artisan key:generate" passthru="true" checkreturn="true" dir="."/>
 
-		<exec command="php artisan migrate:install" passthru="true" checkreturn="true" dir="."/>
-		<exec command="php artisan migrate:rollback" passthru="true" checkreturn="true" dir="."/>
-		<exec command="php artisan migrate" passthru="true" checkreturn="true" dir="."/>
-		<exec command="php artisan db:seed" passthru="true" checkreturn="true" dir="."/>		
+		<!-- <exec command="php artisan migrate:install" passthru="true" checkreturn="true" dir="."/> -->
+		<exec command="php artisan migrate:refresh --seed" passthru="true" checkreturn="true" dir="."/>		
 		
     </target>
 
