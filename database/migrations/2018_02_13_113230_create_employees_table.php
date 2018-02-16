@@ -21,7 +21,7 @@ class CreateEmployeesTable extends Migration
             $table->char('phone', 10)->nullable();
             $table->string('address');
             $table->char('password', 60);
-            $table->string('role');
+            $table->integer('role')->unsigned()->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
