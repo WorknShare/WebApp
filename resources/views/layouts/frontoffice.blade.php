@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('body-class')
-layout-top-nav
+skin-blue sidebar-mini layout-top-nav
 @endsection
 
 @section('navigation')

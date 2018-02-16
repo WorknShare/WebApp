@@ -1,5 +1,9 @@
  @extends('layouts.app')
 
+@section('body-class')
+skin-blue sidebar-mini
+@endsection
+
  @section('navigation')
  @extends('partials.backoffice.navbar')
  @endsection

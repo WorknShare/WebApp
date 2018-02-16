@@ -15,6 +15,9 @@
   <link rel="stylesheet" href="{{ asset('dist/css/AdminLTE.min.css') }}">
   <!-- AdminLTE Skin -->
   <link rel="stylesheet" href="{{ asset('dist/css/skins/skin-blue.min.css') }}">
+
+  <!-- iCheck -->
+  <link rel="stylesheet" href="{{ asset('plugins/iCheck/square/blue.css') }}">
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -22,8 +25,10 @@
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+  @yield('css')
 </head>
-<body class="hold-transition skin-blue sidebar-mini @yield('body-class')">
+<body class="hold-transition @yield('body-class')">
 <div class="wrapper">
 
   @yield('navigation')
@@ -41,5 +46,11 @@
 <script src="{{ asset('bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
 <!-- FastClick -->
 <script src="{{ asset('bower_components/fastclick/lib/fastclick.js') }}"></script>
+
+<!-- iCheck -->
+<script src="{{ asset('plugins/iCheck/icheck.min.js') }}"></script>
+
+@yield('scripts')
+
 </body>
 </html>

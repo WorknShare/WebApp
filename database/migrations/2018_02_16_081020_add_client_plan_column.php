@@ -14,7 +14,7 @@ class AddClientPlanColumn extends Migration
     public function up()
     {
         Schema::table('clients', function($table) {
-            $table->integer('id_plan')->unsigned();
+            $table->integer('id_plan')->unsigned()->nullable();
             $table->foreign('id_plan')
                   ->references('id_plan')
                   ->on('plans')
