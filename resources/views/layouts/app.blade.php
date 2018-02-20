@@ -23,6 +23,13 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="{{ asset('img/logo16.png') }}" sizes="16x16">
+  <link rel="icon" type="image/png" href="{{ asset('img/logo32.png') }}" sizes="32x32">
+  <link rel="icon" type="image/png" href="{{ asset('img/logo64.png') }}" sizes="64x64">
+  <link rel="icon" type="image/png" href="{{ asset('img/logo128.png') }}" sizes="128x128">
+  <link rel="icon" type="image/png" href="{{ asset('img/logo256.png') }}" sizes="256x256">
+
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 

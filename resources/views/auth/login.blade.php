@@ -11,11 +11,14 @@ login-page
 @section('content-wrapper')
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Admin</b>LTE</a>
-</div>
+    <a href="{{ route('welcome') }}l"><img src="{{ asset('img/logo128.png') }}"></a>
+    <div>
+    Work'n Share
+    </div>
+  </div>
 <!-- /.login-logo -->
 <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    <p class="login-box-msg">Connectez-vous pour commencer votre session</p>
 
     <form action="{{ route('login') }}" method="post">
         {{ csrf_field() }}

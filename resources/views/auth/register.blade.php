@@ -10,12 +10,15 @@ register-page
 
 @section('content-wrapper')
 <div class="register-box">
-  <div class="register-logo">
-    <a href="../../index2.html"><b>Admin</b>LTE</a>
-</div>
+  <div class="login-logo">
+    <a href="{{ route('welcome') }}"><img src="{{ asset('img/logo128.png') }}"></a>
+    <div>
+    Work'n Share
+    </div>
+  </div>
 
 <div class="register-box-body">
-    <p class="login-box-msg">Register a new membership</p>
+    <p class="login-box-msg">S'incrire</p>
 
     <form action="{{ route('register') }}" method="post">
         {{ csrf_field() }}

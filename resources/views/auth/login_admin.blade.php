@@ -11,8 +11,11 @@ login-page
 @section('content-wrapper')
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Admin</b>LTE</a>
-</div>
+    <a href="{{ route('welcome') }}"><img src="{{ asset('img/logo128.png') }}"></a>
+    <div>
+    Work'n Share
+    </div>
+  </div>
 <!-- /.login-logo -->
 <div class="login-box-body">
     <p class="login-box-msg">Se connecter au panel d'administration</p>
