@@ -1,0 +1,22 @@
+.main-header .logo .logo-lg {
+ 	vertical-align: middle;
+ 	display: inline-block;
+ }
+
+ .main-header .logo {
+ 	padding: 0;
+ }
+
+ .navbar-brand {
+ 	padding-top: 9px;
+ }
+
+.navbar-brand > img {
+ 	display: inline-block;
+ }
+
+ @media (min-width:768px) {
+ 	.sidebar-mini.sidebar-collapse .main-header .logo {
+ 		padding-top: 9px;
+ 	}
+ }

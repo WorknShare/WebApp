@@ -2,7 +2,11 @@
     <nav class="navbar navbar-static-top">
       <div class="container">
         <div class="navbar-header">
-          <a href="../../index2.html" class="navbar-brand"><b>Admin</b>LTE</a>
+          <a href="{{ route('home') }}" class="navbar-brand">
+            <img src="{{ asset('img/logo32.png') }}">
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg">Work'n Share</span>
+          </a>
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
             <i class="fa fa-bars"></i>
           </button>

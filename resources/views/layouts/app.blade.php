@@ -16,6 +16,9 @@
   <!-- AdminLTE Skin -->
   <link rel="stylesheet" href="{{ asset('dist/css/skins/skin-blue.min.css') }}">
 
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+
   <!-- iCheck -->
   <link rel="stylesheet" href="{{ asset('plugins/iCheck/square/blue.css') }}">
   <!--[if lt IE 9]>
