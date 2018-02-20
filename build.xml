@@ -45,6 +45,8 @@
 		<echo file=".env" append="true">PUSHER_APP_SECRET=${line.separator}</echo>
 		<echo file=".env" append="true">${line.separator}</echo>
 		<echo file=".env" append="true">ROLLBAR_TOKEN="7345b105ed1b4c7990ae3ce449ca423b"${line.separator}</echo>
+		<echo file=".env" append="true">
+
 		
 		<exec command="php artisan key:generate" passthru="true" checkreturn="true" dir="."/>
 
