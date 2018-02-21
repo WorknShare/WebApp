@@ -31,21 +31,21 @@ register-page
         </span>
         @endif
     </div>
+    <div class="form-group has-feedback{{ $errors->has('surname') ? ' has-error' : '' }}">
+      <input type="text" class="form-control" name="surname" placeholder="Prénom" maxlength="25" value="{!! old('surname') !!}">
+      <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      @if ($errors->has('surname'))
+      <span class="help-block">
+          <strong>{{ $errors->first('surname') }}</strong>
+      </span>
+      @endif
+    </div>
     <div class="form-group has-feedback {{ $errors->has('name') ? ' has-error' : '' }}">
         <input type="text" class="form-control" name="name" placeholder="Nom" maxlength="25" value="{!! old('name') !!}">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
         @if ($errors->has('name'))
         <span class="help-block">
             <strong>{{ $errors->first('name') }}</strong>
-        </span>
-        @endif
-    </div>
-    <div class="form-group has-feedback{{ $errors->has('surname') ? ' has-error' : '' }}">
-        <input type="text" class="form-control" name="surname" placeholder="Prénom" maxlength="25" value="{!! old('surname') !!}">
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-        @if ($errors->has('surname'))
-        <span class="help-block">
-            <strong>{{ $errors->first('surname') }}</strong>
         </span>
         @endif
     </div>

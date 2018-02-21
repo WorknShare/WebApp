@@ -18,7 +18,7 @@ class CreateAdminUserSeeder extends Seeder
     		'email' => 'admin@worknshare.fr',
     		'password' => bcrypt('admin'),
     		'address' => 'address',
-    		'role' => 3
+    		'role' => 1
     	]);
     	$this->command->info('Admin user created!');
     }

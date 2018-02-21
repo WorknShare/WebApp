@@ -4,11 +4,15 @@
 skin-blue sidebar-mini
 @endsection
 
- @section('navigation')
- @extends('partials.backoffice.navbar')
- @endsection
+@section('title')
+Administration
+@endsection
 
- @section('content-wrapper')
+@section('navigation')
+@include('partials.backoffice.navbar')
+@endsection
+
+@section('content-wrapper')
  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -35,4 +39,4 @@ skin-blue sidebar-mini
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
- @endsection
+@endsection

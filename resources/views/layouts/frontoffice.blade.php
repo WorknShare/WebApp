@@ -5,7 +5,7 @@ skin-blue sidebar-mini layout-top-nav
 @endsection
 
 @section('navigation')
-@extends('partials.frontoffice.navbar')
+@include('partials.frontoffice.navbar')
 @endsection
 
 @section('content-wrapper')
