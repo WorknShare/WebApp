@@ -14,9 +14,3 @@
 .navbar-brand > img {
  	display: inline-block;
  }
-
- @media (min-width:768px) {
- 	.sidebar-mini.sidebar-collapse .main-header .logo {
- 		padding-top: 9px;
- 	}
- }
