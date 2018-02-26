@@ -23,4 +23,5 @@ Route::prefix('admin')->group(function() {
     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
     Route::post('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
     Route::get('/', 'AdminController@index')->name('admin.home');
+    Route::resource('site', 'SiteController');
 });

@@ -10,16 +10,6 @@ abstract class ResourceRepository
   protected $model;
 
   /**
-   * Create a new repository instance.
-   *
-   * @return void
-   */
-  public function __construct(Model $model)
-  {
-    $this->model = $model;
-  }
-
-  /**
    * Get all the existing recordings.
    * 
    * @return array
@@ -39,6 +29,20 @@ abstract class ResourceRepository
   public function getAllOrdered($orderColumn,$order)
   {
     return $this->model->all()->orderBy($orderColumn,$order);
+  }
+
+  /**
+   * Get the recordings matching the given WHERE clause
+   * 
+   * @param string $column
+   * @param $value
+   * @param int $limit
+   * @return array
+   */
+  public function getWhere($column,$value,$limit=100)
+  {
+    $search = '%'.$value.'%';
+    return $this->model->whereRaw("LOWER(?) LIKE LOWER(?)",array($column,$search));
   }
 
   /**

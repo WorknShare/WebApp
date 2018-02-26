@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Collective\Html\FormBuilder;
 use Collective\Html\HtmlBuilder;
+use Illuminate\Support\Facades\Route;
 use Collective\Html\FormFacade as Form;
 
 class HtmlMacrosServiceProvider extends ServiceProvider
@@ -19,6 +20,7 @@ class HtmlMacrosServiceProvider extends ServiceProvider
     {
         $this->registerFormControl();
         $this->registerFormCheckbox();
+        $this->registerNavControl();
     }
 
     private function registerFormControl()
@@ -67,6 +69,17 @@ class HtmlMacrosServiceProvider extends ServiceProvider
                 $checked ? 'checked' : '',
                 $text,
                 $errors->first($name, '<span class="help-block"><strong>:message</strong></span>'));
+        });
+    }
+
+    private function registerNavControl()
+    {
+        HtmlBuilder::macro('adminNavMenu' , function($route, $text, $icon='') {
+            return sprintf('<li %s><a href="%s"><i class="fa %s"></i> <span>%s</span></a></li>',
+                            Route::current()->getName() == $route ? 'class="active"' : '',
+                            route($route),
+                            $icon,
+                            $text);
         });
     }
 }

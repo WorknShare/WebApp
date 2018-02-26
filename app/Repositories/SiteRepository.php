@@ -1,20 +1,20 @@
 <?php
 
-namespace DummyNamespace;
+namespace App\Repositories;
 
 use App\Repositories\ResourceRepository;
 use Illuminate\Database\Eloquent\Model;
+use App\Site;
 
-class DummyClass extends ResourceRepository
+class SiteRepository extends ResourceRepository
 {
 
 	/**
      * Create a new repository instance.
      *
-     * @param Illuminate\Database\Eloquent\Model $model 
      * @return void
      */
-  	public function __construct(Model $model)
+  	public function __construct(Site $model)
   	{
     	$this->model = $model;
   	}
@@ -22,14 +22,18 @@ class DummyClass extends ResourceRepository
 	/**
      * Resource relative behavior for saving a record.
      * 
-     * @param Model $model
+     * @param Site $model
      * @param array $inputs
      * @return int id, the id of the saved resource
      */
 	protected function save(Model $model, Array $inputs)
 	{
-		//
-		return $model->id;
+		$model->name = $inputs['name'];
+		$model->address = $inputs['address'];
+		$model->wifi = $inputs['wifi'];
+		$model->drink = $inputs['drink'];
+		$model->save();
+		return $model->id_site;
 	}
 
 }
