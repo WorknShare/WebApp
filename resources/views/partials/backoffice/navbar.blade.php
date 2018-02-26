@@ -45,8 +45,8 @@
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">NAVIGATION</li>
-        {!! Html::adminNavMenu('admin.home', 'Tableau de bord', 'fa-home') !!}
-        {!! Html::adminNavMenu('site.index', 'Sites', 'fa-map-marker') !!}
+        {!! Html::adminNavMenu('admin.home', 'admin', 'Tableau de bord', 'fa-home') !!}
+        {!! Html::adminNavMenu('site.index', 'site', 'Sites', 'fa-map-marker') !!}
       </ul>
       <!-- /.sidebar-menu -->
     </section>

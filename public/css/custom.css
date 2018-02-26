@@ -14,3 +14,13 @@
 .navbar-brand > img {
  	display: inline-block;
  }
+
+ .icheckbox_margin {
+ 	margin-right: 5px !important;
+ }
+
+ .alert .fa {
+ 	margin-right: 5px;
+ 	font-size: 20px;
+ 	vertical-align: text-bottom;
+ }

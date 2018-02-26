@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\SearchRequest;
+use App\Http\Requests\SiteRequest;
 use App\Repositories\SiteRepository;
 
 class SiteController extends Controller
@@ -33,11 +34,19 @@ class SiteController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $sites = !empty($request->search) ? 
-            $this->siteRepository->getWhere('name', $request->search, $this->amountPerPage) :
-            $this->siteRepository->getPaginate($this->amountPerPage);
 
-        return view('admin.sites.index', compact('sites'));
+        if(!empty($request->search))
+        {
+            $sites = $this->siteRepository->getWhere('name', $request->search, $this->amountPerPage);
+            $links = '';
+            return view('admin.sites.index', compact('sites', 'links'));
+        }
+        else
+        {
+            $sites = $this->siteRepository->getPaginate($this->amountPerPage);
+            $links = $sites->render();
+            return view('admin.sites.index', compact('sites', 'links'));
+        }
     }
 
     /**
@@ -47,18 +56,19 @@ class SiteController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.sites.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\SiteRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SiteRequest $request)
     {
-        //
+        $site = $this->siteRepository->store($request->all());
+        return redirect('admin/site')->withOk("Le site " . $site->name . " a été créé.");
     }
 
     /**
@@ -69,7 +79,9 @@ class SiteController extends Controller
      */
     public function show($id)
     {
-        //
+        if(!is_numeric($id)) abort(404);
+        $site = $this->siteRepository->getById($id);
+        return view('admin.sites.show', compact('site'));
     }
 
     /**
@@ -80,19 +92,23 @@ class SiteController extends Controller
      */
     public function edit($id)
     {
-        //
+        if(!is_numeric($id)) abort(404);
+        $site = $this->siteRepository->getById($id);
+        return view('admin.sites.edit', compact('site'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\SiteRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SiteRequest $request, $id)
     {
-        //
+        if(!is_numeric($id)) abort(404);
+        $this->siteRepository->update($id, $request->all());
+        return redirect('admin/site')->withOk("Le site " . $request->input('name') . " a été modifié.");
     }
 
     /**
@@ -103,6 +119,9 @@ class SiteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(!is_numeric($id)) abort(404);
+        $site = $this->siteRepository->getById($id)->name;
+        $this->siteRepository->destroy($id);
+        return redirect('admin/site')->withOk("Le site " . $site . " a été supprimé.");
     }
 }

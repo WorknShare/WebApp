@@ -17,7 +17,7 @@ function iCheckScript() {
 	return "<script>
 	$(function () {
 	    $('input').iCheck({
-	      checkboxClass: 'icheckbox_square-blue',
+	      checkboxClass: 'icheckbox_square-blue icheckbox_margin',
 	      radioClass: 'iradio_square-blue',
 	      increaseArea: '20%'
 	  });

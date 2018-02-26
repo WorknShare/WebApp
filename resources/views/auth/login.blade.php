@@ -22,7 +22,7 @@ login-page
 
     <form action="{{ route('login') }}" method="post">
         {{ csrf_field() }}
-        {!! Form::controlWithIcon('email', 'email', $errors, old('email'), 'Email', 'glyphicon-envelope', ["maxlength" => '255']) !!}
+        {!! Form::controlWithIcon('email', 'email', $errors, old('email'), 'Email', 'glyphicon-envelope', '', ["maxlength" => '255']) !!}
         {!! Form::controlWithIcon('password', 'password', $errors, '', 'Mot de passe', 'glyphicon-lock') !!}
         <div class="row">
             <div class="col-xs-7">

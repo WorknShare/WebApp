@@ -30,8 +30,8 @@ class SiteRepository extends ResourceRepository
 	{
 		$model->name = $inputs['name'];
 		$model->address = $inputs['address'];
-		$model->wifi = $inputs['wifi'];
-		$model->drink = $inputs['drink'];
+		$model->wifi = isset($inputs['wifi']);
+		$model->drink = isset($inputs['drink']);
 		$model->save();
 		return $model->id_site;
 	}

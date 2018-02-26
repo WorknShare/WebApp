@@ -22,9 +22,9 @@ register-page
 
     <form action="{{ route('register') }}" method="post">
         {{ csrf_field() }}
-        {!! Form::controlWithIcon('email', 'email', $errors, old('email'), 'Email', 'glyphicon-envelope', ["maxlength" => '255']) !!}
-        {!! Form::controlWithIcon('text', 'surname', $errors, old('surname'), 'Prénom', 'glyphicon-user', ["maxlength" => '25']) !!}
-        {!! Form::controlWithIcon('text', 'name', $errors, old('name'), 'Nom', 'glyphicon-user', ["maxlength" => '25']) !!}
+        {!! Form::controlWithIcon('email', 'email', $errors, old('email'), 'Email', 'glyphicon-envelope', '', ["maxlength" => '255']) !!}
+        {!! Form::controlWithIcon('text', 'surname', $errors, old('surname'), 'Prénom', 'glyphicon-user', '', ["maxlength" => '25']) !!}
+        {!! Form::controlWithIcon('text', 'name', $errors, old('name'), 'Nom', 'glyphicon-user', '', ["maxlength" => '25']) !!}
         {!! Form::controlWithIcon('password', 'password', $errors, '', 'Mot de passe', 'glyphicon-lock') !!}
         {!! Form::controlWithIcon('password', 'password_confirmation', $errors, '', 'Confirmation du mot de passe', 'glyphicon-log-in') !!}
         <div class="row">

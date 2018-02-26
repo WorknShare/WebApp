@@ -21,32 +21,37 @@ class HtmlMacrosServiceProvider extends ServiceProvider
         $this->registerFormControl();
         $this->registerFormCheckbox();
         $this->registerNavControl();
+        $this->registerBadges();
     }
 
     private function registerFormControl()
     {
-        FormBuilder::macro('control' , function($type, $name, $errors, $value = '', $placeholder = '', $customAttributes = [], $customClass = '') {
-            $attributes = ['class' => 'form-control '.$customClass, 'placeholder' => $placeholder];
+        FormBuilder::macro('control' , function($type, $name, $errors, $value = '', $placeholder = '', $label = '', $customAttributes = [], $customClass = '') {
+            $attributes = ['class' => 'form-control '.$customClass, 'placeholder' => $placeholder, 'id' => $name];
             $attributes = array_merge($attributes, $customAttributes);
             return sprintf('
-                <div class="form-group has-feedback %s">
+                <div class="form-group %s">
+                    %s
                     %s
                     %s
                 </div>',
                 $errors->has($name) ? 'has-error' : '',
+                !empty($label) ? '<label for="'.$name.'">'.$label.'</label>' : '',
                 call_user_func_array(['Form', $type], $type == 'password' ? [$name, $attributes] : [$name, $value, $attributes]),
                 $errors->first($name, '<span class="help-block"><strong>:message</strong></span>'));
         });
-        FormBuilder::macro('controlWithIcon' , function($type, $name, $errors, $value = '', $placeholder = '', $icon = '', $customAttributes = [], $customClass = '') {
-            $attributes = ['class' => 'form-control '.$customClass, 'placeholder' => $placeholder];
+        FormBuilder::macro('controlWithIcon' , function($type, $name, $errors, $value = '', $placeholder = '', $icon = '', $label='', $customAttributes = [], $customClass = '') {
+            $attributes = ['class' => 'form-control '.$customClass, 'placeholder' => $placeholder, 'id' => $name];
             $attributes = array_merge($attributes, $customAttributes);
             return sprintf('
                 <div class="form-group has-feedback %s">
+                    %s
                     %s
                     <span class="glyphicon %s form-control-feedback"></span>
                     %s
                 </div>',
                 $errors->has($name) ? 'has-error' : '',
+                !empty($label) ? '<label for="'.$name.'">'.$label.'</label>' : '',
                 call_user_func_array(['Form', $type], $type == 'password' ? [$name, $attributes] : [$name, $value, $attributes]),
                 $icon,
                 $errors->first($name, '<span class="help-block"><strong>:message</strong></span>'));
@@ -74,12 +79,21 @@ class HtmlMacrosServiceProvider extends ServiceProvider
 
     private function registerNavControl()
     {
-        HtmlBuilder::macro('adminNavMenu' , function($route, $text, $icon='') {
+        HtmlBuilder::macro('adminNavMenu' , function($route, $prefix, $text, $icon='') {
             return sprintf('<li %s><a href="%s"><i class="fa %s"></i> <span>%s</span></a></li>',
-                            Route::current()->getName() == $route ? 'class="active"' : '',
+                            strpos(Route::currentRouteName(), $prefix.'.') !== FALSE ? 'class="active"' : '',
                             route($route),
                             $icon,
                             $text);
         });
+    }
+
+    private function registerBadges()
+    {
+        HtmlBuilder::macro('badge' , function($yes=true) {
+            return sprintf('<span class="badge %s">%s</span>',
+                            $yes ? 'bg-green' : 'bg-red',
+                            $yes ? 'Oui' : 'Non');
+        });   
     }
 }

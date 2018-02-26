@@ -41,8 +41,8 @@ abstract class ResourceRepository
    */
   public function getWhere($column,$value,$limit=100)
   {
-    $search = '%'.$value.'%';
-    return $this->model->whereRaw("LOWER(?) LIKE LOWER(?)",array($column,$search));
+    $search = '%'.strtolower($value).'%';
+    return $this->model->whereRaw('LOWER('.$column.') LIKE ?', array($search))->take($limit)->get();
   }
 
   /**

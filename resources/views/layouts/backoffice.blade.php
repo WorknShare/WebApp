@@ -17,16 +17,7 @@ Administration
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      @if(!empty($title))
-      @component('components.header')
-          @slot('title')
-              {{ $title }}
-          @endslot
-          @slot('description')
-              {{ $description }}
-          @endslot
-      @endcomponent
-      @endif
+      @yield('page_title')
       <ol class="breadcrumb">
         @yield('breadcrumb_nav')
       </ol>
@@ -34,6 +25,18 @@ Administration
 
     <!-- Main content -->
     <section class="content container-fluid">
+      @if(session()->has('error'))
+      <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-triangle"></i><b>{!! session('error') !!}</b></div>
+      @endif
+      @if(session()->has('warning'))
+      <div class="alert alert-warning alert-dismissible"><i class="fa fa-excalamation-circle"></i><b>{!! session('warning') !!}</b></div>
+      @endif
+      @if(session()->has('info'))
+      <div class="alert alert-info alert-dismissible"><i class="fa fa-info-circle"></i><b>{!! session('info') !!}</b></div>
+      @endif
+      @if(session()->has('ok'))
+      <div class="alert alert-success alert-dismissible"><i class="fa fa-check"></i><b>{!! session('ok') !!}</b></div>
+      @endif
       @yield('content')
     </section>
     <!-- /.content -->
