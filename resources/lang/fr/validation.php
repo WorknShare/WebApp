@@ -123,6 +123,9 @@ return [
             'min' => 'Le jour doit être un jour de la semaine.',
             'max' => 'Le jour doit être un jour de la semaine.',
         ],
+        'hour_closing' => [
+            'after' => 'Le champ :attribute doit être une date postérieure à l\':date.',
+        ],
     ],
 
     /*

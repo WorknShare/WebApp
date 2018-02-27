@@ -56,6 +56,26 @@ class HtmlMacrosServiceProvider extends ServiceProvider
                 $icon,
                 $errors->first($name, '<span class="help-block"><strong>:message</strong></span>'));
         });
+        FormBuilder::macro('timePicker' , function($name, $errors, $label) {
+            return sprintf('
+                    <div class="bootstrap-timepicker">
+                        <div class="form-group %s">
+                            <label>%s</label>
+
+                            <div class="input-group">
+                                <input type="text" class="form-control timepicker" name="%s" id="%s">
+                                <div class="input-group-addon">
+                                <i class="fa fa-clock-o"></i>
+                                </div>
+                            </div>
+                            %s
+                        </div>
+                    </div>',
+                $errors->has($name) ? 'has-error' : '',
+                $label,
+                $name, $name,
+                $errors->first($name, '<span class="help-block"><strong>:message</strong></span>'));
+        });
     }
 
     private function registerFormCheckbox()

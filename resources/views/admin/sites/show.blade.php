@@ -95,45 +95,26 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-xs-12 collapse" id="addSchedulePane">
+						<div class="col-xs-12 {{ count($errors->all()) ? '' : 'collapse'}}" id="addSchedulePane">
 							<div class="col-xs-12">
 								<h5>Ajouter un horaire</h5>
 							</div>
 							<form action="{{ route('schedule.store') }}" method="post">
 								{{ csrf_field() }}
 								<input type="hidden" value="{{ $site->id_site }}" name="id_site">
-								<div class="col-xs-12 col-sm-6 form-group content-vertical">
+								<div class="col-xs-12 col-sm-6 form-group content-vertical {{ $errors->has('day') ? 'has-error' : '' }}">
+									{!! $errors->first('day', '<span class="help-block"><strong>:message</strong></span>') !!}
 									@for($i = 0; $i < 6; $i++)
 										<label>
-					                		<input type="radio" name="day" class="minimal" value="{{ $i }}" {{ $i == 0 ? 'checked' : '' }}> {{ getDay($i) }}
+					                		<input type="radio" name="day" class="minimal" value="{{ $i }}" {{ $i == 0 || old('day') == $i ? 'checked' : '' }}> {{ getDay($i) }}
 					                	</label>
 									@endfor
 				              	</div>
-				              	<div class="col-xs-12 col-sm-6 form-group">
-				              		<div class="bootstrap-timepicker">
-						                <div class="form-group">
-						                	<label>Ouverture :</label>
-
-						                	<div class="input-group">
-						                    	<input type="text" class="form-control timepicker" name="hour_opening" id="hour_opening">
-						                    	<div class="input-group-addon">
-						                      	<i class="fa fa-clock-o"></i>
-						                    	</div>
-						                  	</div>
-						                </div>
-						            </div>
-						            <div class="bootstrap-timepicker">
-						                <div class="form-group">
-						                	<label>Fermeture :</label>
-
-						                	<div class="input-group">
-						                    	<input type="text" class="form-control timepicker" name="hour_closing" id="hour_closing">
-						                    	<div class="input-group-addon">
-						                      	<i class="fa fa-clock-o"></i>
-						                    	</div>
-						                  	</div>
-						                </div>
-						            </div>
+				              	<div class="col-xs-12 col-sm-6">
+				              		{!! Form::timePicker('hour_opening', $errors, 'Ouverture :') !!}
+						        </div>
+						        <div class="col-xs-12 col-sm-6">
+						            {!! Form::timePicker('hour_closing', $errors, 'Fermeture :') !!}
 				              	</div>
 				              	<div class="col-xs-12">
 				              		<button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Ajouter</button>
@@ -170,7 +151,7 @@
 	      	showInputs: false,
 	    	showSeconds: false,
         	showMeridian: false,
-        	defaultTime: '8:00',
+        	defaultTime: {!! empty(old('hour_opening')) ? '"8:00"' : '"'.old('hour_opening').'"' !!},
 	    })
 
       	$('#hour_opening').timepicker().on('changeTime.timepicker', function(e) {
@@ -194,7 +175,7 @@
 	      	showInputs: false,
 	    	showSeconds: false,
         	showMeridian: false,
-        	defaultTime: '19:00',
+        	defaultTime: {!! empty(old('hour_closing')) ? '"19:00"' : '"'.old('hour_closing').'"' !!},
 	    })
 
 	    $('#hour_closing').timepicker().on('changeTime.timepicker', function(e) {
