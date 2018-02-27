@@ -1,5 +1,8 @@
 <?php
 
+global $days;
+$days = ['dates.days.monday', 'dates.days.tuesday', 'dates.days.wednesday', 'dates.days.thursday', 'dates.days.friday', 'dates.days.saturday', 'dates.days.sunday'];
+
 function backoffice_role($rank) {
 	switch($rank) {
 		case 1:
@@ -23,4 +26,20 @@ function iCheckScript() {
 	  });
 	});
 	</script>";
+}
+
+function iCheckRadioScript() {
+	return '<script>
+		$(\'input[type="checkbox"].minimal, input[type="radio"].minimal\').iCheck({
+	      checkboxClass: \'icheckbox_minimal-blue\',
+	      radioClass   : \'iradio_minimal-blue\'
+	    })
+    </script>';
+}
+
+function getDay($index) {
+
+	global $days;
+
+	return Lang::get($days[$index]);
 }

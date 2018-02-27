@@ -25,3 +25,4 @@ Route::prefix('admin')->group(function() {
     Route::get('/', 'AdminController@index')->name('admin.home');
     Route::resource('site', 'SiteController');
 });
+Route::resource('schedule', 'ScheduleController', ['only' => ['store','destroy']]);

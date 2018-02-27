@@ -38,7 +38,8 @@ Créer un site
 	          	<!-- /.box-body -->
 
 		        <div class="box-footer">
-		          <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-check"></i> Créer</button>
+		          <button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Créer</button>
+		          <a class="btn btn-default pull-left" href='{{ route('site.index') }}'"> <i class="fa fa-chevron-left"></i> Retour</a>
 		        </div>
 	        </form>
 		</div>

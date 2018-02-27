@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SiteRequest extends FormRequest
+class ScheduleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,10 @@ class SiteRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|unique:sites,name,' . $this->site . ',id_site',
-            'address' => 'required|string|unique:sites,address,' . $this->site . ',id_site',
-            'wifi' => 'boolean',
-            'drink' => 'boolean'
+            'id_site' => 'required|integer|min:1',
+            'day' => 'required|integer|min:0|max:6',
+            'hour_opening' => 'required|date_format:H:i',
+            'hour_closing' => 'required|date_format:H:i|after:hour_opening',
         ];
     }
 }

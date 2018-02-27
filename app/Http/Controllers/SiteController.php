@@ -81,7 +81,8 @@ class SiteController extends Controller
     {
         if(!is_numeric($id)) abort(404);
         $site = $this->siteRepository->getById($id);
-        return view('admin.sites.show', compact('site'));
+        $schedules = $site->schedules()->orderBy('day', 'asc')->get();
+        return view('admin.sites.show', compact('site', 'schedules'));
     }
 
     /**
@@ -107,8 +108,12 @@ class SiteController extends Controller
     public function update(SiteRequest $request, $id)
     {
         if(!is_numeric($id)) abort(404);
+
+        if(!$request->has('wifi')) { $request->merge(['wifi' => 0]); }
+        if(!$request->has('drink')) { $request->merge(['drink' => 0]); }
+
         $this->siteRepository->update($id, $request->all());
-        return redirect('admin/site')->withOk("Le site " . $request->input('name') . " a été modifié.");
+        return redirect('admin/site/'.$id)->withOk("Le site " . $request->input('name') . " a été modifié.");
     }
 
     /**

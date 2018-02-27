@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Site extends Model
+class Schedule extends Model
 {
     
-    protected $primaryKey = "id_site";
+    protected $primaryKey = "id_schedule";
+    protected $table = "site_schedules";
     public $timestamps = false;
 
     /**
@@ -16,12 +17,11 @@ class Site extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'address', 'wifi', 'drink',
+        'day', 'hour_opening', 'hour_closing',
     ];
 
-	public function schedules()
+    public function site()
 	{
-		return $this->hasMany('App\Schedule', 'id_site');
+		return $this->belongsTo('App\Site', 'id_site');
 	}
-
 }

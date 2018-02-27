@@ -119,6 +119,10 @@ return [
         'terms' => [
             'required' => 'Veuillez accepter les conditions d\'utilisation.',
         ],
+        'day' => [
+            'min' => 'Le jour doit être un jour de la semaine.',
+            'max' => 'Le jour doit être un jour de la semaine.',
+        ],
     ],
 
     /*
@@ -163,5 +167,7 @@ return [
         'time' => 'heure',
         'available' => 'disponible',
         'size' => 'taille',
+        'hour_opening' => 'heure d\'ouverture',
+        'hour_closing' => 'heure de fermeture',
     ],
 ];

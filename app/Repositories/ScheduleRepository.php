@@ -4,18 +4,18 @@ namespace App\Repositories;
 
 use App\Repositories\ResourceRepository;
 use Illuminate\Database\Eloquent\Model;
-use App\Site;
+use App\Schedule;
 
-class SiteRepository extends ResourceRepository
+class ScheduleRepository extends ResourceRepository
 {
 
 	/**
      * Create a new repository instance.
      *
-     * @param App\Site $model 
+     * @param App\Schedule $model 
      * @return void
      */
-  	public function __construct(Site $model)
+  	public function __construct(Schedule $model)
   	{
     	$this->model = $model;
   	}
@@ -23,18 +23,18 @@ class SiteRepository extends ResourceRepository
 	/**
      * Resource relative behavior for saving a record.
      * 
-     * @param Site $model
+     * @param Model $model
      * @param array $inputs
      * @return int id, the id of the saved resource
      */
 	protected function save(Model $model, Array $inputs)
 	{
-		$model->name = $inputs['name'];
-		$model->address = $inputs['address'];
-		$model->wifi = isset($inputs['wifi']);
-		$model->drink = isset($inputs['drink']);
-		$model->save();
-		return $model->id_site;
+		$model->id_site = $inputs['id_site'];
+        $model->day = $inputs['day'];
+        $model->hour_opening = $inputs['hour_opening'];
+        $model->hour_closing = $inputs['hour_closing'];
+        $model->save();
+		return $model->id_schedule;
 	}
 
 }

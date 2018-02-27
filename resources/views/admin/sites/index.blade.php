@@ -21,7 +21,7 @@ Sites
 <div class="row">
   <div class="col-sm-12 col-md-6 col-lg-4 pull-right">
     <form action="{{ route('site.index') }}" method="get" id="formSearch">
-      <div class="form-group has-feedback ">
+      <div class="form-group has-feedback">
         <input class="form-control " placeholder="Recherche" id="search" maxlength="255" name="search" type="text" value='{{ isset($_GET["search"]) ? $_GET["search"] : '' }}'>
         <span class="glyphicon glyphicon-search form-control-feedback"></span>
       </div>
@@ -30,7 +30,7 @@ Sites
 </div>
 @if(count($sites))
 
-<div class="box-body">
+<div class="box-body no-padding">
   <table class="table table-striped">
     <tr>
       <th style="width: 10px">#</th>
@@ -58,9 +58,9 @@ Sites
 </div>
 @endif
 
-<div class="row">
+<div class="row bottom-controls">
 	<div class="col-xs-12">
-		{{ link_to_route('site.create', 'Ajouter un site', [], ['class' => 'btn btn-info pull-right']) }}
+		{{ link_to_route('site.create', 'Ajouter un site', [], ['class' => 'btn btn-primary pull-right']) }}
 		{{ $links }}
 	</div>
 </div>
