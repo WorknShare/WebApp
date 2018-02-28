@@ -26,3 +26,9 @@ Route::prefix('admin')->group(function() {
     Route::resource('site', 'SiteController');
 });
 Route::resource('schedule', 'ScheduleController', ['only' => ['store','destroy']]);
+
+
+Route::prefix('myaccount')->group(function(){
+  Route::get('/', 'PersonalInfoController@index');
+  Route::resource('/qrcode', 'PersonalInfoController@showQrCode');
+});
