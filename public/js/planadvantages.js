@@ -1,5 +1,5 @@
 $(function() {
-	
+
 	//Create 
 	$("#formCreateAdvantage").submit(function (ev) {
 		ev.preventDefault();
@@ -7,7 +7,7 @@ $(function() {
 		$.ajax({
 	    	method: 'POST',
 	        url: url,
-	        	data: $('#formCreateAdvantage').serialize(),
+	        	data: $('#formCreateAdvantage').serialize() + "&page=" + page,
 	        	dataType: "json"
 	    	})
 	    	.done(function(data) {
@@ -35,7 +35,11 @@ $(function() {
 		        '</form></td></tr>';
 
 			$(row).appendTo('#advantages-table');
+
 	    }
+
+	    //Update pagination
+		$('#pagination-container').empty().append(data.links);
 
     	return this;
 	};
@@ -65,5 +69,18 @@ $(function() {
 		$('#descriptionGroup').removeClass('has-error');
 		$('.validation-error').remove();
 	}
+
+	//Get an url parameter by its name
+	$.urlParam = function(name) {
+	    var results = new RegExp('[\?&]' + name + '=([^]*)').exec(window.location.href);
+	    if (results==null){
+	       return null;
+	    } else {
+	       return results[1] || 0;
+	    }
+	}
+
+	var page = $.urlParam('page');
+	page == null ? 1 : page;
 
 });

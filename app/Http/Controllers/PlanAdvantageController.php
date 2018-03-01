@@ -32,6 +32,7 @@ class PlanAdvantageController extends Controller
     public function index()
     {
         $advantages = $this->planAdvantageRepository->getPaginate($this->amountPerPage);
+        \Debugbar::info($advantages);
         $links = $advantages->render();
         return view('admin.planadvantage.index', compact('advantages', 'links'));
     }
@@ -45,10 +46,12 @@ class PlanAdvantageController extends Controller
     public function store(PlanAdvantageRequest $request)
     {
         $planAdvantage = $this->planAdvantageRepository->store($request->all());
+        $links = $this->planAdvantageRepository->getPaginate($this->amountPerPage)->render();
         return response()->json([
             'id' => $planAdvantage->id_plan_advantage,
             'description' => $planAdvantage->description,
-            'token' => csrf_token()
+            'token' => csrf_token(),
+            'links' => $links->toHtml()
         ]);
     }
 
