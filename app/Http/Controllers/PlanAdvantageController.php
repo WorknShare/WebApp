@@ -32,7 +32,6 @@ class PlanAdvantageController extends Controller
     public function index()
     {
         $advantages = $this->planAdvantageRepository->getPaginate($this->amountPerPage);
-        \Debugbar::info($advantages);
         $links = $advantages->render();
         return view('admin.planadvantage.index', compact('advantages', 'links'));
     }
