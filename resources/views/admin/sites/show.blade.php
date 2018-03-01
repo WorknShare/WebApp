@@ -81,7 +81,7 @@
 									    	<td>{{ date('H:i', strtotime($schedule->hour_closing)) }}</td>
 									    	<td>
 									    		{{ Form::open(['method' => 'DELETE', 'route' => ['schedule.destroy', $schedule->id_schedule]]) }}
-													<a class="text-danger submitDeleteSchedule" value="Supprimer" type="submit"><i class="fa fa-trash"></i></a>
+													<a class="text-danger submitDeleteSchedule point-cursor" value="Supprimer" type="submit"><i class="fa fa-trash"></i></a>
 												{{ Form::close() }}
 									    	</td>
 									    </tr>

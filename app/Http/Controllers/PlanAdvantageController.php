@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Requests\Plan\PlanAdvantageRequest;
+use App\Http\Requests\Plan\PlanAdvantageRequest;
+use App\Repositories\PlanAdvantageRepository;
 
 class PlanAdvantageController extends Controller
 {
 
     private $planAdvantageRepository;
+    private $amountPerPage = 10;
 
     /**
      * Create a new PlanAdvantageController instance
@@ -23,21 +25,37 @@ class PlanAdvantageController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $advantages = $this->planAdvantageRepository->getPaginate($this->amountPerPage);
+        $links = $advantages->render();
+        return view('admin.planadvantage.index', compact('advantages', 'links'));
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Requests\Plan\PlanAdvantageRequest $request
+     * @param  App\Http\Requests\Plan\PlanAdvantageRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(PlanAdvantageRequest $request)
     {
         $planAdvantage = $this->planAdvantageRepository->store($request->all());
-        return response()->json();
+        return response()->json([
+            'id' => $planAdvantage->id_plan_advantage,
+            'description' => $planAdvantage->description,
+            'token' => csrf_token()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  App\Requests\Plan\PlanAdvantageRequest $request
+     * @param  App\Http\Requests\Plan\PlanAdvantageRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

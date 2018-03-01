@@ -42,10 +42,10 @@ Sites
     @foreach ($sites as $site)
     <tr>
     	<td>{{ $site->id_site }}</td>
-      	<td><b><a href="{{ route('site.show', $site->id_site) }}">{{ $site->name }}</a></b></td>
-      	<td>{{ $site->address }}</td>
-      	<td>{!! Html::badge($site->wifi) !!}</td>
-      	<td>{!! Html::badge($site->drink) !!}</td>
+      <td><b><a href="{{ route('site.show', $site->id_site) }}">{{ $site->name }}</a></b></td>
+      <td>{{ $site->address }}</td>
+      <td>{!! Html::badge($site->wifi) !!}</td>
+      <td>{!! Html::badge($site->drink) !!}</td>
     </tr>
 	@endforeach
   </table>
