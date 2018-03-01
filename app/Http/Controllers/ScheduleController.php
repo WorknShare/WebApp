@@ -12,9 +12,9 @@ class ScheduleController extends Controller
     private $scheduleRepository;
 
     /**
-     * Create a new SiteController instance
+     * Create a new ScheduleController instance
      * 
-     * @param App\Repositories\SiteRepository $siteRepository
+     * @param App\Repositories\ScheduleRepository $scheduleRepository
      * @return void
      */
     public function __construct(ScheduleRepository $scheduleRepository)
