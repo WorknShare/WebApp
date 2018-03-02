@@ -32,6 +32,12 @@ class PlanAdvantageController extends Controller
     public function index()
     {
         $advantages = $this->planAdvantageRepository->getPaginate($this->amountPerPage);
+
+        if ($advantages->isEmpty() && $advantages->currentPage() != 1)
+        {
+            return abort(404);
+        }
+
         $links = $advantages->render();
         return view('admin.planadvantage.index', compact('advantages', 'links'));
     }
@@ -65,7 +71,9 @@ class PlanAdvantageController extends Controller
     {
         if(!is_numeric($id)) abort(404);
         $this->planAdvantageRepository->update($id, $request->all());
-        return response()->json();
+        return response()->json([
+            'text' => $request->description
+        ]);
     }
 
     /**
@@ -78,6 +86,16 @@ class PlanAdvantageController extends Controller
     {
         if(!is_numeric($id)) abort(404);
         $this->planAdvantageRepository->destroy($id);
-        return response()->json();
+
+        $advantages = $this->planAdvantageRepository->getPaginate($this->amountPerPage);
+        $advantages->setPath(route('planadvantage.index'));
+        $links = $advantages->render();
+
+        return response()->json([
+            'url'        => route('planadvantage.index'),
+            'links'      => $links->toHtml(),
+            'token'      => csrf_token(),
+            'advantages' => $advantages->items()
+        ]);
     }
 }

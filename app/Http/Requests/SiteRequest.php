@@ -24,8 +24,8 @@ class SiteRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|unique:sites,name,' . $this->site . ',id_site',
-            'address' => 'required|string|unique:sites,address,' . $this->site . ',id_site',
+            'name' => 'required|string|max:255|unique:sites,name,' . $this->site . ',id_site',
+            'address' => 'required|string|max:255|unique:sites,address,' . $this->site . ',id_site',
             'wifi' => 'boolean',
             'drink' => 'boolean'
         ];

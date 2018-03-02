@@ -37,18 +37,23 @@ Avantages de forfaits
   </div>
 </div>
 
-@if(count($advantages))
-<div class="box-body no-padding">
+<div class="box-body no-padding {{ !count($advantages) ? 'hidden' : '' }}" id="advantages-row">
   <table class="table table-striped" id="advantages-table">
     <tr>
       <th style="width: 10px">#</th>
       <th>Description</th>
       <th style="width:30px"></th>
+      <th style="width:30px"></th>
     </tr>
     @foreach ($advantages as $advantage)
     <tr class="advantage-row">
     	<td>{{ $advantage->id_plan_advantage }}</td>
-      <td>{{ $advantage->description }}</td>
+      <td>
+        {!! Form::model($advantage, ['route' => ['planadvantage.update', $advantage->id_plan_advantage], 'method' => 'put', 'class' => 'form-edit-advantage']) !!}
+          <span class="advantage-description">{{ $advantage->description }}</span>
+        {!! Form::close() !!}
+      </td>
+      <td><a class="text-primary editAdvantage point-cursor" value="Modifier"><i class="fa fa-pencil"></i></a></td>
       <td>
         {{ Form::open(['method' => 'DELETE', 'route' => ['planadvantage.destroy', $advantage->id_plan_advantage]]) }}
           <a class="text-danger submitDeleteAdvantage point-cursor" value="Supprimer" type="submit"><i class="fa fa-trash"></i></a>
@@ -58,13 +63,12 @@ Avantages de forfaits
 	@endforeach
   </table>
 </div>
-@else
-<div class="row">
+
+<div class="row {{ count($advantages) ? 'hidden' : '' }}" id="no-advantage-row">
 	<div class="col-xs-12">
 		<h4 class="text-muted">Il n'y a aucun avantage.</h4>
 	</div>
 </div>
-@endif
 
 <div class="row">
 	<div class="col-xs-12" id="pagination-container">
