@@ -45,6 +45,10 @@
 	padding-left: 0px;
 }
 
+.break-word {
+	word-break: break-all;
+}
+
 /* Responsive margins */
 .mt-xs-10 { margin-top: 10px; }
 .mt-xs-15 { margin-top: 15px; }

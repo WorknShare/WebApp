@@ -16,7 +16,7 @@ $(function() {
 	$.createAdvantageRow = function(id, description, url, token) {
  		var row = '<tr class="advantage-row">' +
 	    	'<td>' + id + '</td>' +
-	      	'<td><form class="form-edit-advantage" method="POST" action="' + url + '" accept-charset="UTF-8"><input name="_method" value="PUT" type="hidden"><input name="_token" value="' + token + '" type="hidden">' +
+	      	'<td class="break-word"><form class="form-edit-advantage" method="POST" action="' + url + '" accept-charset="UTF-8"><input name="_method" value="PUT" type="hidden"><input name="_token" value="' + token + '" type="hidden">' +
 	      	'<span class="advantage-description">' + description + '</span></form></td>' +
 	      	'<td><a class="text-primary editAdvantage point-cursor" value="Modifier"><i class="fa fa-pencil"></i></a></td>' +
 	      	'<td><form method="POST" action="' + url + '" accept-charset="UTF-8">' +
@@ -169,7 +169,7 @@ $(function() {
 		}
 	});
 
-	$(".form-edit-advantage").submit(function (ev) {
+	$('body').on('submit', '.form-edit-advantage', function (ev) {
 		ev.preventDefault();
 		var form = $(this);
 		var url = $(this).attr('action');
