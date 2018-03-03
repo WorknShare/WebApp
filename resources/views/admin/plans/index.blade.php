@@ -17,7 +17,9 @@ Forfaits
 @endsection
 
 @section('content')
-
+@if($advantagesCount <= 0)
+<div class="alert alert-info alert-dismissible"><i class="fa fa-info-circle"></i><b class="overflow-break-word">Aucun avantage de forfait n'a été créé. Vous devez <a href="{{ route('planadvantage.index') }}">créer des avantages de forfait</a> avant de pouvoir créer un forfait.</b></div>
+@endif
 
 @if(count($plans))
 <div class="box-body no-padding">
@@ -44,7 +46,9 @@ Forfaits
 
 <div class="row bottom-controls">
 	<div class="col-xs-12">
+		@if($advantagesCount > 0)
 		{{ link_to_route('plan.create', 'Ajouter un forfait', [], ['class' => 'btn btn-primary pull-right']) }}
+		@endif
 		{{ $links }}
 	</div>
 </div>

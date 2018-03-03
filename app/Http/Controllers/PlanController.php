@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Repositories\PlanRepository;
 use App\Repositories\PlanAdvantageRepository;
@@ -40,7 +41,8 @@ class PlanController extends Controller
     {
         $plans = $this->planRepository->getPaginate($this->amountPerPage);
         $links = $plans->render();
-        return view('admin.plans.index', compact('plans', 'links'));
+        $advantagesCount = DB::table('plan_advantages')->count(); //Used to display info alert if no advantage exist
+        return view('admin.plans.index', compact('plans', 'links', 'advantagesCount'));
     }
 
     /**
@@ -51,7 +53,10 @@ class PlanController extends Controller
     public function create()
     {
         $advantages = $this->planAdvantageRepository->getAll();
-        return view('admin.plans.create', compact('advantages'));
+        if($advantages->count() <= 0)
+            return redirect('admin/planadvantage')->withInfo('Aucun avantage de forfait n\'a été créé. Vous devez <a href="' . route('planadvantage.index') . '">créer des avantages de forfait</a> avant de pouvoir créer un forfait.');
+        else
+            return view('admin.plans.create', compact('advantages'));
     }
 
     /**
