@@ -172,5 +172,6 @@ return [
         'size' => 'taille',
         'hour_opening' => 'heure d\'ouverture',
         'hour_closing' => 'heure de fermeture',
+        'advantages' => 'avantages',
     ],
 ];

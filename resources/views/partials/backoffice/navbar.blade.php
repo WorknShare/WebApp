@@ -55,7 +55,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li {!! strpos(Route::currentRouteName(), 'plan.') !== FALSE ? 'class="active"' : '' !!}><a href="index.html"><i class="fa fa-circle-o"></i> Forfaits</a></li>
+            <li {!! strpos(Route::currentRouteName(), 'plan.') !== FALSE ? 'class="active"' : '' !!}><a href="{{ route('plan.index') }}"><i class="fa fa-circle-o"></i> Forfaits</a></li>
             <li {!! strpos(Route::currentRouteName(), 'planadvantage.') !== FALSE ? 'class="active"' : '' !!}><a href="{{ route('planadvantage.index') }}"><i class="fa fa-circle-o"></i> Avantages</a></li>
           </ul>
         </li>

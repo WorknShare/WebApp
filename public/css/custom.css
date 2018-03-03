@@ -19,7 +19,13 @@
  	margin-right: 5px !important;
  }
 
- .alert .fa {
+ .icheck label, .ellipsis {
+ 	white-space: nowrap;
+ 	overflow: hidden;
+	text-overflow: ellipsis;
+ }
+
+ .icon-check, .alert .fa {
  	margin-right: 5px;
  	font-size: 20px;
  	vertical-align: text-bottom;

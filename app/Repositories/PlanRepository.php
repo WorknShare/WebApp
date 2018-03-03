@@ -20,6 +20,28 @@ class PlanRepository extends ResourceRepository
     	$this->model = $model;
   	}
 
+    /**
+     * Update a record
+     *
+     * @param int $id, the id of the record to update
+     * @param array $inputs
+     * @return void
+     */
+    public function update($id, Array $inputs)
+    {
+        
+        $plan = $this->getById($id);
+
+        //Update advantages
+        $plan->advantages()->detach();
+        foreach($inputs['advantages'] as $id_plan_advantage)
+        {
+            $plan->advantages()->attach($id_plan_advantage);
+        }
+        unset($inputs['advantages']);
+        $plan->update($inputs);
+    }
+
 	/**
      * Resource relative behavior for saving a record.
      * 
@@ -31,7 +53,15 @@ class PlanRepository extends ResourceRepository
 	{
 		$model->name = $inputs['name'];
         $model->description = $inputs['description'];
+
         $model->save();
+
+        $model->advantages()->detach();
+        foreach($inputs['advantages'] as $id_plan_advantage)
+        {
+            $model->advantages()->attach($id_plan_advantage);
+        }
+
 		return $model->id_plan;
 	}
 

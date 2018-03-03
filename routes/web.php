@@ -27,5 +27,6 @@ Route::prefix('admin')->group(function() {
 
     //Plans
 	Route::resource('planadvantage', 'PlanAdvantageController', ['only' => ['index','store','update','destroy']]);
+	Route::resource('plan', 'PlanController');
 });
 Route::resource('schedule', 'ScheduleController', ['only' => ['store','destroy']]);
