@@ -4,16 +4,16 @@ $.alert = function(type, message) {
 
 	switch(type) {
 		case 'error':
-			alert = '<div class="alert alert-danger alert-dismissible alert-nomargin"><i class="fa fa-exclamation-triangle"></i><b>' + message + '</b></div>';
+			alert = '<div class="alert alert-danger alert-dismissible alert-nomargin"><i class="fa fa-exclamation-triangle"></i><b class="overflow-break-word">' + message + '</b></div>';
 			break;
 		case 'warning':
-			alert = '<div class="alert alert-warning alert-dismissible alert-nomargin"><i class="fa fa-exclamation-circle"></i><b>' + message + '</b></div>';
+			alert = '<div class="alert alert-warning alert-dismissible alert-nomargin"><i class="fa fa-exclamation-circle"></i><b class="overflow-break-word">' + message + '</b></div>';
 			break;
 		case 'info':
-			alert = '<div class="alert alert-info alert-dismissible alert-nomargin"><i class="fa fa-info-circle"></i><b>' + message + '</b></div>';
+			alert = '<div class="alert alert-info alert-dismissible alert-nomargin"><i class="fa fa-info-circle"></i><b class="overflow-break-word">' + message + '</b></div>';
 			break;
 		case 'success':
-			alert = '<div class="alert alert-success alert-dismissible alert-nomargin"><i class="fa fa-check"></i><b>' + message + '</b></div>';
+			alert = '<div class="alert alert-success alert-dismissible alert-nomargin"><i class="fa fa-check"></i><b class="overflow-break-word">' + message + '</b></div>';
 			break;
 	}
 

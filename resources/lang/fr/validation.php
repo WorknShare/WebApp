@@ -126,6 +126,9 @@ return [
         'hour_closing' => [
             'after' => 'Le champ :attribute doit être une date postérieure à l\':date.',
         ],
+        'advantages' => [
+            'required' => 'Un forfait doit avoir au moins un avantage',
+        ],
     ],
 
     /*

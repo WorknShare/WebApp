@@ -21,7 +21,7 @@ Forfaits
 
 @if(count($plans))
 <div class="box-body no-padding">
-  <table class="table table-striped">
+  <table class="table table-striped" style="table-layout: fixed;">
     <tr>
       <th style="width: 10px">#</th>
       <th>Nom</th>
@@ -29,7 +29,7 @@ Forfaits
     @foreach ($plans as $plan)
     <tr>
     	<td>{{ $plan->id_plan }}</td>
-      <td><b><a href="{{ route('plan.show', $plan->id_plan) }}">{{ $plan->name }}</a></b></td>
+      <td class="ellipsis" title="{{ $plan->name }}"><b><a href="{{ route('plan.show', $plan->id_plan) }}">{{ $plan->name }}</a></b></td>
     </tr>
 	@endforeach
   </table>

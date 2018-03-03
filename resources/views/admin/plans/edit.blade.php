@@ -6,8 +6,8 @@ Modifier un forfait
 
 @section('page_title')
 	@component('components.header')
-	  @slot('title'){{ $plan->name }} @endslot
-	  @slot('description')Modifier un forfait @endslot
+		@slot('title'){{ $plan->name }} @endslot
+		@slot('description')Modifier un forfait @endslot
 	@endcomponent
 @endsection
 
@@ -24,27 +24,29 @@ Modifier un forfait
 		<div class="box box-solid">
 			{!! Form::model($plan, ['route' => ['plan.update', $plan->id_plan], 'method' => 'put']) !!}
 				{{ csrf_field() }}
-	        	<div class="box-body">
-		            {!! Form::controlWithIcon('text', 'name', $errors, $plan->name, 'Nom', 'glyphicon-font', 'Nom', ["maxlength" => '255', "required" => "required"]) !!}
-		            {!! Form::controlWithIcon('text', 'description', $errors, $plan->description, 'Description', 'glyphicon-list-alt', 'Description', ["maxlength" => '255', "required" => "required"]) !!}
-		            <div class="row">
-		            	<div class="col-xs-12">
-		            		<h4>Avantages</h4>
-		            	</div>
-		            	@foreach($advantages as $advantage)
-		            	<div class="col-xs-6 col-sm-3 col-md-2" title="{{ $advantage->description }}">
-				        	{!! Form::iCheckbox('advantages[]', $advantage->description, $errors, in_array($advantage->id_plan_advantage, $plan_advantages), $advantage->id_plan_advantage) !!}
-				    	</div>
-				        @endforeach
-				    </div>
-	          	</div>
-	          	<!-- /.box-body -->
+				<div class="box-body">
+					{!! Form::controlWithIcon('text', 'name', $errors, $plan->name, 'Nom', 'glyphicon-font', 'Nom', ["maxlength" => '255', "required" => "required"]) !!}
+					{!! Form::controlWithIcon('text', 'description', $errors, $plan->description, 'Description', 'glyphicon-list-alt', 'Description', ["maxlength" => '255', "required" => "required"]) !!}
+					<div class="row {{ $errors->has('advantages') ? 'has-error' : '' }}">
+						<div class="col-xs-12">
+							<h4>Avantages</h4>
+							@if($errors->has('advantages'))
+							<span class="help-block"><strong>{{ $errors->first('advantages') }}</strong></span>
+							@endif
+						</div>
+						@foreach($advantages as $advantage)
+						<div class="col-xs-6 col-sm-3 col-md-2" title="{{ $advantage->description }}">
+							{!! Form::iCheckbox('advantages[]', $advantage->description, $errors, in_array($advantage->id_plan_advantage, $plan_advantages), $advantage->id_plan_advantage) !!}
+						</div>
+						@endforeach
+					</div>
+				</div>
 
-		        <div class="box-footer">
-		          <button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Modifier</button>
-		          <a class="btn btn-default pull-left" href='{{ route('plan.show', $plan->id_plan) }}'"> <i class="fa fa-chevron-left"></i> Retour</a>
-		        </div>
-	        </form>
+				<div class="box-footer">
+					<button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Modifier</button>
+					<a class="btn btn-default pull-left" href='{{ route('plan.show', $plan->id_plan) }}'"> <i class="fa fa-chevron-left"></i> Retour</a>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
