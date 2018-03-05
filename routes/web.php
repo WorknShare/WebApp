@@ -27,8 +27,9 @@ Route::prefix('admin')->group(function() {
 });
 Route::resource('schedule', 'ScheduleController', ['only' => ['store','destroy']]);
 
-
 Route::prefix('myaccount')->group(function(){
-  Route::get('/', 'PersonalInfoController@index');
-  Route::resource('/qrcode', 'PersonalInfoController@showQrCode');
+  Route::get('/QrCode', 'UserController@showQrCode')->name('myaccount.qrcode');
+  Route::get('/{id}/editpassword', 'UserController@editPassword')->name('myaccount.editpwd');
+  Route::put('/pwd/{updatePwd}', 'UserController@updatePwd')->name('myaccount.updatepwd');
 });
+Route::resource('myaccount', 'UserController');

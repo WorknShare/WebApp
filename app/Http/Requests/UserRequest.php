@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PersonalInfoRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,9 @@ class PersonalInfoRequest extends FormRequest
     public function rules()
     {
         return [
-          'name' => 'required|string',
-          'surname' => 'required|string|unique',
-          'email' => 'required|string|unique',
-          'password' => 'required|string'
+          'name' => 'required|string|max:25',
+          'surname' => 'required|string|max:25|unique:clients,surname,' . $this->myaccount . ',id_client',
+          'email' => 'required|string|unique:clients,email,' . $this->myaccount. ',id_client',
         ];
     }
 }

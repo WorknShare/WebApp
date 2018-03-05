@@ -9,6 +9,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+
     protected $primaryKey = "id_client";
 
     /**
@@ -30,4 +31,11 @@ class User extends Authenticatable
     ];
 
     protected $table = 'clients';
+
+
+
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
 }
