@@ -99,14 +99,14 @@ $(function() {
  			var form = $(this).parent();
  			var url = form.attr('action');
 
- 			if($(".advantage-row").length <= 1) {
- 				var previousPage = page;
- 				page = page > 1 ? page-1 : 1;
+ 			if($(".advantage-row").length <= 1) { 				
 
  				if(page == 1) { //All have been deleted
  					$('#no-advantage-row').removeClass('hidden');
 					$('#advantages-row').addClass('hidden');
  				} else {
+ 					var previousPage = page;
+ 					page--;
  					window.history.replaceState( null, null, location.href.replace("page="+previousPage, "page="+page) );
  				}
  			}
