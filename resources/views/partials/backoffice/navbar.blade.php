@@ -17,41 +17,18 @@
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          <!-- Notifications Menu -->
-          <li class="dropdown notifications-menu">
-            <!-- Menu toggle button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">10</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 10 notifications</li>
-              <li>
-                <!-- Inner Menu: contains the notifications -->
-                <ul class="menu">
-                  <li><!-- start notification -->
-                    <a href="#">
-                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                    </a>
-                  </li>
-                  <!-- end notification -->
-                </ul>
-              </li>
-              <li class="footer"><a href="#">View all</a></li>
-            </ul>
-          </li>
           <!-- User Account Menu -->
           <li class="dropdown user user-menu">
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs">{{ Auth::user()->surname . ' ' . Auth::user()->name }}</span>
             </a>
             @component('components.user_dropdown')
                 @slot('username')
-                    John Doe
+                    {{ Auth::user()->surname . ' ' . Auth::user()->name }}
                 @endslot
                 @slot('smalltext')
-                    Membre
+                    {{ backoffice_role(Auth::user()->role) }}
                 @endslot
             @endcomponent
           </li>
@@ -68,18 +45,18 @@
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">NAVIGATION</li>
-        <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+        {!! Html::adminNavMenu('admin.home', 'admin', 'Tableau de bord', 'fa-home') !!}
+        {!! Html::adminNavMenu('site.index', 'site', 'Sites', 'fa-map-marker') !!}
+        <li class="treeview {!! strpos(Route::currentRouteName(), 'plan.') !== FALSE || strpos(Route::currentRouteName(), 'planadvantage.') !== FALSE ? 'menu-open active' : '' !!}">
+          <a href="#">
+            <i class="fa fa-credit-card"></i> <span>Forfaits</span>
             <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#">Link in level 2</a></li>
-            <li><a href="#">Link in level 2</a></li>
+            <li {!! strpos(Route::currentRouteName(), 'plan.') !== FALSE ? 'class="active"' : '' !!}><a href="{{ route('plan.index') }}"><i class="fa fa-circle-o"></i> Forfaits</a></li>
+            <li {!! strpos(Route::currentRouteName(), 'planadvantage.') !== FALSE ? 'class="active"' : '' !!}><a href="{{ route('planadvantage.index') }}"><i class="fa fa-circle-o"></i> Avantages</a></li>
           </ul>
         </li>
       </ul>

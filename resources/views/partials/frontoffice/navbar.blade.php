@@ -65,14 +65,14 @@
                 <!-- The user image in the navbar-->
                 <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                <span class="hidden-xs">Alexander Pierce</span>
+                <span class="hidden-xs">{{ Auth::user()->surname . ' ' . Auth::user()->name }}</span>
               </a>
               @component('components.user_dropdown')
                   @slot('username')
-                      John Doe
+                      {{ Auth::user()->surname . ' ' . Auth::user()->name }}
                   @endslot
                   @slot('smalltext')
-                      Membre
+                      Membre invité
                   @endslot
               @endcomponent
             </li>

@@ -183,6 +183,10 @@ return [
         //Rollbar error tracking
         Rollbar\Laravel\RollbarServiceProvider::class,
 
+        //HTML macros
+        Collective\Html\HtmlServiceProvider::class,
+        App\Providers\HtmlMacrosServiceProvider::class,
+
     ],
 
     /*
@@ -232,6 +236,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Form'  => Collective\Html\FormFacade::class,
+        'Html'  => Collective\Html\HtmlFacade::class,
 
     ],
 

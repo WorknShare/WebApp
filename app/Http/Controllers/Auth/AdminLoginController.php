@@ -14,9 +14,21 @@ class AdminLoginController extends Controller
 
     use AuthenticatesUsers;
 
+    /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+    protected $redirectTo = '/admin';
+
     public function __construct()
     {
       $this->middleware('guest:admin')->except('logout');
+    }
+
+    protected function guard()
+    {
+        return Auth::guard('admin');
     }
 
     public function showLoginForm()
@@ -26,20 +38,29 @@ class AdminLoginController extends Controller
 
     public function login(Request $request)
     {
-      // Validate the form data
-      $this->validate($request, [
-        'email'   => 'required',
-        'password' => 'required'
-      ]);
-      // Attempt to log the user in
-      if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember))
-      {
 
-        // if successful, then redirect to their intended location
-        return redirect()->intended(route('admin.home'));
+      $this->validateLogin($request);
+
+      //Disconnect from normal user session if connected as such
+      if(Auth::guard('web')->check())
+      {
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
       }
 
-      // if unsuccessful, then redirect back to the login with the form data
-      return redirect()->back()->withErrors(["email"=>"Identifiants invalides"])->withInput($request->only('email', 'remember'));
+      if ($this->hasTooManyLoginAttempts($request))
+      {
+          $this->fireLockoutEvent($request);
+          return $this->sendLockoutResponse($request);
+      }
+
+      if ($this->attemptLogin($request))
+      {
+          return $this->sendLoginResponse($request);
+      }
+
+      $this->incrementLoginAttempts($request);
+
+      return $this->sendFailedLoginResponse($request);
     }
 }

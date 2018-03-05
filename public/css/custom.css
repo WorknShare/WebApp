@@ -15,8 +15,90 @@
  	display: inline-block;
  }
 
- @media (min-width:768px) {
- 	.sidebar-mini.sidebar-collapse .main-header .logo {
- 		padding-top: 9px;
- 	}
+ .icheckbox_margin {
+ 	margin-right: 5px !important;
  }
+
+ .icheck label, .ellipsis {
+ 	white-space: nowrap;
+ 	overflow: hidden;
+	text-overflow: ellipsis;
+ }
+
+ .icon-check, .alert .fa {
+ 	margin-right: 5px;
+ 	font-size: 20px;
+ 	vertical-align: text-bottom;
+ }
+
+ .bottom-controls {
+ 	margin-top: 15px;
+ }
+
+.content-vertical {
+	display: flex;
+	flex-direction: column;
+}
+
+.point-cursor:hover {
+	cursor: pointer;
+}
+
+.solid-text-input {
+	width: 100%;
+	height: 20px;
+	border: none;
+	padding-left: 0px;
+}
+
+.break-word {
+	word-break: break-all;
+}
+
+.overflow-break-word {
+	overflow-wrap: break-word;
+}
+
+.breadcrumb li {
+	white-space: nowrap;
+ 	overflow: hidden;
+	max-width: 150px;
+}
+
+.content-header h1 {
+	width: 100%;
+}
+
+.table-container-responsive {
+	overflow-x:auto;
+}
+
+/*Reponsive title */
+@media (min-width: 992px) {
+	.content-header h1 {
+		width: 50%;
+	}
+}
+
+/* Responsive margins */
+.mt-xs-10 { margin-top: 10px; }
+.mt-xs-15 { margin-top: 15px; }
+.mt-xs-0 { margin-top: 0px; }
+
+@media (min-width: 768px) {
+	.mt-sm-10 { margin-top: 10px; }
+	.mt-sm-15 { margin-top: 15px; }
+ 	.mt-sm-0 { margin-top: 0px; }
+}
+
+@media (min-width: 992px) {
+ 	.mt-md-10 { margin-top: 10px; }
+ 	.mt-md-15 { margin-top: 15px; }
+ 	.mt-md-0 { margin-top: 0px; }
+}
+
+@media (min-width: 1200px) {
+	.mt-lg-10 { margin-top: 10px; }
+	.mt-lg-15 { margin-top: 15px; }
+	.mt-lg-0 { margin-top: 0px; }
+}
