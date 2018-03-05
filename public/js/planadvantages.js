@@ -11,7 +11,7 @@ $(function() {
 	}
 
 	var page = $.urlParam('page');
-	page == null ? 1 : page;
+	page = page == null ? 1 : page;
 
 	$.createAdvantageRow = function(id, description, url, token) {
  		var row = '<tr class="advantage-row">' +
@@ -99,9 +99,10 @@ $(function() {
  			var form = $(this).parent();
  			var url = form.attr('action');
 
- 			if($(".advantage-row").length <= 1) { 				
+ 			if($(".advantage-row").length <= 1) {
 
  				if(page == 1) { //All have been deleted
+ 					console.log("test2");
  					$('#no-advantage-row').removeClass('hidden');
 					$('#advantages-row').addClass('hidden');
  				} else {
