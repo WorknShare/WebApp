@@ -18,6 +18,11 @@
 @endsection
 
 @section('content')
+
+@if(!count($advantages))
+<div class="alert alert-warning alert-dismissible"><i class="fa fa-excalamation-circle"></i><b class="overflow-break-word">Ce forfait n'a pas d'avantages !</b></div>
+@endif
+
 <div class="row">
 	<div class="col-xs-12">
 		<div class="box box-solid">
