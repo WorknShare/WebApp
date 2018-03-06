@@ -20,12 +20,9 @@ class AuthTest extends TestCase
 	private $employees = [];
 	private $users = [];
 
-
-    public function testAuth()
-    {
+    public function setUp() {
+        parent::setUp();
         $this->createUsers();
-        $this->redirect();
-        $this->access();
     }
 
     private function createUsers()
@@ -42,7 +39,7 @@ class AuthTest extends TestCase
 
     }
 
-    private function redirect()
+    public function testRedirect()
     {
 
     	//Unauthenticated
@@ -74,13 +71,14 @@ class AuthTest extends TestCase
         Auth::logout();
 
         $this->be($this->employees[1], 'admin');
-        //$this->get('/home')->assertViewIs('login')->assertRedirect("/login"); //Has access to home from the test for unknown reason
+        $this->get('/home')->assertRedirect('/login');
         Auth::logout();
     }
 
-    private function access()
+    public function testAccess()
     {
-
+        //TODO
+        $this->assertTrue(true);
     }
 
 }
