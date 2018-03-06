@@ -52,8 +52,7 @@ class AuthTest extends TestCase
 
     	//Authenticated
         $this->be($this->users[0], 'web');
-        $this->get('/admin/site')->assertRedirect("/admin/login");
-    	$this->actingAs($this->users[0], 'web')->get('/admin')->assertRedirect("/admin/login");
+    	$this->get('/admin')->assertRedirect("/admin/login");
     	Auth::logout();
 
     	$this->be($this->employees[1], 'admin');
