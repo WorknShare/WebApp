@@ -31,8 +31,11 @@
 	        </div>
 			<div class="box-body">
 				<div class="row">
-					<div class="col-xs-12 overflow-break-word">
+					<div class="col-xs-12 col-sm-6 overflow-break-word">
 						<b>Description :</b> {{ $plan->description }}
+					</div>
+					<div class="col-xs-12 col-sm-6 overflow-break-word">
+						<b>Prix :</b> <span class="price-tag">{{ $plan->price }}€</span><span class="text-muted price-tag-info">/mois</span>
 					</div>
 				</div>
 			</div>

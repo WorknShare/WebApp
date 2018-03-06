@@ -26,6 +26,7 @@ class PlanRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
             'advantages' => 'required|array',
             'advantages.*' => 'integer|exists:plan_advantages,id_plan_advantage'
         ];
