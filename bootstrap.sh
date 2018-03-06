@@ -27,6 +27,8 @@ cp /vagrant/000-default.conf /etc/apache2/sites-available/000-default.conf
 mysql -u root --password="root" --execute="CREATE USER 'laravel'@'localhost' IDENTIFIED BY 'secret'";
 mysql -u root --password="root" --execute="CREATE DATABASE worknshare DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci";
 mysql -u root --password="root" --execute="GRANT ALL PRIVILEGES ON worknshare.* TO 'laravel'@'localhost'";
+mysql -u root --password="root" --execute="CREATE DATABASE worknshare_test DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci";
+mysql -u root --password="root" --execute="GRANT ALL PRIVILEGES ON worknshare_test.* TO 'laravel'@'localhost'";
 
 a2enmod rewrite
 service apache2 restart
