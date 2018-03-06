@@ -54,18 +54,28 @@ class AuthTest extends TestCase
     	//------------------------------
 
     	//Authenticated
+        $this->be($this->users[0], 'web');
+        $this->get('/admin/site')->assertRedirect("/admin/login");
     	$this->actingAs($this->users[0], 'web')->get('/admin')->assertRedirect("/admin/login");
-        $this->actingAs($this->employees[1], 'admin')->get('/admin/login')->assertRedirect('/admin');
+    	Auth::logout();
+
+    	$this->be($this->employees[1], 'admin');
+        $this->get('/admin/login')->assertRedirect('/admin');
+        Auth::logout();
 
         //------------------------------
     	//Frontoffice
     	//------------------------------
 
         //Authenticated
-        $this->actingAs($this->users[0])->get('/login')->assertRedirect("/home");
-        $this->actingAs($this->users[0])->get('/register')->assertRedirect("/home");
+        $this->be($this->users[0], 'web');
+        $this->get('/login')->assertRedirect("/home");
+        $this->get('/register')->assertRedirect("/home");
+        Auth::logout();
 
-        //$this->actingAs($this->employees[0], 'admin')->get('/home')->assertRedirect("/login"); //Has access to /home for unknown reason
+        $this->be($this->employees[1], 'admin');
+        //$this->get('/home')->assertViewIs('login')->assertRedirect("/login"); //Has access to home from the test for unknown reason
+        Auth::logout();
     }
 
     private function access()
