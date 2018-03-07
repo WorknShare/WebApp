@@ -184,7 +184,7 @@ class SiteTest extends TestCase
         $this->get('/admin/site')->assertStatus(200)->assertSeeText(e($siteDelete->name));
 
         //Send delete form
-        $this->delete('/admin/site/'.$siteDelete->id_site)->assertStatus(302)->assertSessionHas('ok','Le site '.$siteDelete->name.' a été supprimé.');
+        $this->delete('/admin/site/'.$siteDelete->id_site)->assertRedirect('admin/site')->assertSessionHas('ok','Le site '.$siteDelete->name.' a été supprimé.');
         session()->forget('ok');
         $this->assertDatabaseMissing('sites', array('name' => $siteDelete->name, 'address' => $siteDelete->address));
 
@@ -192,17 +192,21 @@ class SiteTest extends TestCase
         $this->get('/admin/site')->assertStatus(200)->assertDontSeeText(e($siteDelete->name));
 
         Auth::logout();
-        //TODO access test
-    }
+        $siteDelete = factory(Site::class)->create();
 
-    /**
-     * Test normal user access
-     *
-     * @return void
-     */
-    public function testSiteAccess()
-    {
-        $this->assertTrue(true);
+        $this->be($this->user, 'web');
+
+        //A normal user can't delete a site
+        $this->delete('/admin/site/'.$siteDelete->id_site)->assertRedirect('admin/login')->assertSessionMissing('ok');
+        $this->assertDatabaseHas('sites', array('name' => $siteDelete->name, 'address' => $siteDelete->address));
+
+        Auth::logout();
+
+        //An unauthenticated user can't delete a site
+        $this->delete('/admin/site/'.$siteDelete->id_site)->assertRedirect('admin/login')->assertSessionMissing('ok');
+        $this->assertDatabaseHas('sites', array('name' => $siteDelete->name, 'address' => $siteDelete->address));
+       
+        //TODO access test
     }
 
 }
