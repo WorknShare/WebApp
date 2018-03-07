@@ -18,7 +18,7 @@ class AuthTest extends TestCase
 	use RefreshDatabase;
 
 	private $employees = [];
-	private $users = [];
+	private $user;
 
     public function setUp() {
         parent::setUp();
@@ -27,10 +27,8 @@ class AuthTest extends TestCase
 
     private function createUsers()
     {
-    	for ($i = 0 ; $i < 10 ; $i++)
-    	{ 
-    		$this->users[$i] = factory(User::class)->create();
-    	}
+    	
+    	$this->user = factory(User::class)->create();
 
     	for($i = 0 ; $i < 4 ; $i++)
     	{
@@ -39,19 +37,24 @@ class AuthTest extends TestCase
 
     }
 
+    /**
+     * Test the authentication redirects
+     *
+     * @return void
+     */
     public function testRedirect()
     {
 
-    	//Unauthenticated
-    	$this->get('/admin')->assertRedirect("/admin/login");
-    	$this->get('/home')->assertRedirect('/login');
 
     	//------------------------------
     	//Backoffice
     	//------------------------------
 
+    	//Unauthenticated
+    	$this->get('/admin')->assertRedirect("/admin/login");
+
     	//Authenticated
-        $this->be($this->users[0], 'web');
+        $this->be($this->user, 'web');
     	$this->get('/admin')->assertRedirect("/admin/login");
     	Auth::logout();
 
@@ -63,8 +66,11 @@ class AuthTest extends TestCase
     	//Frontoffice
     	//------------------------------
 
+        //Unauthenticated
+        $this->get('/home')->assertRedirect('/login');
+
         //Authenticated
-        $this->be($this->users[0], 'web');
+        $this->be($this->user, 'web');
         $this->get('/login')->assertRedirect("/home");
         $this->get('/register')->assertRedirect("/home");
         Auth::logout();
@@ -74,6 +80,11 @@ class AuthTest extends TestCase
         Auth::logout();
     }
 
+    /**
+     * Tests the role-related access in the backoffice 
+     *
+     * @return void
+     */
     public function testAccess()
     {
         //TODO
