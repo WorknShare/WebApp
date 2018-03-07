@@ -104,6 +104,42 @@ class SiteTest extends TestCase
 
         Auth::logout();
 
+        $this->be($this->user, 'web');
+
+        //A normal user can't get list nor submit a form
+        $this->get('admin/site')->assertRedirect('admin/login');
+        $this->get('admin/site/create')->assertRedirect('admin/login');
+
+        //Submit invalid form
+        $this->post('/admin/site' , array('name' => 'SiteUser'))
+				->assertRedirect('/admin/login')
+				->assertSessionMissing('errors');
+
+		//Submit valid form
+        $this->post('/admin/site' , array('name' => 'SiteUser', 'address' => '20 rue de l\'Avenue', 'wifi'=>1))
+				->assertRedirect('/admin/login')
+				->assertSessionMissing('ok');
+        session()->forget('ok');
+        $this->assertDatabaseMissing('sites', array('name' => 'SiteUser', 'address' => '20 rue de l\'Avenue', 'wifi'=> 1, 'drink'=> 0));
+
+        Auth::logout();
+
+        //An unauthenticated user can't get list nor submit a form
+        $this->get('admin/site')->assertRedirect('admin/login');
+        $this->get('admin/site/create')->assertRedirect('admin/login');
+
+        //Submit invalid form
+        $this->post('/admin/site' , array('name' => 'SiteUser'))
+				->assertRedirect('/admin/login')
+				->assertSessionMissing('errors');
+
+		//Submit valid form
+        $this->post('/admin/site' , array('name' => 'SiteUser', 'address' => '20 rue de l\'Avenue', 'wifi'=>1))
+				->assertRedirect('/admin/login')
+				->assertSessionMissing('ok');
+        session()->forget('ok');
+        $this->assertDatabaseMissing('sites', array('name' => 'SiteUser', 'address' => '20 rue de l\'Avenue', 'wifi'=> 1, 'drink'=> 0));
+
         //TODO access test
     }
 
@@ -145,7 +181,7 @@ class SiteTest extends TestCase
         $this->be($this->employees[1], 'admin');
 
         //Employee can see the site in the list
-        $this->get('/admin/site')->assertStatus(200)->assertSeeText($siteDelete->name);
+        $this->get('/admin/site')->assertStatus(200)->assertSeeText(e($siteDelete->name));
 
         //Send delete form
         $this->delete('/admin/site/'.$siteDelete->id_site)->assertStatus(302)->assertSessionHas('ok','Le site '.$siteDelete->name.' a été supprimé.');
@@ -153,7 +189,7 @@ class SiteTest extends TestCase
         $this->assertDatabaseMissing('sites', array('name' => $siteDelete->name, 'address' => $siteDelete->address));
 
         //Employee can't see the site in the list anymore
-        $this->get('/admin/site')->assertStatus(200)->assertDontSeeText($siteDelete->name);
+        $this->get('/admin/site')->assertStatus(200)->assertDontSeeText(e($siteDelete->name));
 
         Auth::logout();
         //TODO access test
