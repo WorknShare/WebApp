@@ -12,8 +12,8 @@ information personnelles
 @endsection
 
 
-@section('content')
 
+@section('css')
 	<style>
 	tr {
 		font-size : 19px;
@@ -27,7 +27,20 @@ information personnelles
 	a.btn.btn-block.btn-primary.btn-lg {
 		margin-bottom: 1em;
 	}
+
+	h3 {
+		margin-top : 50px;
+		text-align : center;
+		border-bottom : 2px solid gray;
+		padding : 10px;
+		margin-bottom : 50px;
+	}
 	</style>
+@endsection
+
+
+
+@section('content')
 
   <div class="row">
   	<div class="col-xs-12">
@@ -37,7 +50,7 @@ information personnelles
 					<div class="box box-solid">
 							<div class="row">
 								<div class="col-xs-offset-3 col-xs-6">
-			            <h3 style="margin-top : 50px; text-align : center; border-bottom : 2px solid gray; padding : 10px; margin-bottom : 50px	">Vos informations personnelles</h3>
+			            <h3>Vos informations personnelles</h3>
 			          </div>
 							</div>
 							<div class="row">
@@ -69,7 +82,7 @@ information personnelles
 					<div class="box box-solid">
 						<div class="row">
 							<div class="col-xs-offset-3 col-xs-6">
-								<h3 style="margin-top : 50px; text-align : center; border-bottom : 2px solid gray; padding : 10px; margin-bottom : 50px	">Votre forfait</br> en cours</h3>
+								<h3>Votre forfait</br> en cours</h3>
 							</div>
 						</div>
 						<div class="row">
@@ -101,12 +114,12 @@ information personnelles
 					<div class="box box-solid">
 							<div class="row">
 								<div class="col-xs-offset-3 col-xs-6">
-			            <h3 style="margin-top : 50px; text-align : center; border-bottom : 2px solid gray; padding : 10px; margin-bottom : 50px	">Vos Actions</h3>
+			            <h3>Vos Actions</h3>
 			          </div>
 							</div>
 							<div class="row">
 								<div class="col-xs-offset-3 col-xs-6">
-									<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.editpwd', $user->id_client) }}'> Changer mon mot de passe</a>
+									<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.editpwd') }}'> Changer mon mot de passe</a>
 									<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.qrcode') }}'> Votre QrCode</a>
 									<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.qrcode') }}'> Votre historique</a>
 								</div>
@@ -117,7 +130,7 @@ information personnelles
 					<div class="box box-solid">
 						<div class="row">
 							<div class="col-xs-offset-3 col-xs-6">
-								<h3 style="margin-top : 50px; text-align : center; border-bottom : 2px solid gray; padding : 10px; margin-bottom : 50px	">Nous contacter</h3>
+								<h3>Nous contacter</h3>
 							</div>
 						</div>
 						<div class="row">
@@ -143,10 +156,4 @@ information personnelles
 			</div>
   	</div>
   </div>
-@endsection
-
-
-
-@section('scripts')
-{!! iCheckScript() !!}
 @endsection

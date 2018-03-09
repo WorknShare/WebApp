@@ -26,7 +26,7 @@ class UserRequest extends FormRequest
         return [
           'name' => 'required|string|max:25',
           'surname' => 'required|string|max:25|unique:clients,surname,' . $this->myaccount . ',id_client',
-          'email' => 'required|string|unique:clients,email,' . $this->myaccount. ',id_client',
+          'email' => 'required|string|email|unique:clients,email,' . $this->myaccount. ',id_client',
         ];
     }
 }

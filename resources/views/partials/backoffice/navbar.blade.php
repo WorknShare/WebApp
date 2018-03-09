@@ -47,6 +47,7 @@
         <li class="header">NAVIGATION</li>
         {!! Html::adminNavMenu('admin.home', 'admin', 'Tableau de bord', 'fa-home') !!}
         {!! Html::adminNavMenu('site.index', 'site', 'Sites', 'fa-map-marker') !!}
+        {!! Html::adminNavMenu('admin.user', 'utilisateurs', 'Utilisateurs', 'fa-user') !!}
       </ul>
       <!-- /.sidebar-menu -->
     </section>

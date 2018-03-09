@@ -24,12 +24,21 @@ Route::prefix('admin')->group(function() {
     Route::post('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
     Route::get('/', 'AdminController@index')->name('admin.home');
     Route::resource('site', 'SiteController');
+
+    Route::prefix('/users')->group(function() {
+      Route::get('/', 'UserController@showAdmin')->name('admin.user');
+      Route::get('/{id}/edit', 'UserController@editAdmin')->name('admin.edituser');
+      Route::put('/{id}', 'UserController@update')->name('admin.userupdate');
+    });
 });
 Route::resource('schedule', 'ScheduleController', ['only' => ['store','destroy']]);
 
 Route::prefix('myaccount')->group(function(){
   Route::get('/QrCode', 'UserController@showQrCode')->name('myaccount.qrcode');
-  Route::get('/{id}/editpassword', 'UserController@editPassword')->name('myaccount.editpwd');
-  Route::put('/pwd/{updatePwd}', 'UserController@updatePwd')->name('myaccount.updatepwd');
+  Route::get('/pwd', 'UserController@editPassword')->name('myaccount.editpwd');
+  Route::put('/pwd', 'UserController@updatePwd')->name('myaccount.updatepwd');
+  Route::get('/QrCodeImage', 'UserController@qrcodeAccess')->name('myaccount.qrcodedisplay');
+  Route::get('/QrCodeDownload', 'UserController@qrcodedownload')->name('myaccount.qrcodedownload');
 });
+
 Route::resource('myaccount', 'UserController');

@@ -29,8 +29,8 @@ class UserController extends Controller
   {
     //only or except
     $this->userRepository = $userRepository;
-    $this->middleware('auth::admin', ['only' => ['showAdmin','editAdmin']]);
-    $this->middleware('auth' , ['except' => ['showAdmin','editAdmin']]);
+    $this->middleware('auth:admin', ['only' => ['showAdmin','editAdmin', 'updateAdmin']]);
+    $this->middleware('auth' , ['except' => ['showAdmin','editAdmin', 'updateAdmin']]);
 
   }
 
@@ -53,10 +53,11 @@ class UserController extends Controller
   * @param  int  $id
   * @return \Illuminate\Http\Response
   */
-  public function showAdmin($id)
+  public function showAdmin()
   {
-    $user = $this->userRepository->getById($id);
-    return view('admin.user.index', compact('user'));
+
+    ///$user = $this->userRepository->getById($id);
+  return view('admin.users.index'/*, compact('user')*/);
   }
 
 
@@ -68,8 +69,7 @@ class UserController extends Controller
   public function showQrCode()
   {
     $user = Auth::user();
-    $contents = Storage::url('public/images/qrcode/'.$user->remember_token.'.png');
-    return view('myaccount.qrCode', compact('contents', 'user'));
+    return view('myaccount.qrCode', compact('user'));
   }
 
   /**
@@ -129,6 +129,11 @@ class UserController extends Controller
   */
   public function update(UserRequest $request, $id)
   {
+    if(strcmp($request->email, Auth::user()->email)){
+      $qrcode_maker = 'rm -f ../storage/app/public/images/qrcode/'. Auth::user()->tokenQrCode .'.png && cd /bin && qrcode-maker ' . $request->email . ' ' . Auth::user()->tokenQrCode;
+      $a = shell_exec($qrcode_maker);
+    }
+
     if(!is_numeric($id) || Auth::user()->id_client != $id) abort(404);
     $this->userRepository->update($id, $request->all());
     return redirect('myaccount')->withOk("Votre profil a été mise à jour");
@@ -142,11 +147,9 @@ class UserController extends Controller
   * @param  int  $id
   * @return \Illuminate\Http\Response
   */
-  public function updatePwd(PasswordRequest $request, $id)
+  public function updatePwd(PasswordRequest $request)
   {
-
-    if(!is_numeric($id) || Auth::user()->id_client != $id) abort(404);
-
+    
     if (!(Hash::check($request->get('oldPwd'), Auth::user()->password))) {
       return redirect()->back()->with("error","Your current password does not matches with the password you provided. Please try again.");
     }
@@ -169,7 +172,19 @@ class UserController extends Controller
     return redirect('myaccount')->withOk("Votre mot de passe a été modifié avec succès !");
   }
 
+  public function qrcodeAccess()
+  {
+    $token = Auth::user()->tokenQrCode;
+    $content = storage_path() . '/app/public/images/qrCode/'. $token .'.png';
+    return response()->file($content);
+  }
 
+  public function QrCodeDownload()
+  {
+    $user = Auth::user();
+    $content = storage_path() . '/app/public/images/qrCode/'. $user->tokenQrCode .'.png';
+    return response()->download($content, 'qrcode.' . $user->name . '.png');
+  }
   /**
   * Remove the specified resource from storage.
   *

@@ -15,7 +15,7 @@ Modifier
 <div class="row">
 	<div class="col-xs-12">
 		<div class="box box-solid">
-			{!! Form::model($user, ['route' => ['myaccount.updatepwd', $user->id_client], 'method' => 'put']) !!}
+			{!! Form::model($user, ['route' => ['myaccount.updatepwd'], 'method' => 'put']) !!}
 	        	<div class="box-body">
 		            {!! Form::controlWithIcon('password', 'oldPwd', $errors, '', 'Ancien mot de passe', 'glyphicon-font', 'Ancien mot de passe', ["maxlength" => '60', "required" => "required"]) !!}
 		            {!! Form::controlWithIcon('password', 'password', $errors, '', 'Nouveau mot de passe', 'glyphicon-font', 'Nouveau mot de passe', ["maxlength" => '60', "required" => "required"]) !!}
@@ -30,8 +30,4 @@ Modifier
 		</div>
 	</div>
 </div>
-@endsection
-
-@section('scripts')
-{!! iCheckScript() !!}
 @endsection

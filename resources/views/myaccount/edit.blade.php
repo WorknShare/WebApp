@@ -31,7 +31,3 @@ Modifier
 	</div>
 </div>
 @endsection
-
-@section('scripts')
-{!! iCheckScript() !!}
-@endsection
