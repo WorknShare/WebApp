@@ -32,9 +32,7 @@ mysql -u root --password="root" --execute="GRANT ALL PRIVILEGES ON worknshare.* 
 a2enmod rewrite
 service apache2 restart
 
-cat <<END > /bin/config.cf
-/vagrant/
-END
+printf ../vagrant/storage/app/public/images/qrcode/ > /bin/config.cf
 
 cat <<EOF > /vagrant/.env
 APP_NAME=WorknShare
