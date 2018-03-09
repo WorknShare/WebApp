@@ -152,9 +152,28 @@ class SiteTest extends TestCase
     {
     	$siteModify = factory(Site::class)->create();
     	$this->be($this->employees[1], 'admin');
+
+    	//Employee get edit form
         $this->assertTrue(true);
 
+        //Submit invalid form
+
+        //Submit valid form with extra field (SQL injection scenario)
+
+        //Submit valid form
+
+        //Employee can see the modification in the list
+
+        //Uniqueness test
+
         Auth::logout();
+
+        //An unauthenticated user can't get the edit form
+
+        //Submit invalid form
+
+        //Submit valid form
+
         //TODO access test
     }
 
