@@ -13,18 +13,18 @@ $(function() {
 	var page = $.urlParam('page');
 	page = page == null ? 1 : page;
 
-	$.createAdvantageRow = function(id, description, url, token) {
- 		var row = '<tr class="advantage-row">' +
+	$.createTypeRow = function(id, name, url, token) {
+ 		var row = '<tr class="type-row">' +
 	    	'<td>' + id + '</td>' +
-	      	'<td class="break-word"><form class="form-edit-advantage" method="POST" action="' + url + '" accept-charset="UTF-8"><input name="_method" value="PUT" type="hidden"><input name="_token" value="' + token + '" type="hidden">' +
-	      	'<span class="advantage-description">' + description + '</span></form></td>' +
-	      	'<td><a class="text-primary editAdvantage point-cursor" value="Modifier"><i class="fa fa-pencil"></i></a></td>' +
+	      	'<td class="break-word"><form class="form-edit-type" method="POST" action="' + url + '" accept-charset="UTF-8"><input name="_method" value="PUT" type="hidden"><input name="_token" value="' + token + '" type="hidden">' +
+	      	'<span class="type-description">' + name + '</span></form></td>' +
+	      	'<td><a class="text-primary editType point-cursor" value="Modifier"><i class="fa fa-pencil"></i></a></td>' +
 	      	'<td><form method="POST" action="' + url + '" accept-charset="UTF-8">' +
 	        	'<input name="_method" value="DELETE" type="hidden"><input name="_token" value="' + token + '" type="hidden">'+
-	          	'<a class="text-danger submitDeleteAdvantage point-cursor" value="Supprimer" type="submit"><i class="fa fa-trash"></i></a>' +
+	          	'<a class="text-danger submitDeleteType point-cursor" value="Supprimer" type="submit"><i class="fa fa-trash"></i></a>' +
 	        '</form></td></tr>';
 
-		$(row).appendTo('#advantages-table');
+		$(row).appendTo('#types-table');
  	}
 
  	//----------------------------------------------------

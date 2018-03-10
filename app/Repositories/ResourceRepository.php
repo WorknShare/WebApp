@@ -10,6 +10,16 @@ abstract class ResourceRepository
   protected $model;
 
   /**
+   * Get the model this repositoriy is using
+   * 
+   * @return \Illuminate\Database\Eloquent\Model
+   */
+  public function getModel()
+  {
+    return $this->model;
+  }
+
+  /**
    * Get all the existing recordings.
    * 
    * @return array
@@ -64,6 +74,18 @@ abstract class ResourceRepository
   public function getPaginate($n)
   {
     return $this->model->paginate($n);
+  }
+
+  /**
+   * Get a paginate of the recordings with only selected columns.
+   * 
+   * @param int $n the amount of recordings per page
+   * @param array $columns the columns to select with optional alias
+   * @return array
+   */
+  public function getPaginateSelect($n, array $columns)
+  {
+    return $this->model->select($columns)->paginate($n);
   }
 
   /**

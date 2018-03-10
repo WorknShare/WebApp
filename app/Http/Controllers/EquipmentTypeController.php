@@ -31,7 +31,7 @@ class EquipmentTypeController extends Controller
      */
     public function index()
     {
-        $types = $this->equipmentTypeRepository->getPaginate($this->amountPerPage);
+        $types = $this->equipmentTypeRepository->getPaginateSelect($this->amountPerPage,['name AS description', 'id_equipment_type as id']);
 
         if ($types->isEmpty() && $types->currentPage() != 1)
         {
@@ -39,7 +39,7 @@ class EquipmentTypeController extends Controller
         }
 
         $links = $types->render();
-        return view('admin.equipment.types_index', compact('types', 'links'));
+        return view('admin.equipment.type_index', compact('types', 'links'));
     }
 
     /**
@@ -54,7 +54,7 @@ class EquipmentTypeController extends Controller
         $links = $this->equipmentTypeRepository->getPaginate($this->amountPerPage)->render();
         return response()->json([
             'id' => $type->id_equipment_type,
-            'name' => $type->name,
+            'description' => $type->name,
             'token' => csrf_token(),
             'links' => $links->toHtml()
         ]);
@@ -101,15 +101,15 @@ class EquipmentTypeController extends Controller
         if(!is_numeric($id)) abort(404);
         $this->equipmentTypeRepository->destroy($id);
 
-        $types = $this->equipmentTypeRepository->getPaginate($this->amountPerPage);
-        $types->setPath(route('equipment.types.index'));
-        $links = $advantages->render();
+        $types = $this->equipmentTypeRepository->getPaginateSelect($this->amountPerPage,['name AS description', 'id_equipment_type as id']);
+        $types->setPath(route('equipmenttype.index'));
+        $links = $types->render();
 
         return response()->json([
-            'url'        => route('planadvantage.index'),
+            'url'        => route('equipmenttype.index'),
             'links'      => $links->toHtml(),
             'token'      => csrf_token(),
-            'types' => $types->items()
+            'resources' => $types->items()
         ]);
     }
 }
