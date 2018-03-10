@@ -10,7 +10,7 @@ abstract class ResourceRepository
   protected $model;
 
   /**
-   * Get the model this repositoriy is using
+   * Get the model this repository is using
    * 
    * @return \Illuminate\Database\Eloquent\Model
    */
@@ -102,7 +102,7 @@ abstract class ResourceRepository
   }
 
   /**
-   * Get if a record exist with the given id
+   * Get if a record exists with the given id
    * 
    * @param int $id
    * @return boolean
