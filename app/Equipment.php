@@ -1,0 +1,27 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Equipment extends Model
+{
+    
+    protected $primaryKey = "id_equipment";
+    public $timestamps = false;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'serial_number',
+    ];
+
+    public function type()
+	{
+		return $this->belongsTo('App\EquipmentType', 'id_equipment_type');
+	}
+
+}

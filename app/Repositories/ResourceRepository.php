@@ -80,6 +80,17 @@ abstract class ResourceRepository
   }
 
   /**
+   * Get if a record exist with the given id
+   * 
+   * @param int $id
+   * @return boolean
+   */
+  public function exists($id)
+  {
+    return $this->model->where($this->model->primaryKey, $id)->exists();
+  }
+
+  /**
    * Resource relative behavior for saving a record.
    * 
    * @param Model $model
