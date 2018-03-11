@@ -19,7 +19,7 @@ var AjaxResourceManager = function(messageCreated, messageDeleted, messageModify
 	this.messageDeleteFailure = messageDeleteFailure;
 	this.messageDeleteConfirm = messageDeleteConfirm;
 	this.fieldName = fieldName;
-	this.clickable = clickable != undefined;
+	this.clickable = clickable != undefined ? clickable : false;
 
 }
 
