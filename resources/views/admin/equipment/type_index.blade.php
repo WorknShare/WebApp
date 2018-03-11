@@ -21,6 +21,7 @@ Types de matériel
   'routeStore' => 'equipmenttype.store',
   'routeUpdate' => 'equipmenttype.update',
   'routeDestroy' => 'equipmenttype.destroy',
+  'routeShow' => 'equipmenttype.show',
   'placeholder' => 'Nom',
   'fieldName' => 'name',
   'noResourceMessage' => 'Il n\'y a aucun type de matériel',
@@ -40,7 +41,8 @@ Types de matériel
     'Type de matériel modifié.',
     'Une erreur est survenue. Impossible de supprimer ce type de matériel.',
     'Voulez-vous vraiment supprimer ce type de matériel ?',
-    'name'
+    'name',
+    true
     );
 </script>
 @endsection

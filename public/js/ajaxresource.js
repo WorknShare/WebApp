@@ -8,7 +8,7 @@ $.urlParam = function(name) {
     }
 }
 
-var AjaxResourceManager = function(messageCreated, messageDeleted, messageModify, messageDeleteFailure, messageDeleteConfirm, fieldName) {
+var AjaxResourceManager = function(messageCreated, messageDeleted, messageModify, messageDeleteFailure, messageDeleteConfirm, fieldName, clickable) {
 
 	this.page = $.urlParam('page');
 	this.page = this.page == null ? 1 : this.page;
@@ -19,19 +19,21 @@ var AjaxResourceManager = function(messageCreated, messageDeleted, messageModify
 	this.messageDeleteFailure = messageDeleteFailure;
 	this.messageDeleteConfirm = messageDeleteConfirm;
 	this.fieldName = fieldName;
+	this.clickable = clickable != undefined;
 
 }
 
 AjaxResourceManager.prototype.createResourceRow = function(id, description, url, token) {
-		var row = '<tr class="resource-row">' +
-    	'<td>' + id + '</td>' +
-      	'<td class="break-word"><form class="form-edit-resource" method="POST" action="' + url + '" accept-charset="UTF-8"><input name="_method" value="PUT" type="hidden"><input name="_token" value="' + token + '" type="hidden">' +
-      	'<span class="resource-description">' + description + '</span></form></td>' +
-      	'<td><a class="text-primary editResource point-cursor" value="Modifier"><i class="fa fa-pencil"></i></a></td>' +
-      	'<td><form method="POST" action="' + url + '" accept-charset="UTF-8">' +
-        	'<input name="_method" value="DELETE" type="hidden"><input name="_token" value="' + token + '" type="hidden">'+
-          	'<a class="text-danger submitDeleteResource point-cursor" value="Supprimer" type="submit"><i class="fa fa-trash"></i></a>' +
-        '</form></td></tr>';
+	var spanDescriptionContent = this.clickable ? '<b><a href="' + url + '">' + description + '</a></b>' : description;
+	var row = '<tr class="resource-row">' +
+	'<td>' + id + '</td>' +
+  	'<td class="break-word"><form class="form-edit-resource" method="POST" action="' + url + '" accept-charset="UTF-8"><input name="_method" value="PUT" type="hidden"><input name="_token" value="' + token + '" type="hidden">' +
+  	'<span class="resource-description">' + spanDescriptionContent + '</span></form></td>' +
+  	'<td><a class="text-primary editResource point-cursor" value="Modifier"><i class="fa fa-pencil"></i></a></td>' +
+  	'<td><form method="POST" action="' + url + '" accept-charset="UTF-8">' +
+    	'<input name="_method" value="DELETE" type="hidden"><input name="_token" value="' + token + '" type="hidden">'+
+      	'<a class="text-danger submitDeleteResource point-cursor" value="Supprimer" type="submit"><i class="fa fa-trash"></i></a>' +
+    '</form></td></tr>';
 
 	$(row).appendTo('#resources-table');
 }
@@ -105,7 +107,11 @@ AjaxResourceManager.prototype.handleEditSuccess = function(data, srcElement) {
 	icon.removeClass('fa-check');
 
 	var field = srcElement.find('.resource-description').first();
-	field.text(data.text);
+
+	if(manager.clickable)
+		field.find('a').text(data.text);
+	else
+		field.text(data.text);
 }
 
 AjaxResourceManager.prototype.handleEditFailure = function(data, srcElement) {
@@ -183,13 +189,14 @@ AjaxResourceManager.prototype.handleEditFailure = function(data, srcElement) {
 		if($(this).children('i').first().hasClass('fa-pencil')) { //Normal mode, switch to edit mode
 			var description = $(this).parent().parent().find('.resource-description');
 			var input = $('<input type="text" name="' + manager.fieldName + '" class="solid-text-input" value="' + description.text() + '" maxlength="255">');
-			description.replaceWith( input );
+			description.parent().append( input );
+			description.hide();
 
 			$(this).children('i').first().removeClass('fa-pencil');
 			$(this).children('i').first().addClass('fa-check');
 
 			setTimeout(function() {
-				manager.previousDescription = description.text();
+				manager.previousDescription = manager.clickable ? description.find('a').text() : description.text();
 				input.focus();
 			}, 100);
 		} else { //Edit mode, send changes
@@ -222,7 +229,13 @@ AjaxResourceManager.prototype.handleEditFailure = function(data, srcElement) {
 		icon.toggleClass('fa-pencil');
 		icon.toggleClass('fa-check');
 
-		$(this).replaceWith('<span class="resource-description">' + manager.previousDescription + '</span>');
+		var description = $(this).parent().find('.resource-description');
+		if(manager.clickable)
+			description.find('a').text(manager.previousDescription);
+		else
+			description.text(manager.previousDescription);
+		description.show();
+		$(this).remove();
 	});
 
 //----------------------------------------------------

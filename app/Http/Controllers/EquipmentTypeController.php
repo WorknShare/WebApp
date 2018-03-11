@@ -69,7 +69,7 @@ class EquipmentTypeController extends Controller
     public function show($id)
     {
         if(!is_numeric($id)) abort(404);
-        $type = $this->planRepository->getById($id);
+        $type = $this->equipmentTypeRepository->getById($id);
         $equipment = $type->equipment()->get();
         return view('admin.equipment.show_type', compact('type', 'equipment'));
     }

@@ -32,7 +32,11 @@
         	<td>{{ $resource->id }}</td>
           <td class="break-word">
             {!! Form::model($resource, ['route' => [$routeUpdate, $resource->id], 'method' => 'put', 'class' => 'form-edit-resource']) !!}
+              @if(isset($routeShow))
+              <span class="resource-description"><b><a href="{{ route($routeShow, $resource->id) }}">{{ $resource->description }}</a></b></span>
+              @else
               <span class="resource-description">{{ $resource->description }}</span>
+              @endif
             {!! Form::close() !!}
           </td>
           <td><a class="text-primary editResource point-cursor" value="Modifier"><i class="fa fa-pencil"></i></a></td>
