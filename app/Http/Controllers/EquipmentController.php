@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Requests\Equipment\EquipmentRequest;
+use App\Http\Requests\Equipment\EquipmentRequest;
 use App\Repositories\EquipmentRepository;
 use App\Repositories\EquipmentTypeRepository;
 
@@ -31,20 +31,21 @@ class EquipmentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Requests\Equipment\EquipmentRequest $request
+     * @param  \App\Http\Requests\Equipment\EquipmentRequest $request
      * @param  int  $id_equipment_type
      * @return \Illuminate\Http\Response
      */
     public function store(EquipmentRequest $request, $id_equipment_type)
     {
-        if(!is_numeric($id_equipment_type) || $this->equipmentTypeRepository->exists($id_equipment_type)) abort(404);
+        if(!is_numeric($id_equipment_type) || !$this->equipmentTypeRepository->exists($id_equipment_type)) abort(404);
         $request->merge(['id_equipment_type' => $id_equipment_type]);
-        
+
         $equipment = $this->equipmentRepository->store($request->all());
+        $type = $this->equipmentTypeRepository->getById($id_equipment_type);
         $links = $type->equipment()->paginate($this->amountPerPage)->render();
         return response()->json([
             'id' => $equipment->id_equipment,
-            'serial_number' => $equipment->serial_number,
+            'description' => $equipment->serial_number,
             'token' => csrf_token(),
             'links' => $links->toHtml()
         ]);
@@ -62,10 +63,10 @@ class EquipmentController extends Controller
         if(!is_numeric($id_equipment_type) || !is_numeric($id_equipment)) abort(404);
 
         $equipment = $this->equipmentRepository->getById($id_equipment);
-        $type = $equipment->type();
-        if(!$type->contains($id_equipment_type)) abort(400);
-        
-        $type = $type->get();
+        $type = $equipment->type()->first();
+
+        if($type->id_equipment_type != $id_equipment_type) abort(400);
+
 
         return view('admin.equipment.show', compact('equipment', 'type'));
     }
@@ -73,7 +74,7 @@ class EquipmentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Requests\Equipment\EquipmentRequest $request
+     * @param  \App\Http\Requests\Equipment\EquipmentRequest $request
      * @param  int  $id_equipment_type
      * @param  int  $id_type
      * @return \Illuminate\Http\Response
@@ -83,8 +84,11 @@ class EquipmentController extends Controller
         if(!is_numeric($id_equipment_type) || !is_numeric($id_equipment)) abort(404);
         
         $equipment = $this->equipmentRepository->getById($id_equipment);
-        if(!$equipment->type()->contains($id_equipment_type)) abort(400);
+        $type = $equipment->type()->first();
+        if($type->id_equipment_type != $id_equipment_type) abort(400);
     
+        $request->merge(['id_equipment_type' => $id_equipment_type]);
+
         $equipment->update($request->all());
         return response()->json([
             'text' => $request->serial_number
@@ -103,10 +107,20 @@ class EquipmentController extends Controller
         if(!is_numeric($id_equipment_type) || !is_numeric($id_equipment)) abort(404);
 
         $equipment = $this->equipmentRepository->getById($id_equipment);
-        if(!$equipment->type()->contains($id_equipment_type)) abort(400);
+        $type = $equipment->type()->first();
+        if($type->id_equipment_type != $id_equipment_type) abort(400);
 
-        $serial = $equipment->serial_number;
         $this->equipmentRepository->destroy($id_equipment);
-        return redirect('admin/site')->withOk("Le matériel " . $equipment . " a été supprimé.");
+
+        $equipments = $type->equipment()->select(['serial_number AS description', 'id_equipment as id'])->paginate($this->amountPerPage);
+        $equipments->setPath(route('equipmenttype.show', $id_equipment_type));
+        $links = $equipments->render();
+
+        return response()->json([
+            'url'        => route('equipmenttype.show', $id_equipment_type),
+            'links'      => $links->toHtml(),
+            'token'      => csrf_token(),
+            'resources' => $equipments->items()
+        ]);
     }
 }

@@ -70,8 +70,9 @@ class EquipmentTypeController extends Controller
     {
         if(!is_numeric($id)) abort(404);
         $type = $this->equipmentTypeRepository->getById($id);
-        $equipment = $type->equipment()->get();
-        return view('admin.equipment.show_type', compact('type', 'equipment'));
+        $equipment = $type->equipment()->select(['serial_number AS description', 'id_equipment as id'])->paginate($this->amountPerPage);
+        $links = $equipment->render();
+        return view('admin.equipment.type_show', compact('type', 'equipment', 'links'));
     }
 
     /**

@@ -30,6 +30,7 @@ class EquipmentRepository extends ResourceRepository
 	protected function save(Model $model, Array $inputs)
 	{
 		$model->serial_number = $inputs['serial_number'];
+        $model->id_equipment_type = $inputs['id_equipment_type'];
         $model->save();
         return $model->id_equipment;
 	}

@@ -109,7 +109,7 @@ abstract class ResourceRepository
    */
   public function exists($id)
   {
-    return $this->model->where($this->model->primaryKey, $id)->exists();
+    return $this->model->where($this->model->getKeyName(), $id)->exists();
   }
 
   /**
