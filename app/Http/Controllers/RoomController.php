@@ -1,0 +1,103 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class RoomController extends Controller
+{
+
+
+  private $roomRepository;
+
+  /**
+   * Create a new RoomController instance
+   *
+   * @param App\Repositories\RoomRepository $siteRepository
+   * @return void
+   */
+  public function __construct(RoomRepository $roomRepository)
+  {
+      $this->$roomRepository = $roomRepository;
+      $this->middleware('auth:admin');
+  }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('admin.rooms.create');
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  use App\Http\Requests\RoomRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(RoomRequest $request)
+    {
+        $room = $this->RoomRepository->store($request->all());
+        return back()->withOk("L'horaire a été créé.");
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+      if(!is_numeric($id)) abort(404);
+      $room = $this->RoomRepository->getById($id);
+      return view('admin.rooms.show', compact('room'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+      if(!is_numeric($id)) abort(404);
+      $room = $this->RoomRepository->getById($id);
+      return view('admin.rooms.edit', compact('room'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+      if(!is_numeric($id)) abort(404);
+
+      $this->RoomRepository->update($id, $request->all());
+      return redirect('admin/site/room/'.$id)->withOk("La salle " . $request->input('name') . " a été modifié.");
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+      if(!is_numeric($id)) abort(404);
+      $room = $this->RoomRepository->getById($id)->name;
+      $site = $this->RoomRepository->getById($id)->id_site;
+      $this->RoomRepository->destroy($id);
+      return redirect('admin/site/'. $site)->withOk("La salle " . $room . " a été supprimé.");
+    }
+}

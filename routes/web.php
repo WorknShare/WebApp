@@ -24,6 +24,7 @@ Route::prefix('admin')->group(function() {
     Route::post('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
     Route::get('/', 'AdminController@index')->name('admin.home');
     Route::resource('site', 'SiteController');
+    Route::resource('typeOfRooms', 'TypeOfRoomController');
 
     //Plans
 	Route::resource('planadvantage', 'PlanAdvantageController', ['only' => ['index','store','update','destroy']]);
