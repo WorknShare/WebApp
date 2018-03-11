@@ -24,4 +24,9 @@ class Equipment extends Model
 		return $this->belongsTo('App\EquipmentType', 'id_equipment_type');
 	}
 
+    public function site()
+    {
+        return $this->belongsTo('App\Site', 'id_site');
+    }
+
 }

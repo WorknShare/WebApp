@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Equipment\EquipmentRequest;
+use App\Http\Requests\Equipment\EquipmentAffectRequest;
 use App\Repositories\EquipmentRepository;
 use App\Repositories\EquipmentTypeRepository;
 
@@ -67,8 +68,10 @@ class EquipmentController extends Controller
 
         if($type->id_equipment_type != $id_equipment_type) abort(400);
 
+        $site = $equipment->site()->first();
+        $siteId = is_null($site) ? 0 : $site->id_site;
 
-        return view('admin.equipment.show', compact('equipment', 'type'));
+        return view('admin.equipment.show', compact('equipment', 'type', 'siteId'));
     }
 
     /**
@@ -122,5 +125,33 @@ class EquipmentController extends Controller
             'token'      => csrf_token(),
             'resources' => $equipments->items()
         ]);
+    }
+
+    /**
+     * Affects the specified resource to a site.
+     *
+     * @param  \App\Http\Requests\Equipment\EquipmentAffectRequest $request
+     * @param  int  $id_equipment_type
+     * @param  int  $id_type
+     * @return \Illuminate\Http\Response
+     */
+    public function affect(EquipmentAffectRequest $request, $id_equipment_type, $id_equipment)
+    {
+        if(!is_numeric($id_equipment_type) || !is_numeric($id_equipment)) abort(404);
+
+        $equipment = $this->equipmentRepository->getById($id_equipment);
+        $type = $equipment->type()->first();
+        if($type->id_equipment_type != $id_equipment_type) abort(400);
+
+        $site = \App\Site::find($request->site);
+
+        if(!is_null($site))
+            $equipment->site()->associate($request->site);
+        else
+            $equipment->site()->dissociate();
+
+        $equipment->save();
+
+        return response()->json();
     }
 }
