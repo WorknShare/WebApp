@@ -47,7 +47,18 @@
         <li class="header">NAVIGATION</li>
         {!! Html::adminNavMenu('admin.home', 'admin', 'Tableau de bord', 'fa-home') !!}
         {!! Html::adminNavMenu('site.index', 'site', 'Sites', 'fa-map-marker') !!}
-        {!! Html::adminNavMenu('user.index', 'user', 'Utilisateurs', 'fa-user') !!}
+        <li class="treeview {!! strpos(Route::currentRouteName(), 'user.') !== FALSE ? 'menu-open active' : '' !!}">
+          <a href="#">
+            <i class="fa fa-user"></i> <span>Utilisateurs</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li {!! strpos(Route::currentRouteName(), 'user.') !== FALSE ? 'class="active"' : '' !!}><a href="{{ route('user.index') }}"><i class="fa fa-circle-o"></i> Employés</a></li>
+            <li {!! strpos(Route::currentRouteName(), 'user.index') !== FALSE ? 'class="active"' : '' !!}><a href="{{ route('user.index') }}"><i class="fa fa-circle-o"></i> Clients</a></li>
+          </ul>
+        </li>
         <li class="treeview {!! strpos(Route::currentRouteName(), 'plan.') !== FALSE || strpos(Route::currentRouteName(), 'planadvantage.') !== FALSE ? 'menu-open active' : '' !!}">
           <a href="#">
             <i class="fa fa-credit-card"></i> <span>Forfaits</span>

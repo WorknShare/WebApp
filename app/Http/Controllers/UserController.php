@@ -12,7 +12,6 @@ use App\Http\Requests\SearchRequest;
 use App\Repositories\UserRepository;
 use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\UserRequest;
-use App\Http\Requests\SiteRequest;
 
 class UserController extends Controller
 {
@@ -29,8 +28,8 @@ class UserController extends Controller
   {
     //only or except
     $this->userRepository = $userRepository;
-    $this->middleware('auth:admin', ['only' => ['showAdmin','editAdmin', 'updateAdmin']]);
-    $this->middleware('auth' , ['except' => ['showAdmin','editAdmin', 'updateAdmin']]);
+    $this->middleware('auth:admin', ['only' => ['showAdmin','editAdmin', 'updateAdmin', 'indexAdmin']]);
+    $this->middleware('auth' , ['except' => ['showAdmin','editAdmin', 'updateAdmin', 'indexAdmin']]);
 
   }
 
@@ -50,14 +49,25 @@ class UserController extends Controller
   /**
   *  Display the personal information of a user. (admin)
   *
-  * @param  int  $id
+  * @param \App\Http\Requests\SearchRequest $request
   * @return \Illuminate\Http\Response
   */
-  public function showAdmin()
+  public function indexAdmin(SearchRequest $request)
   {
 
-    ///$user = $this->userRepository->getById($id);
-  return view('admin.users.index'/*, compact('user')*/);
+    if(!empty($request->search))
+    {
+        $clients = $this->userRepository->getModel()->whereRaw('LOWER(email) LIKE ? OR LOWER(name) LIKE ? OR LOWER(surname) LIKE ?', array($request->search,$request->search,$request->search))->take($this->amountPerPage)->get();
+        $links = '';
+        return view('admin.users.index', compact('clients', 'links'));
+    }
+    else
+    {
+        $clients = $this->userRepository->getPaginate($this->amountPerPage);
+        $links = $clients->render();
+        return view('admin.users.index', compact('clients', 'links'));
+    }
+
   }
 
 
