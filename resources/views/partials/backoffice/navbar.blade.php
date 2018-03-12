@@ -47,7 +47,7 @@
         <li class="header">NAVIGATION</li>
         {!! Html::adminNavMenu('admin.home', 'admin', 'Tableau de bord', 'fa-home') !!}
         {!! Html::adminNavMenu('site.index', 'site', 'Sites', 'fa-map-marker') !!}
-        {!! Html::adminNavMenu('admin.user', 'utilisateurs', 'Utilisateurs', 'fa-user') !!}
+        {!! Html::adminNavMenu('user.index', 'user', 'Utilisateurs', 'fa-user') !!}
         <li class="treeview {!! strpos(Route::currentRouteName(), 'plan.') !== FALSE || strpos(Route::currentRouteName(), 'planadvantage.') !== FALSE ? 'menu-open active' : '' !!}">
           <a href="#">
             <i class="fa fa-credit-card"></i> <span>Forfaits</span>

@@ -26,10 +26,10 @@ Route::prefix('admin')->group(function() {
     Route::resource('site', 'SiteController');
 
     //users
-    Route::prefix('/users')->group(function() {
-      Route::get('/', 'UserController@showAdmin')->name('admin.user');
-      Route::get('/{id}/edit', 'UserController@editAdmin')->name('admin.edituser');
-      Route::put('/{id}', 'UserController@update')->name('admin.userupdate');
+    Route::prefix('/user')->group(function() {
+      Route::get('/', 'UserController@showAdmin')->name('user.index');
+      Route::get('/{id}/edit', 'UserController@editAdmin')->name('user.edit_admin');
+      Route::put('/{id}', 'UserController@update')->name('user.update_admin');
     });
 
     //Plans
