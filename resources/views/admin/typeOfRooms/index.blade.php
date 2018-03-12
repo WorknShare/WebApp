@@ -47,6 +47,8 @@
                   <tr>
                     <th style="width: 10px">#</th>
                     <th>Nom</th>
+                    <th style="width:30px"></th>
+                    <th style="width:30px"></th>
                   </tr>
                   @foreach ($typeOfRooms as $typeOfRoom)
                     <tr>
