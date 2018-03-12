@@ -29,4 +29,8 @@ class Site extends Model
     return $this->hasMany('App\Room', 'id_site');
   }
 
+  public function equipment()
+  {
+      return $this->hasMany('App\Equipment', 'id_site');
+  }
 }

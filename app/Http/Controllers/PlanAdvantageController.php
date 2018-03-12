@@ -31,7 +31,7 @@ class PlanAdvantageController extends Controller
      */
     public function index()
     {
-        $advantages = $this->planAdvantageRepository->getPaginate($this->amountPerPage);
+        $advantages = $this->planAdvantageRepository->getPaginateSelect($this->amountPerPage, ['id_plan_advantage as id','description']);
 
         if ($advantages->isEmpty() && $advantages->currentPage() != 1)
         {
@@ -87,7 +87,7 @@ class PlanAdvantageController extends Controller
         if(!is_numeric($id)) abort(404);
         $this->planAdvantageRepository->destroy($id);
 
-        $advantages = $this->planAdvantageRepository->getPaginate($this->amountPerPage);
+        $advantages = $this->planAdvantageRepository->getPaginateSelect($this->amountPerPage, ['id_plan_advantage as id','description']);
         $advantages->setPath(route('planadvantage.index'));
         $links = $advantages->render();
 
@@ -95,7 +95,7 @@ class PlanAdvantageController extends Controller
             'url'        => route('planadvantage.index'),
             'links'      => $links->toHtml(),
             'token'      => csrf_token(),
-            'advantages' => $advantages->items()
+            'resources' => $advantages->items()
         ]);
     }
 }
