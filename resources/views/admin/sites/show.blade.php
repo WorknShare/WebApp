@@ -149,7 +149,7 @@
 				<div class="box-body">
 					<div class="row">
 						<div class="col-xs-12">
-							@if(!count($schedules))
+							@if(!count($rooms))
 								<p class="text-muted">Il n'y a aucune salle pour l'instant.</p>
 							@else
 								<div class="box-body no-padding">
