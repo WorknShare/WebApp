@@ -25,11 +25,22 @@ Route::prefix('admin')->group(function() {
     Route::get('/', 'AdminController@index')->name('admin.home');
     Route::resource('site', 'SiteController');
 
+    //users
     Route::prefix('/users')->group(function() {
       Route::get('/', 'UserController@showAdmin')->name('admin.user');
       Route::get('/{id}/edit', 'UserController@editAdmin')->name('admin.edituser');
       Route::put('/{id}', 'UserController@update')->name('admin.userupdate');
     });
+
+    //Plans
+	Route::resource('planadvantage', 'PlanAdvantageController', ['only' => ['index','store','update','destroy']]);
+	Route::resource('plan', 'PlanController');
+
+	//Equipment
+	Route::resource('equipmenttype', 'EquipmentTypeController', ['except' => ['create', 'edit']]);
+	Route::resource('equipmenttype.equipment', 'EquipmentController', ['except' => ['index','create', 'edit']]);
+	Route::put('equipmenttype/{equipmenttype}/equipment/{equipment}', 'EquipmentController@affect')->name('equipmenttype.equipment.affect');
+
 });
 Route::resource('schedule', 'ScheduleController', ['only' => ['store','destroy']]);
 

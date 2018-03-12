@@ -11,7 +11,7 @@ login-page
 @section('content-wrapper')
 <div class="login-box">
   <div class="login-logo">
-    <a href="{{ route('welcome') }}l"><img src="{{ asset('img/logo128.png') }}"></a>
+    <a href="{{ route('welcome') }}"><img src="{{ asset('img/logo128.png') }}"></a>
     <div>
     Work'n Share
     </div>
