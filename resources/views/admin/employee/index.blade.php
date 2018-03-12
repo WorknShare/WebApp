@@ -40,7 +40,7 @@ Employés
     @foreach ($employees as $employee)
     <tr>
     	<td>{{ $employee->id_employee }}</td>
-      <td><b><a href="{{ route('employee.show', $employee->id_client) }}">{{ $employee->email }}</a></b></td>
+      <td><b><a href="{{ route('employee.show', $employee->id_employee) }}">{{ $employee->email }}</a></b></td>
       <td>{{ $employee->name }}</td>
       <td>{{ $employee->surname }}</td>
     </tr>

@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\SearchRequest;
-use App\Http\Requests\EmployeeCreateRequest;
-use App\Http\Requests\EmployeeUpdateRequest;
-use App\Http\Requests\EmployeeUpdatePasswordRequest;
+use App\Http\Requests\Employee\EmployeeCreateRequest;
+use App\Http\Requests\Employee\EmployeeUpdateRequest;
+use App\Http\Requests\Employee\EmployeeUpdatePasswordRequest;
 use App\Repositories\EmployeeRepository;
 
 class EmployeeController extends Controller
@@ -64,13 +64,13 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\EmployeeCreateRequest $request
+     * @param  \App\Http\Request\Employee\EmployeeCreateRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(EmployeeCreateRequest $request)
     {
         $employee = $this->employeeRepository->store($request->all());
-        return redirect('admin/employees')->withOk("L'employé' " . $employee->surnname . ' ' . $employee->name . " a été créé.");
+        return redirect('admin/employee')->withOk("L'employé " . $employee->surname . ' ' . $employee->name . " a été créé.");
     }
 
     /**
@@ -102,11 +102,11 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\EmployeeRequest $request
+     * @param  \App\Http\Request\Employee\EmployeeUpdateRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EmployeeRequest $request, $id)
+    public function update(EmployeeUpdateRequest $request, $id)
     {
         if(!is_numeric($id)) abort(404);
 
