@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\room\RoomRequest;
+use App\Repositories\RoomRepository;
 
 class RoomController extends Controller
 {
@@ -18,31 +20,22 @@ class RoomController extends Controller
    */
   public function __construct(RoomRepository $roomRepository)
   {
-      $this->$roomRepository = $roomRepository;
+      $this->roomRepository = $roomRepository;
       $this->middleware('auth:admin');
   }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('admin.rooms.create');
-    }
 
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  use App\Http\Requests\RoomRequest $request
+     * @param  App\Http\Requests\room\RoomRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(RoomRequest $request)
     {
-        $room = $this->RoomRepository->store($request->all());
-        return back()->withOk("L'horaire a été créé.");
+        $room = $this->roomRepository->store($request->all());
+        return back()->withOk("La salle a été créé.");
     }
 
     /**
@@ -54,7 +47,7 @@ class RoomController extends Controller
     public function show($id)
     {
       if(!is_numeric($id)) abort(404);
-      $room = $this->RoomRepository->getById($id);
+      $room = $this->roomRepository->getById($id);
       return view('admin.rooms.show', compact('room'));
     }
 
@@ -67,22 +60,22 @@ class RoomController extends Controller
     public function edit($id)
     {
       if(!is_numeric($id)) abort(404);
-      $room = $this->RoomRepository->getById($id);
+      $room = $this->roomRepository->getById($id);
       return view('admin.rooms.edit', compact('room'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\room\RoomRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RoomRequest $request, $id)
     {
       if(!is_numeric($id)) abort(404);
 
-      $this->RoomRepository->update($id, $request->all());
+      $this->roomRepository->update($id, $request->all());
       return redirect('admin/site/room/'.$id)->withOk("La salle " . $request->input('name') . " a été modifié.");
     }
 
@@ -95,9 +88,9 @@ class RoomController extends Controller
     public function destroy($id)
     {
       if(!is_numeric($id)) abort(404);
-      $room = $this->RoomRepository->getById($id)->name;
-      $site = $this->RoomRepository->getById($id)->id_site;
-      $this->RoomRepository->destroy($id);
+      $room = $this->roomRepository->getById($id)->name;
+      $site = $this->roomRepository->getById($id)->id_site;
+      $this->roomRepository->destroy($id);
       return redirect('admin/site/'. $site)->withOk("La salle " . $room . " a été supprimé.");
     }
 }

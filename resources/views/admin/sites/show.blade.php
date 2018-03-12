@@ -46,7 +46,7 @@
 				</div>
 			</div>
 		</div>
-	</div>		
+	</div>
 </div>
 
 <div class="row">
@@ -115,41 +115,111 @@
 			              		<button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Ajouter</button>
 			              	</div>
 			            </form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-md-6">
+			<div class="box box-solid">
+				<div class="box-header with-border">
+					<h4>Repas</h4>
+				</div>
+				<div class="box-body">
+					<div class="row">
+						<div class="col-xs-12">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="col-xs-12 col-md-6">
-		<div class="box box-solid">
-			<div class="box-header with-border">
-				<h4>Repas</h4>
-			</div>
-			<div class="box-body">
-				<div class="row">
-					<div class="col-xs-12">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	<div class="row">
+		<div class="col-xs-12 col-md-6">
+			<div class="box box-solid">
+				<div class="box-header with-border">
+					<h4>Les salles</h4>
+				</div>
+				<div class="box-body">
+					<div class="row">
+						<div class="col-xs-12">
+							@if(!count($schedules))
+								<p class="text-muted">Il n'y a aucune salle pour l'instant.</p>
+							@else
+								<div class="box-body no-padding">
+									<table class="table table-striped">
+									    <tr>
+									      <th>Nom</th>
+									      <th>Type de salle</th>
+									      <th>places maximum</th>
+												<th style="width:30px"></th>
+		                    <th style="width:30px"></th>
+									    </tr>
+									    @foreach ($rooms as $room)
+									    <tr>
+									    	<td>{{ $room->name }}</td>
+									    	<td>{{ $room->room_name }}</td>
+									    	<td>{{ $room->place }}</td>
+												<td><a class="point-cursor" href="{{ route('room.show', $room->id_room) }}"><i class="fa fa-eye"></i></a></td>
+									    	<td>
+									    		{{ Form::open(['method' => 'DELETE', 'route' => ['room.destroy', $room->id_room]]) }}
+													<a class="text-danger submitDeleteRoom point-cursor" value="Supprimer" type="submit"><i class="fa fa-trash"></i></a>
+												{{ Form::close() }}
+									    	</td>
+									    </tr>
+										@endforeach
+								  </table>
+								</div>
+							@endif
+							<div class="row">
+								<div class="col-xs-12 bottom-controls">
+									<a id="addRoomButton" data-toggle="collapse" href="#addRoomPane" class="btn btn-primary btn-xs pull-right">Ajouter une salle</a>
+								</div>
+								<div class="col-xs-12 {{ count($errors->all()) ? '' : 'collapse'}}" id="addRoomPane">
+									<div class="col-xs-12">
+										<h5>Ajouter une salle</h5>
+									</div>
+									<form action="{{ route('room.store') }}" method="post">
+										{{ csrf_field() }}
+										<input style="margin-bottom : 2%" type="hidden" value="{{ $site->id_site }}" name="id_site">
+										<input style="margin-bottom : 2%" class="form-control" placeholder="name" maxlength="255" name="name" type="text" required>
+										<input style="margin-bottom : 2%" class="form-control" placeholder="place limit" maxlength="255" name="place" type="number" required>
+										<select  style="margin-bottom : 2%" name="id_room_type" class="form-control">
+											@foreach(App\RoomTypes::all() as $roomtType)
+	     									<option value="{{ $roomtType->id_room_type }}">{{ $roomtType->name }}</option>
+	 										@endforeach
+										</select>
+										<div class="col-xs-12">
+											<button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Ajouter</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</div>
 
-<div class="row">
-	<div class="col-xs-12">
-		{{ Form::open(['method' => 'DELETE', 'route' => ['site.destroy', $site->id_site]]) }}
-			<button class="btn btn-danger pull-right" value="Supprimer" onclick="return confirm('Voulez-vous vraiment supprimer ce site ?')" type="submit"><i class="fa fa-trash"></i> Supprimer</button>
-		{{ Form::close() }}
-		<a class="btn btn-default pull-left" href='{{ route('site.index') }}'> <i class="fa fa-chevron-left"></i> Retour</a>
-    </div>
-</div>
+		<div class="row">
+			<div class="col-xs-12">
+				{{ Form::open(['method' => 'DELETE', 'route' => ['site.destroy', $site->id_site]]) }}
+					<button class="btn btn-danger pull-right" value="Supprimer" onclick="return confirm('Voulez-vous vraiment supprimer ce site ?')" type="submit"><i class="fa fa-trash"></i> Supprimer</button>
+				{{ Form::close() }}
+				<a class="btn btn-default pull-left" href='{{ route('site.index') }}'> <i class="fa fa-chevron-left"></i> Retour</a>
+		    </div>
+		</div>
 @endsection
+
+
+
 
 @section('scripts')
 {!! iCheckRadioScript() !!}
@@ -212,6 +282,15 @@
      		if(confirm('Voulez-vous vraiment supprimer cet horaire ?'))
      			$(this).parent().submit();
      	});
+
+			//submit delete room
+			$('.submitDeleteRoom').click(function() {
+				if(confirm('Voulez-vous vraiment supprimer cette salle ?'))
+					$(this).parent().submit();
+			});
 	})
+
+
+
 </script>
 @endsection

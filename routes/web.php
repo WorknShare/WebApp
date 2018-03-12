@@ -31,3 +31,4 @@ Route::prefix('admin')->group(function() {
 	Route::resource('plan', 'PlanController');
 });
 Route::resource('schedule', 'ScheduleController', ['only' => ['store','destroy']]);
+Route::resource('room', 'RoomController', ['except' => ['index', 'create']]);

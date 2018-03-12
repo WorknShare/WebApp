@@ -55,7 +55,6 @@ class TypeOfRoomController extends Controller
     */
     public function store(TypeOfRoomRequest $request)
     {
-
       $typeOfRoom = $this->typeOfRoomRepository->store($request->all());
       return Redirect::route('typeOfRooms.index')->withOk("Le type de salle " . $typeOfRoom->name . " a été créé.");
     }
@@ -64,11 +63,11 @@ class TypeOfRoomController extends Controller
     /**
     * Update the specified resource in storage.
     *
-    * @param  \Illuminate\Http\Request  $request
+    * @param  \Illuminate\Http\TypeOfRoomRequest  $request
     * @param  int  $id
     * @return \Illuminate\Http\Response
     */
-    public function update(Request $request, $id)
+    public function update(TypeOfRoomRequest $request, $id)
     {
       if(!is_numeric($id)) abort(404);
 

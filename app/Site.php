@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Site extends Model
 {
-    
+
     protected $primaryKey = "id_site";
     public $timestamps = false;
 
@@ -23,5 +23,10 @@ class Site extends Model
 	{
 		return $this->hasMany('App\Schedule', 'id_site');
 	}
+
+  public function rooms()
+  {
+    return $this->hasMany('App\Room', 'id_site');
+  }
 
 }
