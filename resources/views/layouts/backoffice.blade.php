@@ -26,16 +26,16 @@ Administration
     <!-- Main content -->
     <section class="content container-fluid">
       @if(session()->has('error'))
-      <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-triangle"></i><b>{!! session('error') !!}</b></div>
+      <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-triangle"></i><b class="overflow-break-word">{!! session('error') !!}</b></div>
       @endif
       @if(session()->has('warning'))
-      <div class="alert alert-warning alert-dismissible"><i class="fa fa-excalamation-circle"></i><b>{!! session('warning') !!}</b></div>
+      <div class="alert alert-warning alert-dismissible"><i class="fa fa-excalamation-circle"></i><b class="overflow-break-word">{!! session('warning') !!}</b></div>
       @endif
       @if(session()->has('info'))
-      <div class="alert alert-info alert-dismissible"><i class="fa fa-info-circle"></i><b>{!! session('info') !!}</b></div>
+      <div class="alert alert-info alert-dismissible"><i class="fa fa-info-circle"></i><b class="overflow-break-word">{!! session('info') !!}</b></div>
       @endif
       @if(session()->has('ok'))
-      <div class="alert alert-success alert-dismissible"><i class="fa fa-check"></i><b>{!! session('ok') !!}</b></div>
+      <div class="alert alert-success alert-dismissible"><i class="fa fa-check"></i><b class="overflow-break-word">{!! session('ok') !!}</b></div>
       @endif
       @yield('content')
     </section>

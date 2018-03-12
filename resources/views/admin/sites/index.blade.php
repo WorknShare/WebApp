@@ -30,7 +30,7 @@ Sites
 </div>
 @if(count($sites))
 
-<div class="box-body no-padding">
+<div class="box-body no-padding table-container-responsive">
   <table class="table table-striped">
     <tr>
       <th style="width: 10px">#</th>
@@ -42,10 +42,10 @@ Sites
     @foreach ($sites as $site)
     <tr>
     	<td>{{ $site->id_site }}</td>
-      	<td><b><a href="{{ route('site.show', $site->id_site) }}">{{ $site->name }}</a></b></td>
-      	<td>{{ $site->address }}</td>
-      	<td>{!! Html::badge($site->wifi) !!}</td>
-      	<td>{!! Html::badge($site->drink) !!}</td>
+      <td style="max-width: 200px;" class="ellipsis" title="{{ $site->name }}"><b><a href="{{ route('site.show', $site->id_site) }}">{{ $site->name }}</a></b></td>
+      <td>{{ $site->address }}</td>
+      <td>{!! Html::badge($site->wifi) !!}</td>
+      <td>{!! Html::badge($site->drink) !!}</td>
     </tr>
 	@endforeach
   </table>

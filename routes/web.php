@@ -41,4 +41,8 @@ Route::prefix('myaccount')->group(function(){
   Route::get('/QrCodeDownload', 'UserController@qrcodedownload')->name('myaccount.qrcodedownload');
 });
 
+//Plans
+Route::resource('planadvantage', 'PlanAdvantageController', ['only' => ['index','store','update','destroy']]);
+Route::resource('plan', 'PlanController');
+
 Route::resource('myaccount', 'UserController');

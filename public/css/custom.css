@@ -19,7 +19,13 @@
  	margin-right: 5px !important;
  }
 
- .alert .fa {
+ .icheck label, .ellipsis {
+ 	white-space: nowrap;
+ 	overflow: hidden;
+	text-overflow: ellipsis;
+ }
+
+ .icon-check, .alert .fa {
  	margin-right: 5px;
  	font-size: 20px;
  	vertical-align: text-bottom;
@@ -32,6 +38,56 @@
 .content-vertical {
 	display: flex;
 	flex-direction: column;
+}
+
+.point-cursor:hover {
+	cursor: pointer;
+}
+
+.solid-text-input {
+	width: 100%;
+	height: 20px;
+	border: none;
+	padding-left: 0px;
+}
+
+.break-word {
+	word-break: break-all;
+}
+
+.overflow-break-word {
+	overflow-wrap: break-word;
+}
+
+.price-tag {
+	font-size: 24px;
+	line-height: 24px;
+	vertical-align: text-top;
+}
+
+.price-tag-info {
+	vertical-align: bottom;
+}
+
+.breadcrumb li {
+	white-space: nowrap;
+ 	overflow: hidden;
+	max-width: 150px;
+}
+
+.content-header h1 {
+	width: 100%;
+}
+
+.table-container-responsive {
+	overflow-x:auto;
+}
+
+/*Reponsive title */
+@media (min-width: 992px) {
+	.content-header h1 {
+		width: 50%;
+	}
 }
 
 /* Responsive margins */

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Plan;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SiteRequest extends FormRequest
+class PlanAdvantageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class SiteRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->ajax();
     }
 
     /**
@@ -24,10 +24,7 @@ class SiteRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255|unique:sites,name,' . $this->site . ',id_site',
-            'address' => 'required|string|max:255|unique:sites,address,' . $this->site . ',id_site',
-            'wifi' => 'boolean',
-            'drink' => 'boolean'
+            'description' => 'required|string|max:255'
         ];
     }
 }

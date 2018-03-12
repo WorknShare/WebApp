@@ -14,16 +14,7 @@ skin-blue sidebar-mini layout-top-nav
 
    <!-- Main content -->
    <section class="container">
-   	@if(!empty($title))
-      @component('components.header')
-          @slot('title')
-              {{ $title }}
-          @endslot
-          @slot('description')
-              {{ $description }}
-          @endslot
-      @endcomponent
-      @endif
+   	  @yield('page_title')
    	  <ol class="breadcrumb">
         @yield('breadcrumb_nav')
       </ol>

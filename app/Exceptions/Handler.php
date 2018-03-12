@@ -44,10 +44,6 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-
-        if(!App::environment('testing') && !App::environment('local') && $this->shouldReport($exception))
-                  Rollbar::report_exception($exception);
-
         parent::report($exception);
     }
 

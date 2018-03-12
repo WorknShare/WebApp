@@ -80,17 +80,18 @@ class HtmlMacrosServiceProvider extends ServiceProvider
 
     private function registerFormCheckbox()
     {
-        FormBuilder::macro('iCheckbox' , function($name, $text, $errors, $checked = false, $customClass = '') {
+        FormBuilder::macro('iCheckbox' , function($name, $text, $errors, $checked = false, $value = '1', $customClass = '') {
             $attributes = ['class' => 'form-control '.$customClass];
             return sprintf('
                 <div class="form-group has-feedback checkbox icheck %s">
                     <label>
-                      <input type="checkbox" name="%s" value="1" %s> %s
+                      <input type="checkbox" name="%s" value="%s" %s> %s
                     </label>
                     %s
                 </div>',
                 $errors->has($name) ? 'has-error' : '',
                 $name,
+                $value,
                 $checked ? 'checked' : '',
                 $text,
                 $errors->first($name, '<span class="help-block"><strong>:message</strong></span>'));

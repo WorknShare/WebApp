@@ -28,6 +28,8 @@ cp /vagrant/qrcode-maker /bin/qrcode-maker
 mysql -u root --password="root" --execute="CREATE USER 'laravel'@'localhost' IDENTIFIED BY 'secret'";
 mysql -u root --password="root" --execute="CREATE DATABASE worknshare DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci";
 mysql -u root --password="root" --execute="GRANT ALL PRIVILEGES ON worknshare.* TO 'laravel'@'localhost'";
+mysql -u root --password="root" --execute="CREATE DATABASE worknshare_test DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci";
+mysql -u root --password="root" --execute="GRANT ALL PRIVILEGES ON worknshare_test.* TO 'laravel'@'localhost'";
 
 a2enmod rewrite
 service apache2 restart
@@ -68,8 +70,6 @@ MAIL_ENCRYPTION=null
 PUSHER_APP_ID=
 PUSHER_APP_KEY=
 PUSHER_APP_SECRET=
-
-ROLLBAR_TOKEN="7345b105ed1b4c7990ae3ce449ca423b"
 EOF
 
 chmod 777 .env
