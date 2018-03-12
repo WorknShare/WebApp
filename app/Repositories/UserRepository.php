@@ -29,10 +29,10 @@ class UserRepository extends ResourceRepository
      */
 	protected function save(Model $model, Array $inputs)
 	{
-    $model->name = $inputs['name'];
+        $model->name = $inputs['name'];
 		$model->surname = $inputs['surname'];
 		$model->email = $inputs['email'];
-		if(isset($inputs['password'])) $user->password = $inputs['password'];
+		if(isset($inputs['password'])) $model->password = $inputs['password'];
 		$model->save();
 		return $model->id_client;
 	}

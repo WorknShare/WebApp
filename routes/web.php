@@ -25,12 +25,15 @@ Route::prefix('admin')->group(function() {
     Route::get('/', 'AdminController@index')->name('admin.home');
     Route::resource('site', 'SiteController');
 
-    //users
+    //Users
     Route::prefix('/user')->group(function() {
       Route::get('/', 'UserController@indexAdmin')->name('user.index');
       Route::get('/{id}/edit', 'UserController@editAdmin')->name('user.edit_admin');
       Route::put('/{id}', 'UserController@update')->name('user.update_admin');
     });
+
+    //Employees
+    Route::resource('employee', 'EmployeeController');
 
     //Plans
 	Route::resource('planadvantage', 'PlanAdvantageController', ['only' => ['index','store','update','destroy']]);
