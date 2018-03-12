@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\SearchRequest;
+use App\Http\Requests\EmployeeCreateRequest;
+use App\Http\Requests\EmployeeUpdateRequest;
+use App\Http\Requests\EmployeeUpdatePasswordRequest;
 use App\Repositories\EmployeeRepository;
 
 class EmployeeController extends Controller
@@ -55,18 +58,19 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.employee.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\EmployeeCreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EmployeeCreateRequest $request)
     {
-        //
+        $employee = $this->employeeRepository->store($request->all());
+        return redirect('admin/employees')->withOk("L'employé' " . $employee->surnname . ' ' . $employee->name . " a été créé.");
     }
 
     /**
@@ -77,7 +81,9 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        //
+        if(!is_numeric($id)) abort(404);
+        $employee = $this->employeeRepository->getById($id);
+        return view('admin.employee.show', compact('employee'));
     }
 
     /**
@@ -88,19 +94,24 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        //
+        if(!is_numeric($id)) abort(404);
+        $employee = $this->employeeRepository->getById($id);
+        return view('admin.employee.edit', compact('employee'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\EmployeeRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EmployeeRequest $request, $id)
     {
-        //
+        if(!is_numeric($id)) abort(404);
+
+        $this->employeeRepository->update($id, $request->all());
+        return redirect('admin/employee/'.$id)->withOk("L'employé " . $request->input('surname') . ' ' . $request->input('name') . " a été modifié.");
     }
 
     /**
@@ -111,6 +122,11 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(!is_numeric($id)) abort(404);
+        $employee = $this->employeeRepository->getById($id);
+        $name = $employee->name;
+        $surname = $employee->surname;
+        $this->employeeRepository->destroy($id);
+        return redirect('admin/employee')->withOk("L'employé " . $surname . ' ' .$name . " a été supprimé.");
     }
 }
