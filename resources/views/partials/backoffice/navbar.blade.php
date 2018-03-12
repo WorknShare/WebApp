@@ -55,7 +55,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li {!! strpos(Route::currentRouteName(), 'user.') !== FALSE ? 'class="active"' : '' !!}><a href="{{ route('user.index') }}"><i class="fa fa-circle-o"></i> Employés</a></li>
+            <li {!! strpos(Route::currentRouteName(), 'employee.index') !== FALSE ? 'class="active"' : '' !!}><a href="{{ route('employee.index') }}"><i class="fa fa-circle-o"></i> Employés</a></li>
             <li {!! strpos(Route::currentRouteName(), 'user.index') !== FALSE ? 'class="active"' : '' !!}><a href="{{ route('user.index') }}"><i class="fa fa-circle-o"></i> Clients</a></li>
           </ul>
         </li>
