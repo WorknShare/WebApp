@@ -20,7 +20,7 @@ class ChangedPasswordMiddleware
         $employee = Auth::user();
         if(!$employee->changed_password)
         {
-            return new RedirectResponse(url('admin/employee/'. $employee->id_employee . '/editpassword'));
+            return new RedirectResponse(url('admin/employee/'. $employee->id_employee . '/editpasswordprompt'));
         }
         return $next($request);
     }

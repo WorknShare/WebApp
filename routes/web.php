@@ -34,6 +34,7 @@ Route::prefix('admin')->group(function() {
 
   //Employees
   Route::resource('employee', 'EmployeeController');
+  Route::get('employee/{employee}/editpasswordprompt', 'EmployeeController@editPasswordPrompt')->name('employee.edit_password_prompt');
   Route::get('employee/{employee}/editpassword', 'EmployeeController@editPassword')->name('employee.edit_password');
   Route::post('employee/{employee}/editpassword', 'EmployeeController@updatePassword')->name('employee.update_password');
 

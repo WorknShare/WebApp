@@ -126,6 +126,7 @@ class EmployeeController extends Controller
     public function destroy($id)
     {
         if(!is_numeric($id)) abort(404);
+        if($id == Auth::user()->id_employee) abort(403);
         $employee = $this->employeeRepository->getById($id);
         $name = $employee->name;
         $surname = $employee->surname;
@@ -139,10 +140,25 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function editPasswordPrompt($id)
+    {
+        if(Auth::user()->id_employee == $id)
+            return view('admin.employee.edit_password_prompt', compact('id'));
+        else abort(403);
+    }
+
+    /**
+     * Show the form for editing the password
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function editPassword($id)
     {
-        if(Auth::user()->role == 1 || Auth::user()->id_employee == $id)
-            return view('admin.employee.edit_password', compact('id'));
+        if(Auth::user()->role == 1 || Auth::user()->id_employee == $id) {
+            $employee = $this->employeeRepository->getById($id);
+            return view('admin.employee.edit_password', compact('employee'));
+        }
         else abort(403);
     }
 

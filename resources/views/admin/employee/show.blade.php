@@ -59,11 +59,13 @@
 
 <div class="row">
 	<div class="col-xs-12">
+		@if($employee->id_employee != Auth::user()->id_employee)
 		{{ Form::open(['method' => 'DELETE', 'route' => ['employee.destroy', $employee->id_employee]]) }}
 			<button class="btn btn-danger pull-right" value="Supprimer" onclick="return confirm('Voulez-vous vraiment supprimer cet employé ?')" type="submit"><i class="fa fa-trash"></i> Supprimer</button>
 		{{ Form::close() }}
-		<a href="{{ route('employee.edit', $employee->id_employee) }}" class="btn btn-primary pull-right mr-xs-10"><i class="fa fa-pencil"></i> <span class="hidden-xs">Modifier</span></a>
-		<a class="btn btn-default pull-left" href='{{ route('site.index') }}'> <i class="fa fa-chevron-left"></i> Retour</a>
+		@endif
+		<a href="{{ route('employee.edit', $employee->id_employee) }}" class="btn btn-primary pull-right {{ $employee->id_employee != Auth::user()->id_employee ? 'mr-xs-10' : ''}}"><i class="fa fa-pencil"></i> <span class="hidden-xs">Modifier</span></a>
+		<a class="btn btn-default pull-left" href='{{ route('employee.index') }}'> <i class="fa fa-chevron-left"></i> Retour</a>
     </div>
 </div>
 @endsection
