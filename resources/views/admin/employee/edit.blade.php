@@ -57,7 +57,7 @@ Modifier un employé
 		        <div class="box-footer">
 		          <button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Modifier</button>
 		          <a href="{{ route('employee.edit_password', $employee->id_employee) }}" class="btn btn-primary pull-right mr-xs-10"><i class="fa fa-lock"></i> <span class="hidden-xs">Modifier le mot de passe</span></a>
-		          <a class="btn btn-default pull-left" href='{{ route('employee.index') }}'"> <i class="fa fa-chevron-left"></i> Retour</a>
+		          <a class="btn btn-default pull-left" href='{{ route('employee.show', $employee->id_employee) }}'"> <i class="fa fa-chevron-left"></i> Retour</a>
 		        </div>
 	        </form>
 		</div>
