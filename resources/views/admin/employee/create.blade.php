@@ -39,7 +39,7 @@ Créer un employé
 	              	</div>
 	              	{!! Form::controlWithIcon('password', 'password', $errors, '', 'Mot de passe', 'glyphicon-lock', 'Mot de passe', ["required" => "required"]) !!}
        				{!! Form::controlWithIcon('password', 'password_confirmation', $errors, '', 'Confirmation du mot de passe', 'glyphicon-log-in', 'Confirmation du mot de passe', ["required" => "required"]) !!}
-       				<div class="form-group has-feedback {{ $errors->has('phone') ? 'has-error' : '' }}">
+       				<div class="form-group has-feedback {{ $errors->has('role') ? 'has-error' : '' }}">
        					<label>Rôle</label>
 
 	       				<select class="form-control" required name="role">

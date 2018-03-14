@@ -9,6 +9,8 @@ use App\Http\Requests\Employee\EmployeeUpdateRequest;
 use App\Http\Requests\Employee\EmployeeUpdatePasswordRequest;
 use App\Repositories\EmployeeRepository;
 
+use Illuminate\Support\Facades\Auth;
+
 class EmployeeController extends Controller
 {
 
@@ -25,6 +27,7 @@ class EmployeeController extends Controller
     {
         $this->employeeRepository = $employeeRepository;
         $this->middleware('auth:admin'); //Requires admin permission
+        $this->middleware('password');
         //TODO access levels
     }
 
@@ -128,5 +131,41 @@ class EmployeeController extends Controller
         $surname = $employee->surname;
         $this->employeeRepository->destroy($id);
         return redirect('admin/employee')->withOk("L'employé " . $surname . ' ' .$name . " a été supprimé.");
+    }
+
+    /**
+     * Show the form for editing the password
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editPassword($id)
+    {
+        if(Auth::user()->role == 1 || Auth::user()->id_employee == $id)
+            return view('admin.employee.edit_password', compact('id'));
+        else abort(403);
+    }
+
+    /**
+     * Update the password specified resource in storage.
+     *
+     * @param  \App\Http\Request\Employee\EmployeeUpdatePasswordRequest $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePassword(EmployeeUpdatePasswordRequest $request, $id)
+    {
+        $employee = $this->employeeRepository->getById($id);
+
+        if(Auth::user()->role != 1 || Auth::user()->id_employee == $id)
+        {
+            $this->employeeRepository->update($id, ["password"=>$request->password, "changed_password" => true]);
+            return redirect('admin/employee/'.$id)->withOk("Votre mot de passe a été modifié.");
+        }
+        else
+        {
+            $this->employeeRepository->update($id, ["password"=>$request->password, "changed_password" => false]);
+            return redirect('admin/employee/'.$id)->withOk("Le mot de passe de l'employé " . $employee->surname . ' ' . $employee->name . " a été modifié.");
+        }
     }
 }

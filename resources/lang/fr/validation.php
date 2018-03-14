@@ -86,6 +86,7 @@ return [
     'unique' => 'La valeur du champ :attribute est déjà utilisée.',
     'uploaded' => "Le fichier du champ :attribute n'a pu être téléversé.",
     'url' => "Le format de l'URL de :attribute n'est pas valide.",
+    'match' => 'La valeur ne correspond pas.',
 
     /*
     |--------------------------------------------------------------------------
@@ -127,7 +128,10 @@ return [
             'after' => 'Le champ :attribute doit être une date postérieure à l\':date.',
         ],
         'advantages' => [
-            'required' => 'Un forfait doit avoir au moins un avantage',
+            'required' => 'Un forfait doit avoir au moins un avantage.',
+        ],
+        'oldPassword' => [
+            'match' => 'Le mot de passe est incorrect.'
         ],
     ],
 

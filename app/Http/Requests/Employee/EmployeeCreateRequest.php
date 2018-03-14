@@ -27,7 +27,7 @@ class EmployeeCreateRequest extends FormRequest
             'name' => 'required|string|max:25',
             'surname' => 'required|string|max:25',
             'email' => 'required|string|email|unique:employees,email,' . $this->employee. ',id_employee',
-            'phone' => 'string|regex:/^(\d{2}\s?){5}$/',
+            'phone' => 'nullable|string|regex:/^(\d{2}\s?){5}$/',
             'address' => 'required|string|max:255',
             'role' => 'required|integer|min:0|max:3',
             'password' => 'required|string|min:6|confirmed',

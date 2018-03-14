@@ -21,6 +21,7 @@ class ScheduleController extends Controller
     {
         $this->scheduleRepository = $scheduleRepository;
         $this->middleware('auth:admin'); //Requires admin permission
+        $this->middleware('password');
         //TODO access levels
     }
 

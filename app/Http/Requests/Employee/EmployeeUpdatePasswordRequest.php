@@ -4,6 +4,7 @@ namespace App\Http\Requests\Employee;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Employee;
+use Illuminate\Support\Facades\Auth;
 
 class EmployeeUpdatePasswordRequest extends FormRequest
 {
@@ -27,7 +28,8 @@ class EmployeeUpdatePasswordRequest extends FormRequest
         $rules = [];
         $old = Employee::find($this->employee)->password;
         $rules['password'] ='required|string|min:6|confirmed';
-        $rules['oldPassword'] = array('required','string','match:'.$old);
+        if(Auth::user()->role != 1 || Auth::user()->id_employee == $this->employee)
+            $rules['oldPassword'] = array('required','string','match:'.$old);
         return $rules;
     }
 }

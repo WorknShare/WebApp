@@ -21,6 +21,7 @@ class EquipmentTypeController extends Controller
     {
         $this->equipmentTypeRepository = $equipmentTypeRepository;
         $this->middleware('auth:admin'); //Requires admin permission
+        $this->middleware('password');
         //TODO access levels
     }
 
