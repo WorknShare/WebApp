@@ -22,8 +22,9 @@ Modifier un employé
 <div class="row">
 	<div class="col-xs-12">
 		<div class="box box-solid">
-			<form action="{{ route('employee.store') }}" method="post">
+			<form action="{{ route('employee.update', $employee->id_employee) }}" method="post">
 				{{ csrf_field() }}
+				{{ method_field('put') }}
 	        	<div class="box-body">
 	        		{!! Form::controlWithIcon('email', 'email', $errors, $employee->email, 'Email', 'glyphicon-envelope', 'Email', ["maxlength" => '255', "required" => "required"]) !!}
 	        		{!! Form::controlWithIcon('text', 'surname', $errors, $employee->surname, 'Prénom', 'glyphicon-user', 'Prénom', ["maxlength" => '255', "required" => "required"]) !!}
@@ -54,7 +55,7 @@ Modifier un employé
 	          	<!-- /.box-body -->
 
 		        <div class="box-footer">
-		          <button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Créer</button>
+		          <button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Modifier</button>
 		          <a href="{{ route('employee.edit_password', $employee->id_employee) }}" class="btn btn-primary pull-right mr-xs-10"><i class="fa fa-lock"></i> <span class="hidden-xs">Modifier le mot de passe</span></a>
 		          <a class="btn btn-default pull-left" href='{{ route('employee.index') }}'"> <i class="fa fa-chevron-left"></i> Retour</a>
 		        </div>

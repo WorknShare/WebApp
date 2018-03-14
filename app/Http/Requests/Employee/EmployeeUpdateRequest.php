@@ -23,6 +23,7 @@ class EmployeeUpdateRequest extends FormRequest
      */
     public function rules()
     {
+        \Debugbar::info($this->employee);
         return [
             'name' => 'required|string|max:25',
             'surname' => 'required|string|max:25',
