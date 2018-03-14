@@ -99,6 +99,7 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         if(!is_numeric($id)) abort(404);
+        if(Auth::user()->role == 1 || Auth::user()->id_employee != $id) abort(403);
         $employee = $this->employeeRepository->getById($id);
         return view('admin.employee.edit', compact('employee'));
     }
@@ -113,7 +114,7 @@ class EmployeeController extends Controller
     public function update(EmployeeUpdateRequest $request, $id)
     {
         if(!is_numeric($id)) abort(404);
-
+        if(Auth::user()->role == 1 || Auth::user()->id_employee != $id) abort(403);
         $this->employeeRepository->update($id, $request->all());
         return redirect('admin/employee/'.$id)->withOk("L'employé " . $request->input('surname') . ' ' . $request->input('name') . " a été modifié.");
     }
@@ -174,15 +175,16 @@ class EmployeeController extends Controller
     {
         $employee = $this->employeeRepository->getById($id);
 
-        if(Auth::user()->role != 1 || Auth::user()->id_employee == $id)
+        if(Auth::user()->id_employee == $id)
         {
             $this->employeeRepository->update($id, ["password"=>$request->password, "changed_password" => true]);
             return redirect('admin/employee/'.$id)->withOk("Votre mot de passe a été modifié.");
         }
-        else
+        else if(Auth::user()->role == 1)
         {
             $this->employeeRepository->update($id, ["password"=>$request->password, "changed_password" => false]);
             return redirect('admin/employee/'.$id)->withOk("Le mot de passe de l'employé " . $employee->surname . ' ' . $employee->name . " a été modifié.");
         }
+        else abort(403);
     }
 }
