@@ -27,7 +27,7 @@ class EmployeeController extends Controller
     {
         $this->employeeRepository = $employeeRepository;
         $this->middleware('auth:admin'); //Requires admin permission
-        $this->middleware('password');
+        $this->middleware('password', ['except' => ['editPassword', 'updatePassword']]);
         //TODO access levels
     }
 
