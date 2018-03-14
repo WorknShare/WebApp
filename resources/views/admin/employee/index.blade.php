@@ -57,7 +57,9 @@ Employés
 
 <div class="row bottom-controls">
 	<div class="col-xs-12">
+    @if(Auth::user()->role == 1)
     {{ link_to_route('employee.create', 'Ajouter un employé', [], ['class' => 'btn btn-primary pull-right']) }}
+    @endif
 		{{ $links }}
 	</div>
 </div>
