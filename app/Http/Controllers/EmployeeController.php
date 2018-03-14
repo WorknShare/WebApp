@@ -99,7 +99,7 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         if(!is_numeric($id)) abort(404);
-        if(Auth::user()->role == 1 || Auth::user()->id_employee != $id) abort(403);
+        if(Auth::user()->role != 1 && Auth::user()->id_employee != $id) abort(403);
         $employee = $this->employeeRepository->getById($id);
         return view('admin.employee.edit', compact('employee'));
     }
@@ -114,7 +114,7 @@ class EmployeeController extends Controller
     public function update(EmployeeUpdateRequest $request, $id)
     {
         if(!is_numeric($id)) abort(404);
-        if(Auth::user()->role == 1 || Auth::user()->id_employee != $id) abort(403);
+        if(Auth::user()->role != 1 && Auth::user()->id_employee != $id) abort(403);
         $this->employeeRepository->update($id, $request->all());
         return redirect('admin/employee/'.$id)->withOk("L'employé " . $request->input('surname') . ' ' . $request->input('name') . " a été modifié.");
     }

@@ -87,6 +87,7 @@ return [
     'uploaded' => "Le fichier du champ :attribute n'a pu être téléversé.",
     'url' => "Le format de l'URL de :attribute n'est pas valide.",
     'match' => 'La valeur ne correspond pas.',
+    'least' => 'Il n\'y a pas assez de ce :attribute.',
 
     /*
     |--------------------------------------------------------------------------
@@ -132,6 +133,9 @@ return [
         ],
         'oldPassword' => [
             'match' => 'Le mot de passe est incorrect.'
+        ],
+        'role' => [
+            'least' => 'Il doit y avoir au moins un administrateur.'
         ],
     ],
 
@@ -180,5 +184,6 @@ return [
         'hour_opening' => 'heure d\'ouverture',
         'hour_closing' => 'heure de fermeture',
         'advantages' => 'avantages',
+        'role' => 'rôle',
     ],
 ];
