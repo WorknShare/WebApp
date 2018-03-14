@@ -13,7 +13,7 @@
 
 @section('breadcrumb_nav')
 	<li><a href="{{ route('admin.home') }}"><i class="fa fa-home"></i> Tableau de bord</a></li>
-	<li><a href="{{ route('site.index') }}"><i class="fa fa-map-marker"></i> Employées</a></li>
+	<li><a href="{{ route('site.index') }}"><i class="fa fa-map-marker"></i> Employés</a></li>
 	<li class="active">{{ $employee->surname . ' ' . $employee->name }}</li>
 @endsection
 
