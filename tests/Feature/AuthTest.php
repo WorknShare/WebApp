@@ -35,6 +35,11 @@ class AuthTest extends TestCase
     		$this->employees[$i] = factory(Employee::class)->create(['role' => $i]);
     	}
 
+        for($i = 4 ; $i < 8 ; $i++)
+        {
+            $this->employees[$i] = factory(Employee::class)->create(['role' => $i-4, 'changed_password' => false]);
+        }
+
     }
 
     /**
@@ -61,6 +66,19 @@ class AuthTest extends TestCase
     	$this->be($this->employees[1], 'admin');
         $this->get('/admin/login')->assertRedirect('/admin');
         Auth::logout();
+
+        //Authenticated but didn't change password
+        for ($i = 4 ; $i < 8 ; $i++) { 
+            $this->be($this->employees[$i], 'admin');
+            $this->get('/admin')->assertRedirect('/admin/employee/'. $this->employees[$i]->id_employee . '/editpassword');
+            $this->get('/admin/employee')->assertRedirect('/admin/employee/'. $this->employees[$i]->id_employee . '/editpassword');
+            $this->get('/admin/equipmenttype')->assertRedirect('/admin/employee/'. $this->employees[$i]->id_employee . '/editpassword');
+            $this->get('/admin/plan')->assertRedirect('/admin/employee/'. $this->employees[$i]->id_employee . '/editpassword');
+            $this->get('/admin/planadvantage')->assertRedirect('/admin/employee/'. $this->employees[$i]->id_employee . '/editpassword');
+            $this->get('/admin/site')->assertRedirect('/admin/employee/'. $this->employees[$i]->id_employee . '/editpassword');
+            //$this->get('/admin/user')->assertRedirect('/admin/employee/'. $this->employees[$i]->id_employee . '/editpassword');
+            Auth::logout();
+        }
 
         //------------------------------
     	//Frontoffice
