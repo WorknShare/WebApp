@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
         });
         Validator::extend('least', function ($attribute, $value, $parameters, $validator) {
             $employee = Employee::find($parameters[0]);
-            return $value == $parameters[1] || DB::table('employees')->where($attribute, '=', $parameters[1])->count()-1 >= 1;
+            return $value == $parameters[1] || DB::table('employees')->where($attribute, '=', $parameters[1])->count()-($employee->role == $parameters[1] ? 1 : 0) >= 1;
         });
     }
 

@@ -39,6 +39,7 @@ Modifier un employé
 	                	<span class="help-block"><strong>{{ $errors->first('phone') }}</strong></span>
 	                	@endif
 	              	</div>
+	              	@if(Auth::user()->role == 1)
        				<div class="form-group has-feedback {{ $errors->has('role') ? 'has-error' : '' }}">
        					<label>Rôle</label>
 
@@ -51,6 +52,7 @@ Modifier un employé
 	                	<span class="help-block"><strong>{{ $errors->first('role') }}</strong></span>
 	                	@endif
        				</div>
+       				@endif
 	          	</div>
 	          	<!-- /.box-body -->
 

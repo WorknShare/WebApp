@@ -115,7 +115,7 @@ class EmployeeController extends Controller
     {
         if(!is_numeric($id)) abort(404);
         if(Auth::user()->role != 1 && Auth::user()->id_employee != $id) abort(403);
-        $this->employeeRepository->update($id, $request->all());
+        $this->employeeRepository->update($id, Auth::user()->role == 1 ? $request->all() : $request->except(['role']));
         return redirect('admin/employee/'.$id)->withOk("L'employé " . $request->input('surname') . ' ' . $request->input('name') . " a été modifié.");
     }
 
