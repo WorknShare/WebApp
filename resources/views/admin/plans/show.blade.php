@@ -64,10 +64,12 @@
 
 <div class="row">
 	<div class="col-xs-12">
+		@if(Auth::user()->role == 1)
 		{{ Form::open(['method' => 'DELETE', 'route' => ['plan.destroy', $plan->id_plan]]) }}
 			<button class="btn btn-danger pull-right" value="Supprimer" onclick="return confirm('Voulez-vous vraiment supprimer ce forfait ?')" type="submit"><i class="fa fa-trash"></i> Supprimer</button>
 		{{ Form::close() }}
 		<a href="{{ route('plan.edit', $plan->id_plan) }}" class="btn btn-primary pull-right" style="margin-right: 5px"><i class="fa fa-pencil"></i> Modifier</a>
+		@endif
 		<a class="btn btn-default pull-left" href='{{ route('plan.index') }}'> <i class="fa fa-chevron-left"></i> Retour</a>
     </div>
 </div>

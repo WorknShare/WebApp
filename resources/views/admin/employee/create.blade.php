@@ -45,7 +45,7 @@ Créer un employé
 	       				<select class="form-control" required name="role">
 							<option value="1"> Administrateur</option>
 							<option value="2"> Gestionnaire</option>
-							<option value="3"> Manager</option>
+							<option value="3"> Responsable client</option>
 	                  	</select>
 	                  	@if($errors->has('role'))
 	                	<span class="help-block"><strong>{{ $errors->first('role') }}</strong></span>

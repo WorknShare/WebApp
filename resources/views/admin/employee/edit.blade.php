@@ -46,7 +46,7 @@ Modifier un employé
 	       				<select class="form-control" required name="role" autocomplete="off">
 							<option value="1" {{ $employee->role == 1 ? 'selected' : '' }}> Administrateur</option>
 							<option value="2" {{ $employee->role == 2 ? 'selected' : '' }}> Gestionnaire</option>
-							<option value="3" {{ $employee->role == 3 ? 'selected' : '' }}> Manager</option>
+							<option value="3" {{ $employee->role == 3 ? 'selected' : '' }}> Responsable client</option>
 	                  	</select>
 	                  	@if($errors->has('role'))
 	                	<span class="help-block"><strong>{{ $errors->first('role') }}</strong></span>

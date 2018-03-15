@@ -27,7 +27,7 @@ Modifier un forfait
 				<div class="box-body">
 					{!! Form::controlWithIcon('text', 'name', $errors, $plan->name, 'Nom', 'glyphicon-font', 'Nom', ["maxlength" => '255', "required" => "required"]) !!}
 					{!! Form::controlWithIcon('text', 'description', $errors, $plan->description, 'Description', 'glyphicon-list-alt', 'Description', ["maxlength" => '255', "required" => "required"]) !!}
-					{!! Form::controlWithIcon('number', 'price', $errors, $plan->price, 'Prix', 'glyphicon-euro', 'Prix', ["step" => '0.1', "min" => "0", "required" => "required"]) !!}
+					{!! Form::controlWithIcon('number', 'price', $errors, $plan->price, 'Prix', 'glyphicon-euro', 'Prix', ["step" => '0.01', "min" => "0", "required" => "required"]) !!}
 					<div class="row {{ $errors->has('advantages') ? 'has-error' : '' }}">
 						<div class="col-xs-12">
 							<h4>Avantages</h4>

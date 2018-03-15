@@ -22,7 +22,7 @@ class PlanAdvantageController extends Controller
         $this->planAdvantageRepository = $planAdvantageRepository;
         $this->middleware('auth:admin'); //Requires admin permission
         $this->middleware('password');
-        //TODO access levels
+        $this->middleware('access:1', ['except' => ['index']]);
     }
 
     /**

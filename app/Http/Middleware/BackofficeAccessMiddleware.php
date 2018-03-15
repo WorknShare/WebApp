@@ -15,7 +15,7 @@ class BackofficeAccessMiddleware
      */
     public function handle($request, Closure $next, $role)
     {
-        if($request->user()->role == $role)
+        if($request->user()->role <= $role && $request->user()->role > 0)
             return $next($request);
         else
             return abort(403);

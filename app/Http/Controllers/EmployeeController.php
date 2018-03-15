@@ -29,7 +29,6 @@ class EmployeeController extends Controller
         $this->middleware('auth:admin'); //Requires admin permission
         $this->middleware('password', ['except' => ['editPasswordPrompt', 'updatePassword']]);
         $this->middleware('access:1', ['only' => ['create', 'store', 'destroy']]);
-        //TODO access levels
     }
 
     /**
@@ -116,7 +115,10 @@ class EmployeeController extends Controller
         if(!is_numeric($id)) abort(404);
         if(Auth::user()->role != 1 && Auth::user()->id_employee != $id) abort(403);
         $this->employeeRepository->update($id, Auth::user()->role == 1 ? $request->all() : $request->except(['role']));
-        return redirect('admin/employee/'.$id)->withOk("L'employé " . $request->input('surname') . ' ' . $request->input('name') . " a été modifié.");
+        return redirect('admin/employee/'.$id)
+            ->withOk(Auth::user()->id_employee == $id ? 
+                "Votre profil a été modifié." :
+                "L'employé " . $request->input('surname') . ' ' . $request->input('name') . " a été modifié.");
     }
 
     /**

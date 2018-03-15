@@ -27,7 +27,7 @@ class EquipmentController extends Controller
         $this->equipmentTypeRepository = $equipmentTypeRepository;
         $this->middleware('auth:admin'); //Requires admin permission
         $this->middleware('password');
-        //TODO access levels
+        $this->middleware('access:2', ['except' => ['show']]);
     }
 
     /**
@@ -72,7 +72,7 @@ class EquipmentController extends Controller
         $site = $equipment->site()->first();
         $siteId = is_null($site) ? 0 : $site->id_site;
 
-        return view('admin.equipment.show', compact('equipment', 'type', 'siteId'));
+        return view('admin.equipment.show', compact('equipment', 'type', 'site', 'siteId'));
     }
 
     /**
