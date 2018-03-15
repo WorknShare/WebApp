@@ -38,3 +38,10 @@ Route::prefix('admin')->group(function() {
 });
 Route::resource('schedule', 'ScheduleController', ['only' => ['store','destroy']]);
 Route::resource('room', 'RoomController', ['except' => ['index', 'create']]);
+Route::get('room/calendar/{id}', 'RoomController@calendar')->name('room.calendar');
+
+
+Route::get('reserveroom/{reserveroom}', function ($id)
+{
+  dd($id);
+})->name('reserveroom.show');

@@ -17,8 +17,13 @@ class Room extends Model
     'name','place',
   ];
 
-  public function room()
+  public function typeRoom()
   {
     return $this->belongsTo('App\TypeOfRoom', 'id_room_type');
+  }
+
+  public function reserve()
+  {
+    return $this->hasMany('App\ReserveRoom', 'id_room');
   }
 }

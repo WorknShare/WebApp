@@ -17,8 +17,8 @@ public $timestamps = false;
     'name',
   ];
 
-  public function plans()
+  public function room()
   {
-    return $this->belongsToMany('App\Room', 'id_room');
+    return $this->hasMany('App\Room', 'id_room');
   }
 }

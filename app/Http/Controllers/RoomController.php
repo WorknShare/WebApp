@@ -51,6 +51,15 @@ class RoomController extends Controller
       return view('admin.rooms.show', compact('room'));
     }
 
+    public function calendar($id)
+    {
+      if(!is_numeric($id)) abort(404);
+      $room = $this->roomRepository->getById($id);
+      $calendar = $room->reserve()->join('clients', 'reserve_room.id_client', '=', 'clients.id_client')->select('reserve_room.*', 'clients.name')->get();;
+      return response()->json([
+          'calendar' => $calendar
+      ]);
+    }
     /**
      * Show the form for editing the specified resource.
      *
