@@ -48,7 +48,8 @@ class RoomController extends Controller
     {
       if(!is_numeric($id)) abort(404);
       $room = $this->roomRepository->getById($id);
-      return view('admin.rooms.show', compact('room'));
+      $site = $room->site()->get()[0];
+      return view('admin.rooms.show', compact('room', 'site'));
     }
 
     public function calendar($id)
@@ -83,9 +84,8 @@ class RoomController extends Controller
     public function update(RoomRequest $request, $id)
     {
       if(!is_numeric($id)) abort(404);
-
       $this->roomRepository->update($id, $request->all());
-      return redirect('admin/site/room/'.$id)->withOk("La salle " . $request->input('name') . " a été modifié.");
+      return redirect('admin/site/'. $request->get('id_site'))->withOk("La salle " . $request->input('name') . " a été modifié.");
     }
 
     /**

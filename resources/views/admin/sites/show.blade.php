@@ -160,12 +160,14 @@
 									      <th>places maximum</th>
 												<th style="width:30px"></th>
 		                    <th style="width:30px"></th>
+												<th style="width:30px"></th>
 									    </tr>
 									    @foreach ($rooms as $room)
 									    <tr>
 									    	<td>{{ $room->name }}</td>
 									    	<td>{{ $room->room_name }}</td>
 									    	<td>{{ $room->place }}</td>
+												<td><a class="point-cursor" href="{{ route('room.edit', $room->id_room) }}"><i class="fa fa-pencil"></td>
 												<td><a class="point-cursor" href="{{ route('room.show', $room->id_room) }}"><i class="fa fa-eye"></i></a></td>
 									    	<td>
 									    		{{ Form::open(['method' => 'DELETE', 'route' => ['room.destroy', $room->id_room]]) }}

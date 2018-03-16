@@ -1,23 +1,29 @@
 
 <script type="text/javascript">
+
 $(function(){
   ajaxCalendar();
 });
 
 $('body').on('click', '#test', function() {
   ajaxCalendar();
+
 });
 
 
 function ajaxCalendar() {
-  var url = $("#route-calendar").text();
-  console.log(url);
+  var url = '{{ route('room.calendar', $room->id_room)}}';
   $.ajax({
     type : 'GET',
     url : url,
     dataType: "json"
   })
   .done(function(data) {
+    console.log(data);
+    $('#title-room').text('{{ $room->name}}');
+    $('#route-site').attr("href", "{{ route('site.show', $site->id_site)}}");
+    $('#route-site').text('{{$site->name}}');
+    $('#name-room').text('{{$room->name}}');
     calendarDisplay(data);
   })
   .fail(function(data) {
@@ -28,18 +34,15 @@ function ajaxCalendar() {
 function calendarDisplay(data) {
   $('#container').text("");
   $('#container').html("<div id='calendar' class='fc fc-unthemed fc-ltr'></div>");
-  console.log(data.calendar);
   var array = [];
 
   $.each(data.calendar,function(index, value){
-    console.log(value);
     var jsDateStart = moment(value.date_start).format("");
     var jsDateEnd = moment(value.date_end).format("");
     var url = '{{ route('reserveroom.show', ':id')}}';
     url = url.replace(':id', value.id_reserve_room);
     array.push({'title' : value.name, 'start' : jsDateStart, 'end' : jsDateEnd, 'allDay' : false, 'backgroundColor' : '#3c8dbc', 'borderColor' : '#3c8dbc', url :  url});
   });
-  console.log(array);
 
   /* initialize the external events
   -----------------------------------------------------------------*/
@@ -55,12 +58,6 @@ function calendarDisplay(data) {
       // store the Event Object in the DOM element so we can get to it later
       $(this).data('eventObject', eventObject)
 
-      // make the event draggable using jQuery UI
-      $(this).draggable({
-        zIndex        : 1070,
-        revert        : true, // will cause the event to go back to its
-        revertDuration: 0  //  original position after the drag
-      })
 
     })
   }
@@ -76,7 +73,7 @@ function calendarDisplay(data) {
 
     customButtons: {
       refresh: {
-        text: 'refresh',
+        text: 'Actualiser',
         click: function() {
           ajaxCalendar();
         }
@@ -87,12 +84,6 @@ function calendarDisplay(data) {
       left  : 'prev,next today, refresh',
       center: 'title',
       right : 'month,agendaWeek,agendaDay'
-    },
-    buttonText: {
-      today: 'aujourd\'hui',
-      month: 'mois',
-      week : 'semaine',
-      day  : 'jour'
     },
     //Random default events
     events    : array,
@@ -135,5 +126,7 @@ function calendarDisplay(data) {
     //Remove event from text input
     $('#new-event').val('')
   });
+
+  return array;
 }
 </script>

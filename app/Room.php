@@ -14,9 +14,13 @@ class Room extends Model
   * @var array
   */
   protected $fillable = [
-    'name','place',
+    'name','place', 'id_room_type',
   ];
 
+  public function site()
+  {
+    return $this->belongsTo('App\Site', 'id_site');
+  }
   public function typeRoom()
   {
     return $this->belongsTo('App\TypeOfRoom', 'id_room_type');
