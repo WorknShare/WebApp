@@ -43,3 +43,10 @@ function getDay($index) {
 
 	return Lang::get($days[$index]);
 }
+
+function planHasAdvantage($plan, $idAdvantage) {
+	foreach ($plan->advantages as $advantage) {
+		if($advantage->id_plan_advantage == $idAdvantage) return true;
+	}
+	return false;
+}

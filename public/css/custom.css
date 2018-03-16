@@ -1,39 +1,39 @@
 .main-header .logo .logo-lg {
  	vertical-align: middle;
  	display: inline-block;
- }
+}
 
- .main-header .logo {
- 	padding: 0;
- }
+.main-header .logo {
+	padding: 0;
+}
 
- .navbar-brand {
+.navbar-brand {
  	padding-top: 9px;
- }
+}
 
 .navbar-brand > img {
  	display: inline-block;
- }
+}
 
- .icheckbox_margin {
+.icheckbox_margin {
  	margin-right: 5px !important;
- }
+}
 
- .icheck label, .ellipsis {
+.icheck label, .ellipsis {
  	white-space: nowrap;
  	overflow: hidden;
 	text-overflow: ellipsis;
- }
+}
 
- .icon-check, .alert .fa {
+.icon-check, .alert .fa {
  	margin-right: 5px;
  	font-size: 20px;
  	vertical-align: text-bottom;
- }
+}
 
- .bottom-controls {
+.bottom-controls {
  	margin-top: 15px;
- }
+}
 
 .content-vertical {
 	display: flex;
@@ -81,6 +81,28 @@
 
 .table-container-responsive {
 	overflow-x:auto;
+}
+
+.comparative-header {
+	font-size: 25px;
+}
+
+.comparative-icon {
+	font-size: 25px;
+}
+
+.comparative-icon.text-success {
+	color: #00a65a;
+}
+
+.comparative-description {
+	max-width: 150px;
+	white-space: normal !important
+}
+
+.comparative-table {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-weight: 300;
 }
 
 /*Reponsive title */

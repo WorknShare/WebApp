@@ -28,7 +28,7 @@ class PlanController extends Controller
     {
         $this->planRepository = $planRepository;
         $this->planAdvantageRepository = $planAdvantageRepository;
-        $this->middleware('auth:admin'); //Requires admin permission
+        $this->middleware('auth:admin', ['except' => ['indexPublic']]); //Requires admin permission
         //TODO access levels
     }
 
@@ -43,6 +43,18 @@ class PlanController extends Controller
         $links = $plans->render();
         $advantagesCount = DB::table('plan_advantages')->count(); //Used to display info alert if no advantage exist
         return view('admin.plans.index', compact('plans', 'links', 'advantagesCount'));
+    }
+
+    /**
+     * Display a public comparative listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexPublic()
+    {
+        $plans = \App\Plan::with('advantages')->withCount('advantages')->orderBy('advantages_count', 'asc')->get();
+        $planAdvantages = \App\PlanAdvantage::withCount('plans')->orderBy('plans_count', 'desc')->orderBy('id_plan_advantage', 'asc')->get();
+        return view('plans_index', compact('plans', 'planAdvantages'));
     }
 
     /**

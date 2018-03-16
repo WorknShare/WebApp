@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('body-class')
-skin-blue sidebar-mini layout-top-nav
+@section('title')
+Forfaits
 @endsection
 
-@section('navigation')
-@include('partials.frontoffice.navbar')
+@section('body-class')
+skin-blue sidebar-mini layout-top-nav
 @endsection
 
 @section('content-wrapper')
@@ -14,12 +14,8 @@ skin-blue sidebar-mini layout-top-nav
 
    <!-- Main content -->
    <section class="container">
-   	  @yield('page_title')
-   	  <ol class="breadcrumb">
-        @yield('breadcrumb_nav')
-      </ol>
-      @yield('content')
-
+      	@component('components.plan_comparative', ['plans' => $plans, 'planAdvantages'=> $planAdvantages])
+		@endcomponent
    </section>
    <!-- /.content -->
 </div>

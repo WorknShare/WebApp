@@ -52,5 +52,4 @@ Forfaits
 		{{ $links }}
 	</div>
 </div>
-
 @endsection

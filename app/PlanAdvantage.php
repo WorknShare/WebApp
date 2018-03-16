@@ -21,6 +21,6 @@ class PlanAdvantage extends Model
 
     public function plans()
 	{
-		return $this->belongsToMany('App\Plan', 'plan_has_advantage', 'id_plan', 'id_plan_advantage');
+		return $this->belongsToMany('App\Plan', 'plan_has_advantage', 'id_plan_advantage', 'id_plan');
 	}
 }
