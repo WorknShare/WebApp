@@ -193,7 +193,7 @@
 										<input style="margin-bottom : 2%" class="form-control" placeholder="name" maxlength="255" name="name" type="text" required>
 										<input style="margin-bottom : 2%" class="form-control" placeholder="place limit" maxlength="255" name="place" type="number" required>
 										<select  style="margin-bottom : 2%" name="id_room_type" class="form-control">
-											@foreach(App\RoomTypes::all() as $roomtType)
+											@foreach(App\RoomTypes::where("is_deleted", "=", 0)->get() as $roomtType)
 	     									<option value="{{ $roomtType->id_room_type }}">{{ $roomtType->name }}</option>
 	 										@endforeach
 										</select>
