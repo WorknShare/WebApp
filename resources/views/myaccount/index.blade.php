@@ -6,7 +6,7 @@ information personnelles
 
 @section('page_title')
 	@component('components.header')
-	  @slot('title')Information personnelles @endslot
+	  @slot('title')Profil @endslot
 	  @slot('description')Vos informations @endslot
 	@endcomponent
 @endsection

@@ -160,7 +160,7 @@ class UserController extends Controller
   */
   public function updatePwd(PasswordRequest $request)
   {
-    
+
     if (!(Hash::check($request->get('oldPwd'), Auth::user()->password))) {
       return redirect()->back()->with("error","Your current password does not matches with the password you provided. Please try again.");
     }
@@ -187,7 +187,10 @@ class UserController extends Controller
   {
     $token = Auth::user()->tokenQrCode;
     $content = storage_path() . '/app/public/images/qrCode/'. $token .'.png';
-    return response()->file($content);
+    $headers = array(
+      "cache-control" => 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
+    );
+    return response()->file($content,$headers);
   }
 
   public function QrCodeDownload()

@@ -6,13 +6,13 @@ information personnelles
 
 @section('page_title')
 	@component('components.header')
-	  @slot('title')Information personnelles @endslot
-	  @slot('description')Vos informations @endslot
+	  @slot('title')Profil @endslot
+	  @slot('description')QrCode @endslot
 	@endcomponent
 @endsection
 
 @section('breadcrumb_nav')
-	<li><a href="{{ route('myaccount.index') }}"><i class="fa fa-home"></i> Information personnelles</a></li>
+	<li><a href="{{ route('myaccount.index') }}"><i class="fa fa-home"></i>Vos informations</a></li>
 	<li class="active">Qrcode</li>
 @endsection
 
