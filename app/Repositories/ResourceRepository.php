@@ -58,7 +58,7 @@ abstract class ResourceRepository
   {
     $search = '%'.strtolower($value).'%';
     if($this->softDeleted)
-      return $this->model->whereRaw('LOWER('.$column.') LIKE ?', array($search))->andWhere('is_deleted','=',0)->take($limit)->get();
+      return $this->model->whereRaw('LOWER('.$column.') LIKE ?', array($search))->where('is_deleted','=',0)->take($limit)->get();
     else
       return $this->model->whereRaw('LOWER('.$column.') LIKE ?', array($search))->take($limit)->get();
   }
@@ -117,7 +117,7 @@ abstract class ResourceRepository
    */
   public function exists($id)
   {
-    return $this->softDeleted ? $this->model->where($this->model->getKeyName(), $id)->andWhere('is_deleted','=',0)->exists() : $this->model->where($this->model->getKeyName(), $id)->exists();
+    return $this->softDeleted ? $this->model->where([[$this->model->getKeyName(), $id],['is_deleted','=',0]])->exists() : $this->model->where($this->model->getKeyName(), $id)->exists();
   }
 
   /**
