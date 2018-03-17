@@ -64,11 +64,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $maxId = User::max('id_client') + 1;
+        $token = sha1('$w$n$s$2'. $maxId . time());
+        $qrcode_maker = 'cd /bin && qrcode-maker ' . $data['email'] . ' ' . $token;
+        shell_exec($qrcode_maker);
+
         return User::create([
             'name' => $data['name'],
             'surname' => $data['surname'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'password' => $data['password'],
+            'tokenQrCode' => $token,
         ]);
     }
 }

@@ -116,21 +116,33 @@
 .mt-xs-10 { margin-top: 10px; }
 .mt-xs-15 { margin-top: 15px; }
 .mt-xs-0 { margin-top: 0px; }
+.mr-xs-10 { margin-right: 10px; }
+.mr-xs-15 { margin-right: 15px; }
+.mr-xs-0 { margin-right: 0px; }
 
 @media (min-width: 768px) {
 	.mt-sm-10 { margin-top: 10px; }
 	.mt-sm-15 { margin-top: 15px; }
  	.mt-sm-0 { margin-top: 0px; }
+ 	.mr-sm-10 { margin-right: 10px; }
+	.mr-sm-15 { margin-right: 15px; }
+ 	.mr-sm-0 { margin-right: 0px; }
 }
 
 @media (min-width: 992px) {
  	.mt-md-10 { margin-top: 10px; }
  	.mt-md-15 { margin-top: 15px; }
  	.mt-md-0 { margin-top: 0px; }
+ 	.mr-md-10 { margin-right: 10px; }
+ 	.mr-md-15 { margin-right: 15px; }
+ 	.mr-md-0 { margin-right: 0px; }
 }
 
 @media (min-width: 1200px) {
 	.mt-lg-10 { margin-top: 10px; }
 	.mt-lg-15 { margin-top: 15px; }
 	.mt-lg-0 { margin-top: 0px; }
+	.mr-lg-10 { margin-right: 10px; }
+	.mr-lg-15 { margin-right: 15px; }
+	.mr-lg-0 { margin-right: 0px; }
 }

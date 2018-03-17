@@ -11,6 +11,7 @@ class Employee extends Authenticatable
 {
     use Notifiable;
 
+    protected $table = 'employees';
     protected $guard = 'admin';
     protected $primaryKey = "id_employee";
 
@@ -20,7 +21,7 @@ class Employee extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'surname', 'email', 'password', 'phone', 'address'
+        'name', 'surname', 'email', 'password', 'phone', 'address', 'changed_password', 'role'
     ];
 
     /**
@@ -32,5 +33,8 @@ class Employee extends Authenticatable
         'password', 'remember_token',
     ];
 
-    protected $table = 'employees';
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
 }

@@ -25,7 +25,8 @@ Avantages de forfaits
   'fieldName' => 'description',
   'noResourceMessage' => 'Il n\'y a aucun avantage de forfait',
   'resources' => $advantages,
-  'links' => $links
+  'links' => $links,
+  'canManage' => Auth::user()->role == 1
   ])
 @endcomponent
 @endsection

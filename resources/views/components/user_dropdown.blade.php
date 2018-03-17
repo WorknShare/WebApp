@@ -12,7 +12,7 @@
  	<!-- Menu Footer-->
  	<li class="user-footer">
  		<div class="pull-left">
- 			<a href="#" class="btn btn-default btn-flat">Profil</a>
+ 			<a href="{{ $admin ? route('employee.show',Auth::user()->id_employee) : route('myaccount.index') }}" class="btn btn-default btn-flat">Profil</a>
  		</div>
  		<div class="pull-right">
  			<a href="{{ route($admin ? 'admin.logout' : 'logout') }}" class="btn btn-default btn-flat" onclick="event.preventDefault();

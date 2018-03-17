@@ -28,7 +28,8 @@ Types de matériel
   'noResourceMessage' => 'Il n\'y a aucun matériel',
   'resources' => $equipment,
   'parentResourceId' => $type->id_equipment_type,
-  'links' => $links
+  'links' => $links,
+  'canManage' => Auth::user()->role <= 2 && Auth::user()->role > 0
   ])
 @endcomponent
 

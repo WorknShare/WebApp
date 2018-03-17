@@ -31,7 +31,8 @@ class AddEquipmentSiteColumn extends Migration
     public function down()
     {
         Schema::table('equipment', function($table) {
-          $table->dropColumn('id_site');
+            $table->dropForeign(['id_site']);
+            $table->dropColumn('id_site');
         });
     }
 }

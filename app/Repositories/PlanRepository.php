@@ -53,6 +53,7 @@ class PlanRepository extends ResourceRepository
 	{
 		$model->name = $inputs['name'];
         $model->description = $inputs['description'];
+        $model->price = $inputs['price'];
 
         $model->save();
 

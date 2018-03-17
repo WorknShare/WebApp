@@ -46,7 +46,7 @@ Forfaits
 
 <div class="row bottom-controls">
 	<div class="col-xs-12">
-		@if($advantagesCount > 0)
+		@if($advantagesCount > 0 && Auth::user()->role == 1)
 		{{ link_to_route('plan.create', 'Ajouter un forfait', [], ['class' => 'btn btn-primary pull-right']) }}
 		@endif
 		{{ $links }}

@@ -10,7 +10,7 @@ function backoffice_role($rank) {
 		case 2:
 			return "Gestionnaire";
 		case 3:
-			return "Manager";
+			return "Responsable client";
 		default:
 			return "Default role";
 	}

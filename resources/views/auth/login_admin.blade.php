@@ -22,8 +22,8 @@ login-page
 
     <form action="{{ route('admin.login') }}" method="post">
         {{ csrf_field() }}
-        {!! Form::controlWithIcon('email', 'email', $errors, old('email'), 'Email', 'glyphicon-envelope', '', ["maxlength" => '255']) !!}
-        {!! Form::controlWithIcon('password', 'password', $errors, '', 'Mot de passe', 'glyphicon-lock') !!}
+        {!! Form::controlWithIcon('email', 'email', $errors, old('email'), 'Email', 'glyphicon-envelope', '', ["maxlength" => '255', "required" => "required"]) !!}
+        {!! Form::controlWithIcon('password', 'password', $errors, '', 'Mot de passe', 'glyphicon-lock', '', ["required" => "required"]) !!}
         <div class="row">
             <div class="col-xs-7">
               {!! Form::iCheckbox('remember', 'Se souvenir de moi', $errors) !!}

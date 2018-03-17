@@ -20,13 +20,26 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/plans', 'PlanController@indexPublic')->name('plan.comparative');
 
 Route::prefix('admin')->group(function() {
-    Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
-    Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
-    Route::post('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
-    Route::get('/', 'AdminController@index')->name('admin.home');
-    Route::resource('site', 'SiteController');
+  Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+  Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
+  Route::post('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
+  Route::get('/', 'AdminController@index')->name('admin.home');
+  Route::resource('site', 'SiteController');
 
-    //Plans
+  //Users
+  Route::prefix('/user')->group(function() {
+    Route::get('/', 'UserController@indexAdmin')->name('user.index');
+    Route::get('/{id}/edit', 'UserController@editAdmin')->name('user.edit_admin');
+    Route::put('/{id}', 'UserController@update')->name('user.update_admin');
+  });
+
+  //Employees
+  Route::resource('employee', 'EmployeeController');
+  Route::get('employee/{employee}/editpasswordprompt', 'EmployeeController@editPasswordPrompt')->name('employee.edit_password_prompt');
+  Route::get('employee/{employee}/editpassword', 'EmployeeController@editPassword')->name('employee.edit_password');
+  Route::post('employee/{employee}/editpassword', 'EmployeeController@updatePassword')->name('employee.update_password');
+
+  //Plans
 	Route::resource('planadvantage', 'PlanAdvantageController', ['only' => ['index','store','update','destroy']]);
 	Route::resource('plan', 'PlanController');
 
@@ -37,3 +50,17 @@ Route::prefix('admin')->group(function() {
 
 });
 Route::resource('schedule', 'ScheduleController', ['only' => ['store','destroy']]);
+
+Route::prefix('myaccount')->group(function(){
+  Route::get('/QrCode', 'UserController@showQrCode')->name('myaccount.qrcode');
+  Route::get('/pwd', 'UserController@editPassword')->name('myaccount.editpwd');
+  Route::put('/pwd', 'UserController@updatePwd')->name('myaccount.updatepwd');
+  Route::get('/QrCodeImage', 'UserController@qrcodeAccess')->name('myaccount.qrcodedisplay');
+  Route::get('/QrCodeDownload', 'UserController@qrcodedownload')->name('myaccount.qrcodedownload');
+});
+
+//Plans
+Route::resource('planadvantage', 'PlanAdvantageController', ['only' => ['index','store','update','destroy']]);
+Route::resource('plan', 'PlanController');
+
+Route::resource('myaccount', 'UserController');

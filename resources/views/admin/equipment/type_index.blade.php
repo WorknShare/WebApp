@@ -26,7 +26,8 @@ Types de matériel
   'fieldName' => 'name',
   'noResourceMessage' => 'Il n\'y a aucun type de matériel',
   'resources' => $types,
-  'links' => $links
+  'links' => $links,
+  'canManage' => Auth::user()->role <= 2 && Auth::user()->role > 0
   ])
 @endcomponent
 @endsection

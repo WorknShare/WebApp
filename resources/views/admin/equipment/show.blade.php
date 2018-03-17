@@ -27,6 +27,7 @@
 	        </div>
 			<div class="box-body">
 				<div class="col-xs-12 col-sm-9">
+					@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
 					<form class="form-horizontal" id="formChangeAffect" action="{{ route('equipmenttype.equipment.affect', ['equipmenttype' => $type->id_equipment_type , 'equipment' => $equipment->id_equipment]) }}" method="POST">
 						{{ csrf_field() }}
 						{{ method_field('PUT') }}
@@ -34,14 +35,17 @@
 							<label class="control-label pull-left" style="padding-left:15px">Site affecté :</label> 
 							<div class="col-sm-9">
 								<select class="form-control" required name="site" autocomplete="off">
-										<option value="0" {{ is_null($equipment->site()->first()) ? 'selected' : '' }}> Aucun</option>
-									@foreach(App\Site::all() as $site)
-					                    <option value="{{ $site->id_site }}" {{ $siteId == $site->id_site ? 'selected' : '' }}>{{ $site->name }}</option>
+										<option value="0" {{ is_null($site) ? 'selected' : '' }}> Aucun</option>
+									@foreach(App\Site::all() as $site2)
+					                    <option value="{{ $site2->id_site }}" {{ $siteId == $site2->id_site ? 'selected' : '' }}>{{ $site2->name }}</option>
 				                    @endforeach
 			                  	</select>
 		                  	</div>
 	                  	</div>
 	                </form>
+	                @else
+	                <b>Site affecté :</b> {{ is_null($site) ? 'Aucun' : $site->name }}
+	                @endif
 				</div>
 				<div class="col-xs-12 col-sm-3 col-md-3">
 					<span><b>État :</b></span> <span class="badge bg-green">OK</span> <!-- TODO not ok if has ticket -->
