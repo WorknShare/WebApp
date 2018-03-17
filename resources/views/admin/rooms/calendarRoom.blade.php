@@ -5,12 +5,6 @@ $(function(){
   ajaxCalendar();
 });
 
-$('body').on('click', '#test', function() {
-  ajaxCalendar();
-
-});
-
-
 function ajaxCalendar() {
   var url = '{{ route('room.calendar', $room->id_room)}}';
   $.ajax({
@@ -41,7 +35,7 @@ function calendarDisplay(data) {
     var jsDateEnd = moment(value.date_end).format("");
     var url = '{{ route('reserveroom.show', ':id')}}';
     url = url.replace(':id', value.id_reserve_room);
-    array.push({'title' : value.name, 'start' : jsDateStart, 'end' : jsDateEnd, 'allDay' : false, 'backgroundColor' : '#3c8dbc', 'borderColor' : '#3c8dbc', url :  url});
+    array.push({'id' : value.id_reserve_room, 'title' : value.name, 'start' : jsDateStart, 'end' : jsDateEnd, 'allDay' : false, 'backgroundColor' : '#3c8dbc', 'borderColor' : '#3c8dbc', url :  url});
   });
 
   /* initialize the external events
@@ -70,7 +64,15 @@ function calendarDisplay(data) {
 
   $('#calendar').fullCalendar({
     locale : 'fr',
-
+    allDaySlot : false,
+    noEventsMessage : "aucune réservation cette semaine",
+    nowIndicator : true,
+    businessHours: {
+      dow: [ 1, 2, 3, 4, 5 ],
+      start: '9:00',
+      end: '20:00',
+    },
+    //    defaultView: 'agendaDay',
     customButtons: {
       refresh: {
         text: 'Actualiser',
@@ -80,10 +82,18 @@ function calendarDisplay(data) {
       }
     },
 
+    //eventClick
+    eventMouseover : function( event, jsEvent, view ) {
+      console.log('test : ', event.id);
+    },
     header    : {
-      left  : 'prev,next today, refresh',
+      left  : 'prev,next today  refresh',
       center: 'title',
-      right : 'month,agendaWeek,agendaDay'
+      right : 'listWeek month,agendaWeek,agendaDay'
+    },
+
+    buttonText :{
+      'listWeek' : 'Les réservations'
     },
     //Random default events
     events    : array,
@@ -91,42 +101,5 @@ function calendarDisplay(data) {
     droppable : false,
   });
 
-  /* ADDING EVENTS */
-  var currColor = '#3c8dbc' //Red by default
-  //Color chooser button
-  var colorChooser = $('#color-chooser-btn')
-  $('#color-chooser > li > a').click(function (e) {
-    e.preventDefault()
-    //Save color
-    currColor = $(this).css('color')
-    //Add color effect to button
-    $('#add-new-event').css({ 'background-color': currColor, 'border-color': currColor })
-  })
-  $('#add-new-event').click(function (e) {
-    e.preventDefault()
-    //Get value and make sure it is not null
-    var val = $('#new-event').val()
-    if (val.length == 0) {
-      return
-    }
-
-    //Create events
-    var event = $('<div />')
-    event.css({
-      'background-color': currColor,
-      'border-color'    : currColor,
-      'color'           : '#fff'
-    }).addClass('external-event')
-    event.html(val)
-    $('#external-events').prepend(event)
-
-    //Add draggable funtionality
-    init_events(event)
-
-    //Remove event from text input
-    $('#new-event').val('')
-  });
-
-  return array;
 }
 </script>

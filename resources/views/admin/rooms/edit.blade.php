@@ -21,6 +21,7 @@
 @section('css')
   <link rel="stylesheet" href="{{ asset('bower_components/select2/dist/css/select2.min.css') }}">
 @endsection
+
 @section('content')
   <div class="row">
       <div class="col-xs-12">
