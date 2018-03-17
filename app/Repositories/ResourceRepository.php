@@ -10,6 +10,11 @@ abstract class ResourceRepository
   protected $model;
 
   /**
+   * Tells if the repository should use the soft deletion (database "is_deleted" column) behavior
+   */
+  protected $softDeleted = false;
+
+  /**
    * Get the model this repository is using
    * 
    * @return \Illuminate\Database\Eloquent\Model
@@ -26,7 +31,7 @@ abstract class ResourceRepository
    */
   public function getAll()
   {
-    return $this->model->all();
+    return $this->softDeleted ? $this->model->where('is_deleted','=',0) : $this->model->all();
   }
 
   /**
@@ -38,7 +43,7 @@ abstract class ResourceRepository
    */
   public function getAllOrdered($orderColumn,$order)
   {
-    return $this->model->all()->orderBy($orderColumn,$order);
+    return $this->softDeleted ? $this->model->where('is_deleted','=',0)->orderBy($orderColumn,$order) : $this->model->all()->orderBy($orderColumn,$order);
   }
 
   /**
@@ -52,7 +57,10 @@ abstract class ResourceRepository
   public function getWhere($column,$value,$limit=100)
   {
     $search = '%'.strtolower($value).'%';
-    return $this->model->whereRaw('LOWER('.$column.') LIKE ?', array($search))->take($limit)->get();
+    if($this->softDeleted)
+      return $this->model->whereRaw('LOWER('.$column.') LIKE ?', array($search))->andWhere('is_deleted','=',0)->take($limit)->get();
+    else
+      return $this->model->whereRaw('LOWER('.$column.') LIKE ?', array($search))->take($limit)->get();
   }
 
   /**
@@ -62,7 +70,7 @@ abstract class ResourceRepository
    */
   public function getById($id)
   {
-    return $this->model->findOrFail($id);
+    return $this->softDeleted ? $this->model->where('is_deleted','=',0)->findOrFail($id) : $this->model->findOrFail($id);
   }
 
   /**
@@ -73,7 +81,7 @@ abstract class ResourceRepository
    */
   public function getPaginate($n)
   {
-    return $this->model->paginate($n);
+    return $this->softDeleted ? $this->model->where('is_deleted','=',0)->paginate($n) : $this->model->paginate($n);
   }
 
   /**
@@ -85,7 +93,7 @@ abstract class ResourceRepository
    */
   public function getPaginateSelect($n, array $columns)
   {
-    return $this->model->select($columns)->paginate($n);
+    return $this->softDeleted ? $this->model->where('is_deleted','=',0)->select($columns)->paginate($n) : $this->model->select($columns)->paginate($n);
   }
 
   /**
@@ -98,7 +106,7 @@ abstract class ResourceRepository
    */
   public function getPaginateOrdered($n,$orderColumn,$order)
   {
-    return $this->model->orderBy($orderColumn,$order)->paginate($n);
+    return $this->softDeleted ? $this->model->where('is_deleted','=',0)->orderBy($orderColumn,$order)->paginate($n) : $this->model->orderBy($orderColumn,$order)->paginate($n);
   }
 
   /**
@@ -109,7 +117,7 @@ abstract class ResourceRepository
    */
   public function exists($id)
   {
-    return $this->model->where($this->model->getKeyName(), $id)->exists();
+    return $this->softDeleted ? $this->model->where($this->model->getKeyName(), $id)->andWhere('is_deleted','=',0)->exists() : $this->model->where($this->model->getKeyName(), $id)->exists();
   }
 
   /**
@@ -155,7 +163,14 @@ abstract class ResourceRepository
    */
   public function destroy($id)
   {
-    $this->getById($id)->delete();
+    if($this->softDeleted)
+    {
+      $model = $this->getById($id);
+      $model->is_deleted = true;
+      $model->save();
+    }
+    else
+      $this->getById($id)->delete();
   }
 
 }

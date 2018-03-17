@@ -27,6 +27,7 @@ Créer un forfait
 					{!! Form::controlWithIcon('text', 'name', $errors, old('name'), 'Nom', 'glyphicon-font', 'Nom', ["maxlength" => '255', "required" => "required"]) !!}
 					{!! Form::controlWithIcon('text', 'description', $errors, old('description'), 'Description', 'glyphicon-list-alt', 'Description', ["maxlength" => '255', "required" => "required"]) !!}
 					{!! Form::controlWithIcon('number', 'price', $errors, old('price'), 'Prix', 'glyphicon-euro', 'Prix', ["step" => '0.01', "min" => "0", "required" => "required"]) !!}
+					{!! Form::control('textarea', 'notes', $errors, old('notes'), 'Informations complémentaires', 'Informations complémentaires') !!}
 					<div class="row {{ $errors->has('advantages') ? 'has-error' : '' }}">
 						<div class="col-xs-12">
 							<h4>Avantages</h4>
@@ -34,6 +35,14 @@ Créer un forfait
 							<span class="help-block"><strong>{{ $errors->first('advantages') }}</strong></span>
 							@endif
 						</div>
+
+						<div class="col-xs-6 col-sm-3 col-md-2" title="Réserver des salles et du matériel">
+							{!! Form::iCheckbox('reserve', 'Réserver des salles et du matériel', $errors) !!}
+						</div>
+						<div class="col-xs-6 col-sm-3 col-md-2" title="Commander des plateaux repas">
+							{!! Form::iCheckbox('order_meal', 'Commander des plateaux repas', $errors) !!}
+						</div>
+
 						@foreach($advantages as $advantage)
 						<div class="col-xs-6 col-sm-3 col-md-2" title="{{ $advantage->description }}">
 							{!! Form::iCheckbox('advantages[]', $advantage->description, $errors, false, $advantage->id_plan_advantage) !!}

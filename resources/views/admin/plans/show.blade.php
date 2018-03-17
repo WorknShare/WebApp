@@ -19,7 +19,7 @@
 
 @section('content')
 
-@if(!count($advantages))
+@if(!count($advantages) && !$plan->order_meal && !$plan->reserve)
 <div class="alert alert-warning alert-dismissible"><i class="fa fa-excalamation-circle"></i><b class="overflow-break-word">Ce forfait n'a pas d'avantages !</b></div>
 @endif
 
@@ -44,18 +44,46 @@
 </div>
 
 <div class="row">
-	<div class="col-xs-12">
+	<div class="col-xs-12 col-md-6">
 		<div class="box box-solid">
 			<div class="box-header with-border">
         		<h4>Avantages</h4>
         	</div>
 			<div class="box-body">
 				<div class="row">
+					@if($plan->reserve)
+					<div class="col-xs-6 col-md-4 ellipsis" title="Réserver des salles et du matériel">
+						<i class="fa fa-check-circle text-success icon-check"></i> Réserver des salles et du matériel
+					</div>
+					@endif
+					@if($plan->order_meal)
+					<div class="col-xs-6 col-md-4 ellipsis" title="Commander des plateaux repas">
+						<i class="fa fa-check-circle text-success icon-check"></i> Commander des plateaux repas
+					</div>
+					@endif
 					@foreach($advantages as $advantage)
-		            <div class="col-xs-6 col-sm-3 col-md-2 ellipsis" title="{{ $advantage->description }}">
+		            <div class="col-xs-6 col-md-4 ellipsis" title="{{ $advantage->description }}">
 						<i class="fa fa-check-circle text-success icon-check"></i> {{ $advantage->description }}
 					</div>
 					@endforeach
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12 col-md-6">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+        		<h4>Informations complémentaires</h4>
+        	</div>
+			<div class="box-body">
+				<div class="row">
+					<div class="col-xs-12  overflow-break-word">
+					@if(!empty($plan->notes))
+					{{ $plan->notes }}
+					@else
+					<span class="text-muted">Aucune information complémentaire</span>
+					@endif
+					</div>
 				</div>
 			</div>
 		</div>

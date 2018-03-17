@@ -116,7 +116,7 @@ class EquipmentController extends Controller
 
         $this->equipmentRepository->destroy($id_equipment);
 
-        $equipments = $type->equipment()->select(['serial_number AS description', 'id_equipment as id'])->paginate($this->amountPerPage);
+        $equipments = $type->equipment()->select(['serial_number AS description', 'id_equipment as id'])->where('is_deleted','=',0)->paginate($this->amountPerPage);
         $equipments->setPath(route('equipmenttype.show', $id_equipment_type));
         $links = $equipments->render();
 

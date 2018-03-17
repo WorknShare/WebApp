@@ -8,7 +8,7 @@ use App\Room;
 
 class RoomRepository extends ResourceRepository
 {
-
+  protected $softDeleted = true;
   /**
   * Create a new repository instance.
   *

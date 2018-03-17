@@ -9,6 +9,8 @@ use App\Equipment;
 class EquipmentRepository extends ResourceRepository
 {
 
+    protected $softDeleted = true;
+
 	/**
      * Create a new repository instance.
      *

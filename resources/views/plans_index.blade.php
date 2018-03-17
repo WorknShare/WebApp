@@ -14,7 +14,11 @@ skin-blue sidebar-mini layout-top-nav
 
    <!-- Main content -->
    <section class="container">
-      	@component('components.plan_comparative', ['plans' => $plans, 'planAdvantages'=> $planAdvantages])
+    @component('components.plan_comparative', [
+          'plans' => $plans,
+          'planAdvantages'=> $planAdvantages,
+          'reserveCount' => $reserveCount,
+          'orderMealCount' => $orderMealCount])
 		@endcomponent
    </section>
    <!-- /.content -->
