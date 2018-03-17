@@ -71,6 +71,7 @@
             <li {!! strpos(Route::currentRouteName(), 'planadvantage.') !== FALSE ? 'class="active"' : '' !!}><a href="{{ route('planadvantage.index') }}"><i class="fa fa-circle-o"></i> Avantages</a></li>
           </ul>
         </li>
+        {!! Html::adminNavMenu('typeOfRooms.index', 'typeOfRoom', 'Types de salle', 'fa-puzzle-piece') !!}
         {!! Html::adminNavMenu('equipmenttype.index', 'equipmenttype', 'Matériel', 'fa-laptop') !!}
       </ul>
       <!-- /.sidebar-menu -->

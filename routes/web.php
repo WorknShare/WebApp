@@ -25,6 +25,14 @@ Route::prefix('admin')->group(function() {
   Route::post('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
   Route::get('/', 'AdminController@index')->name('admin.home');
   Route::resource('site', 'SiteController');
+  Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+  Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
+  Route::post('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
+  Route::get('/', 'AdminController@index')->name('admin.home');
+  Route::resource('site', 'SiteController');
+  Route::resource('typeOfRooms', 'TypeOfRoomController');
+
+
 
   //Users
   Route::prefix('/user')->group(function() {
@@ -64,3 +72,11 @@ Route::resource('planadvantage', 'PlanAdvantageController', ['only' => ['index',
 Route::resource('plan', 'PlanController');
 
 Route::resource('myaccount', 'UserController');
+Route::resource('room', 'RoomController', ['except' => ['index', 'create']]);
+Route::get('room/calendar/{id}', 'RoomController@calendar')->name('room.calendar');
+
+
+Route::get('reserveroom/{reserveroom}', function ($id)
+{
+  dd($id);
+})->name('reserveroom.show');

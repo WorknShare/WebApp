@@ -15,7 +15,7 @@ class SiteController extends Controller
 
     /**
      * Create a new SiteController instance
-     * 
+     *
      * @param App\Repositories\SiteRepository $siteRepository
      * @return void
      */
@@ -83,7 +83,8 @@ class SiteController extends Controller
         if(!is_numeric($id)) abort(404);
         $site = $this->siteRepository->getById($id);
         $schedules = $site->schedules()->orderBy('day', 'asc')->get();
-        return view('admin.sites.show', compact('site', 'schedules'));
+        $rooms = $site->rooms()->join('room_types', 'rooms.id_room_type', '=', 'room_types.id_room_type')->select('rooms.*', 'room_types.name as room_name')->get();
+        return view('admin.sites.show', compact('site', 'schedules', 'rooms'));
     }
 
     /**
