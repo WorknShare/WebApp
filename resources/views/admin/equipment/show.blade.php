@@ -36,7 +36,7 @@
 							<div class="col-sm-9">
 								<select class="form-control" required name="site" autocomplete="off">
 										<option value="0" {{ is_null($site) ? 'selected' : '' }}> Aucun</option>
-									@foreach(App\Site::all() as $site2)
+									@foreach(App\Site::where('is_deleted','=',0)->get() as $site2)
 					                    <option value="{{ $site2->id_site }}" {{ $siteId == $site2->id_site ? 'selected' : '' }}>{{ $site2->name }}</option>
 				                    @endforeach
 			                  	</select>

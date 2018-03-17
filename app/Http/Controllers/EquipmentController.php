@@ -144,12 +144,19 @@ class EquipmentController extends Controller
         $type = $equipment->type()->first();
         if($type->id_equipment_type != $id_equipment_type) abort(400);
 
-        $site = \App\Site::find($request->site);
-
-        if(!is_null($site))
-            $equipment->site()->associate($request->site);
-        else
+        if($request->site == 0)
+        {
             $equipment->site()->dissociate();
+        }
+        else
+        {
+            $site = \App\Site::where('is_deleted','=',0)->find($request->site);
+
+            if(!is_null($site))
+                $equipment->site()->associate($request->site);
+            else
+                abort(400);
+        }
 
         $equipment->save();
 
