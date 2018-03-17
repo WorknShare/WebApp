@@ -1,3 +1,8 @@
+<?php
+$showedOrderMeal = false;
+$showedReserve = false;
+?>
+
 <div class="row">
   <div class="col-xs-12">
     <div class="box box-solid">
@@ -20,7 +25,30 @@
               <td class="comparative-description overflow-break-word">{{ $plan->description }}</td>
               @endforeach
             </tr>
+            <tr>
+              <td></td>
+              @foreach($plans as $plan)
+              <td class="comparative-description overflow-break-word">{{ $plan->notes }}</td>
+              @endforeach
+            </tr>
             @foreach($planAdvantages as $planAdvantage)
+            @if($reserveCount >= $planAdvantage->plans_count && !$showedReserve)
+            <tr>
+              <td><b>Réserver des salles et du matériel</b></td>
+              @foreach($plans as $plan)
+              <td><i class="fa {{ $plan->reserve ? 'fa-check-circle text-success' : 'fa-times-circle text-muted' }} comparative-icon"></i></td>
+              @endforeach
+            </tr>
+            <?php $showedReserve = true; ?>
+            @elseif($orderMealCount >= $planAdvantage->plans_count && !$showedOrderMeal)
+            <tr>
+              <td><b>Commander des plateaux repas</b></td>
+              @foreach($plans as $plan)
+              <td><i class="fa {{ $plan->order_meal ? 'fa-check-circle text-success' : 'fa-times-circle text-muted' }} comparative-icon"></i></td>
+              @endforeach
+            </tr>
+            <?php $showedOrderMeal = true; ?>
+            @endif
             <tr>
               <td><b>{{ $planAdvantage->description }}</b></td>
               @foreach($plans as $plan)
@@ -28,6 +56,22 @@
               @endforeach
             </tr>
             @endforeach
+            @if(!$showedReserve)
+            <tr>
+              <td><b>Réserver des salles et du matériel</b></td>
+              @foreach($plans as $plan)
+              <td><i class="fa {{ $plan->reserve ? 'fa-check-circle text-success' : 'fa-times-circle text-muted' }} comparative-icon"></i></td>
+              @endforeach
+            </tr>
+            @endif
+            @if(!$showedOrderMeal)
+            <tr>
+              <td><b>Commander des plateaux repas</b></td>
+              @foreach($plans as $plan)
+              <td><i class="fa {{ $plan->order_meal ? 'fa-check-circle text-success' : 'fa-times-circle text-muted' }} comparative-icon"></i></td>
+              @endforeach
+            </tr>
+            @endif
             <tr>
               <td></td>
               @foreach($plans as $plan)

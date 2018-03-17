@@ -130,6 +130,7 @@ return [
         ],
         'advantages' => [
             'required' => 'Un forfait doit avoir au moins un avantage.',
+            'required_without_all' => 'Un forfait doit avoir au moins un avantage.'
         ],
         'oldPassword' => [
             'match' => 'Le mot de passe est incorrect.'

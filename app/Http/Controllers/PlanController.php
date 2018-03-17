@@ -53,9 +53,11 @@ class PlanController extends Controller
      */
     public function indexPublic()
     {
-        $plans = \App\Plan::with('advantages')->withCount('advantages')->orderBy('advantages_count', 'asc')->get();
+        $plans = \App\Plan::with('advantages')->orderBy('price', 'asc')->get();
         $planAdvantages = \App\PlanAdvantage::withCount('plans')->orderBy('plans_count', 'desc')->orderBy('id_plan_advantage', 'asc')->get();
-        return view('plans_index', compact('plans', 'planAdvantages'));
+        $orderMealCount = \App\Plan::where('order_meal', '=', 1)->count();
+        $reserveCount = \App\Plan::where('reserve', '=', 1)->count();
+        return view('plans_index', compact('plans', 'planAdvantages', 'orderMealCount', 'reserveCount'));
     }
 
     /**
@@ -123,6 +125,9 @@ class PlanController extends Controller
     public function update(PlanRequest $request, $id)
     {
         if(!is_numeric($id)) abort(404);
+
+        if(!$request->has('order_meal')) { $request->merge(['order_meal' => 0]); }
+        if(!$request->has('reserve')) { $request->merge(['reserve' => 0]); }
 
         $this->planRepository->update($id, $request->all());
         return redirect('admin/plan/'.$id)->withOk("Le forfait " . $request->input('name') . " a été modifié.");

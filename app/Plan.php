@@ -15,7 +15,7 @@ class Plan extends Model
      * @var array
      */
     protected $fillable = [
-        'name','description','price',
+        'name','description','price','notes','order_meal','reserve'
     ];
 
     public function advantages()

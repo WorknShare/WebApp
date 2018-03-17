@@ -34,9 +34,12 @@ class PlanRepository extends ResourceRepository
 
         //Update advantages
         $plan->advantages()->detach();
-        foreach($inputs['advantages'] as $id_plan_advantage)
+        if(!empty($inputs['advantages']))
         {
-            $plan->advantages()->attach($id_plan_advantage);
+            foreach($inputs['advantages'] as $id_plan_advantage)
+            {
+                $plan->advantages()->attach($id_plan_advantage);
+            }
         }
         unset($inputs['advantages']);
         $plan->update($inputs);
@@ -54,13 +57,19 @@ class PlanRepository extends ResourceRepository
 		$model->name = $inputs['name'];
         $model->description = $inputs['description'];
         $model->price = $inputs['price'];
+        $model->notes = !empty($inputs['notes']) ? $inputs['notes'] : null ;
+        $model->order_meal = isset($inputs['order_meal']);
+        $model->reserve = isset($inputs['reserve']);
 
         $model->save();
 
         $model->advantages()->detach();
-        foreach($inputs['advantages'] as $id_plan_advantage)
+        if(!empty($inputs['advantages']))
         {
-            $model->advantages()->attach($id_plan_advantage);
+            foreach($inputs['advantages'] as $id_plan_advantage)
+            {
+                $model->advantages()->attach($id_plan_advantage);
+            }
         }
 
 		return $model->id_plan;
