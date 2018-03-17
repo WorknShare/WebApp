@@ -40,9 +40,11 @@
 					<div class="col-xs-12 col-sm-3  col-md-3">
 						<span><b>Boissons :</b></span> {!! Html::badge($site->drink) !!}
 					</div>
+					@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
 					<div class="col-xs-12 col-sm-1 col-md-2">
 						<a href="{{ route('site.edit', $site->id_site) }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> <span class="hidden-sm">Modifier</span></a>
 					</div>
+					@endif
 				</div>
 			</div>
 		</div>
@@ -84,13 +86,16 @@
 							  </table>
 							</div>
 						@endif
+						@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
 						<div class="row">
 							<div class="col-xs-12 bottom-controls">
 								<a id="addScheduleButton" data-toggle="collapse" href="#addSchedulePane" class="btn btn-primary btn-xs pull-right">Ajouter un horaire</a>
 							</div>
 						</div>
+						@endif
 					</div>
-					<div class="col-xs-12 {{ count($errors->all()) ? '' : 'collapse'}}" id="addSchedulePane">
+					@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
+					<div class="col-xs-12 {{ $errors->has('day') || $errors->has('hour_opening') || $errors->has('hour_closing') ? '' : 'collapse'}}" id="addSchedulePane">
 						<div class="col-xs-12">
 							<h5>Ajouter un horaire</h5>
 						</div>
@@ -115,109 +120,116 @@
 			              		<button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Ajouter</button>
 			              	</div>
 			            </form>
-						</div>
 					</div>
+					@endif
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-12 col-md-6">
-			<div class="box box-solid">
-				<div class="box-header with-border">
-					<h4>Repas</h4>
-				</div>
-				<div class="box-body">
-					<div class="row">
-						<div class="col-xs-12">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-						</div>
+	</div>
+	<div class="col-xs-12 col-md-6">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<h4>Repas</h4>
+			</div>
+			<div class="box-body">
+				<div class="row">
+					<div class="col-xs-12">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-xs-12 col-md-6">
-			<div class="box box-solid">
-				<div class="box-header with-border">
-					<h4>Les salles</h4>
-				</div>
-				<div class="box-body">
-					<div class="row">
-						<div class="col-xs-12">
-							@if(!count($rooms))
-								<p class="text-muted">Il n'y a aucune salle pour l'instant.</p>
-							@else
-								<div class="box-body no-padding">
-									<table class="table table-striped">
-									    <tr>
-									      <th>Nom</th>
-									      <th>Type de salle</th>
-									      <th>places maximum</th>
-												<th style="width:30px"></th>
-		                    <th style="width:30px"></th>
-												<th style="width:30px"></th>
-									    </tr>
-									    @foreach ($rooms as $room)
-									    <tr>
-									    	<td>{{ $room->name }}</td>
-									    	<td>{{ $room->room_name }}</td>
-									    	<td>{{ $room->place }}</td>
-												<td><a class="point-cursor" href="{{ route('room.edit', $room->id_room) }}"><i class="fa fa-pencil"></td>
-												<td><a class="point-cursor" href="{{ route('room.show', $room->id_room) }}"><i class="fa fa-eye"></i></a></td>
-									    	<td>
-									    		{{ Form::open(['method' => 'DELETE', 'route' => ['room.destroy', $room->id_room]]) }}
-													<a class="text-danger submitDeleteRoom point-cursor" value="Supprimer" type="submit"><i class="fa fa-trash"></i></a>
-												{{ Form::close() }}
-									    	</td>
-									    </tr>
-										@endforeach
-								  </table>
-								</div>
-							@endif
-							<div class="row">
-								<div class="col-xs-12 bottom-controls">
-									<a id="addRoomButton" data-toggle="collapse" href="#addRoomPane" class="btn btn-primary btn-xs pull-right">Ajouter une salle</a>
-								</div>
-								<div class="col-xs-12 {{ count($errors->all()) ? '' : 'collapse'}}" id="addRoomPane">
-									<div class="col-xs-12">
-										<h5>Ajouter une salle</h5>
-									</div>
-									<form action="{{ route('room.store') }}" method="post">
-										{{ csrf_field() }}
-										<input style="margin-bottom : 2%" type="hidden" value="{{ $site->id_site }}" name="id_site">
-										<input style="margin-bottom : 2%" class="form-control" placeholder="name" maxlength="255" name="name" type="text" required>
-										<input style="margin-bottom : 2%" class="form-control" placeholder="place limit" maxlength="255" name="place" type="number" required>
-										<select  style="margin-bottom : 2%" name="id_room_type" class="form-control">
-											@foreach(App\RoomTypes::where("is_deleted", "=", 0)->get() as $roomtType)
-	     									<option value="{{ $roomtType->id_room_type }}">{{ $roomtType->name }}</option>
-	 										@endforeach
-										</select>
-										<div class="col-xs-12">
-											<button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Ajouter</button>
-										</div>
-									</form>
-								</div>
+</div>
+<div class="row">
+	<div class="col-xs-12 col-md-6">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<h4>Les salles</h4>
+			</div>
+			<div class="box-body">
+				<div class="row">
+					<div class="col-xs-12">
+						@if(!count($rooms))
+							<p class="text-muted">Il n'y a aucune salle pour l'instant.</p>
+						@else
+							<div class="box-body no-padding">
+								<table class="table table-striped">
+								    <tr>
+								      <th>Nom</th>
+								      <th>Type de salle</th>
+								      <th>places maximum</th>
+											<th style="width:30px"></th>
+	                    					<th style="width:30px"></th>
+											<th style="width:30px"></th>
+								    </tr>
+								    @foreach ($rooms as $room)
+								    <tr>
+								    	<td>{{ $room->name }}</td>
+								    	<td>{{ $room->room_name }}</td>
+								    	<td>{{ $room->place }}</td>
+											<td><a class="point-cursor" href="{{ route('room.edit', $room->id_room) }}"><i class="fa fa-pencil"></td>
+											<td><a class="point-cursor" href="{{ route('room.show', $room->id_room) }}"><i class="fa fa-eye"></i></a></td>
+								    	<td>
+								    		{{ Form::open(['method' => 'DELETE', 'route' => ['room.destroy', $room->id_room]]) }}
+												<a class="text-danger submitDeleteRoom point-cursor" value="Supprimer" type="submit"><i class="fa fa-trash"></i></a>
+											{{ Form::close() }}
+								    	</td>
+								    </tr>
+									@endforeach
+							  </table>
+							</div>
+						@endif
+						@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
+						<div class="row">
+							<div class="col-xs-12 bottom-controls">
+								<a id="addRoomButton" data-toggle="collapse" href="#addRoomPane" class="btn btn-primary btn-xs pull-right">Ajouter une salle</a>
 							</div>
 						</div>
-						</div>
+						@endif
 					</div>
+					@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
+					<div class="col-xs-12 {{ $errors->has('name') || $errors->has('place') || $errors->has('id_room_type') ? '' : 'collapse'}}" id="addRoomPane">
+						<h5><b>Ajouter une salle</b></h5>
+						<form action="{{ route('room.store') }}" method="post">
+							{{ csrf_field() }}
+							<input type="hidden" value="{{ $site->id_site }}" name="id_site">
+							{!! Form::control('text', 'name', $errors, old('name'), 'Nom', '', ["maxlength" => '255', "required" => "required"]) !!}
+							{!! Form::control('number', 'place', $errors, old('place'), 'Nombre de places', '', ["min" => '0', 'step' => '1', "required" => "required"]) !!}
+							<div class="form-group">
+								<label class="control-label">Type de salle</label>
+								<select name="id_room_type" class="form-control">
+									<option value="0"> Aucun</option>
+									@foreach(App\RoomTypes::where("is_deleted", "=", 0)->get() as $roomType)
+ 									<option value="{{ $roomType->id_room_type }}">{{ $roomType->name }}</option>
+										@endforeach
+								</select>
+							</div>
+								<button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Ajouter</button>
+						</form>
+					</div>
+					@endif
 				</div>
 			</div>
 		</div>
+	</div>
+</div>
 
-		<div class="row">
-			<div class="col-xs-12">
-				{{ Form::open(['method' => 'DELETE', 'route' => ['site.destroy', $site->id_site]]) }}
-					<button class="btn btn-danger pull-right" value="Supprimer" onclick="return confirm('Voulez-vous vraiment supprimer ce site ?')" type="submit"><i class="fa fa-trash"></i> Supprimer</button>
-				{{ Form::close() }}
-				<a class="btn btn-default pull-left" href='{{ route('site.index') }}'> <i class="fa fa-chevron-left"></i> Retour</a>
-		    </div>
-		</div>
+<div class="row">
+	<div class="col-xs-12">
+		@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
+		{{ Form::open(['method' => 'DELETE', 'route' => ['site.destroy', $site->id_site]]) }}
+			<button class="btn btn-danger pull-right" value="Supprimer" onclick="return confirm('Voulez-vous vraiment supprimer ce site ?')" type="submit"><i class="fa fa-trash"></i> Supprimer</button>
+		{{ Form::close() }}
+		@endif
+		<a class="btn btn-default pull-left" href='{{ route('site.index') }}'> <i class="fa fa-chevron-left"></i> Retour</a>
+    </div>
+</div>
 @endsection
 
 

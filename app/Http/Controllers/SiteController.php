@@ -24,7 +24,7 @@ class SiteController extends Controller
         $this->siteRepository = $siteRepository;
         $this->middleware('auth:admin'); //Requires admin permission
         $this->middleware('password');
-        //TODO access levels
+        $this->middleware('access:2', ['except' => ['index','show']]);
     }
 
     /**

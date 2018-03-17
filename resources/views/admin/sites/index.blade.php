@@ -60,7 +60,9 @@ Sites
 
 <div class="row bottom-controls">
 	<div class="col-xs-12">
+    @if(Auth::user()->role <= 2 && Auth::user()->role > 0)
 		{{ link_to_route('site.create', 'Ajouter un site', [], ['class' => 'btn btn-primary pull-right']) }}
+    @endif
 		{{ $links }}
 	</div>
 </div>
