@@ -127,8 +127,13 @@ class SiteController extends Controller
     public function destroy($id)
     {
         if(!is_numeric($id)) abort(404);
-        $site = $this->siteRepository->getById($id)->name;
+        $site = $this->siteRepository->getById($id);
+        $name = $site->name;
+        foreach($site->equipment() as $equipment) {
+            $equipment->site()->dissociate();
+            $equipment->save();
+        }
         $this->siteRepository->destroy($id);
-        return redirect('admin/site')->withOk("Le site " . $site . " a été supprimé.");
+        return redirect('admin/site')->withOk("Le site " . $name . " a été supprimé.");
     }
 }
