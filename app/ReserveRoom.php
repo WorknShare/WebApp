@@ -8,7 +8,8 @@ class ReserveRoom extends Model
 {
   protected $primaryKey = "id_reserve_room";
   protected $table = 'reserve_room';
-  public $timestamps = false;
+  public $timestamps = true;
+  
   /**
   * The attributes that are mass assignable.
   *
