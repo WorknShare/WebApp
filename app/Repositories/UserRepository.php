@@ -8,7 +8,7 @@ use App\User;
 
 class UserRepository extends ResourceRepository
 {
-
+    protected $softDeleted = true;
 	/**
      * Create a new repository instance.
      *
@@ -29,7 +29,7 @@ class UserRepository extends ResourceRepository
      */
 	protected function save(Model $model, Array $inputs)
 	{
-        $model->name = $inputs['name'];
+    $model->name = $inputs['name'];
 		$model->surname = $inputs['surname'];
 		$model->email = $inputs['email'];
 		if(isset($inputs['password'])) $model->password = $inputs['password'];
