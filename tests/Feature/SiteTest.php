@@ -141,7 +141,33 @@ class SiteTest extends TestCase
         session()->forget('ok');
         $this->assertDatabaseMissing('sites', array('name' => 'SiteUser', 'address' => '20 rue de l\'Avenue', 'wifi'=> 1, 'drink'=> 0));
 
-        //TODO access test
+        //Access test
+        $this->be($this->employees[2], 'admin');
+
+        $this->get('admin/site')->assertStatus(200)->assertSeeText('Ajouter un site');
+        $this->post('/admin/site' , array('name' => 'Access', 'address' => '13 rue de l\'accès', 'wifi'=>1))
+                ->assertRedirect('/admin/site')
+                ->assertSessionHas('ok', "Le site Access a été créé.");
+        session()->forget('ok');
+        $this->assertDatabaseHas('sites', array('name' => 'Access', 'address' => '13 rue de l\'accès', 'wifi'=> 1, 'drink'=> 0));
+
+        Auth::logout();
+
+        for ($i = 0; $i < 4 ; $i++) { 
+            if($i == 1 || $i == 2) continue;
+
+            $this->be($this->employees[$i], 'admin');
+            $this->get('admin/site')->assertStatus(200)->assertDontSeeText('Ajouter un site');
+
+            $this->get('admin/site/create')->assertStatus(403);
+            $this->post('/admin/site' , array('name' => 'NoAccess', 'address' => '20 rue de l\'accès', 'wifi'=>1))
+                ->assertStatus(403)
+                ->assertSessionMissing('ok');
+            session()->forget('ok');
+            $this->assertDatabaseMissing('sites', array('name' => 'NoAccess', 'address' => '20 rue de l\'accès', 'wifi'=> 1, 'drink'=> 0));
+
+            Auth::logout();
+        }
     }
 
     /**
@@ -158,9 +184,26 @@ class SiteTest extends TestCase
     	$this->get('admin/site/'. $siteShow->id_site)
     		->assertStatus(200)
     		->assertSeeText($siteShow->name)
-    		->assertSeeText($siteShow->address);
+    		->assertSeeText($siteShow->address)
+            ->assertSeeText('Supprimer')
+            ->assertSeeText('Modifier')
+            ->assertSeeText('Ajouter un horaire')
+            ->assertSeeText('Ajouter une salle');
 
 		Auth::logout();
+
+        $this->be($this->employees[2], 'admin');
+        $this->get('admin/site/'. $siteShow->id_site)
+            ->assertStatus(200)
+            ->assertSeeText($siteShow->name)
+            ->assertSeeText($siteShow->address)
+            ->assertSeeText('Supprimer')
+            ->assertSeeText('Modifier')
+            ->assertSeeText('Ajouter un horaire')
+            ->assertSeeText('Ajouter une salle');
+
+        Auth::logout();
+
         $this->be($this->user, 'web');
 
         //Normal user can't see site details
@@ -171,7 +214,22 @@ class SiteTest extends TestCase
 		//Unauthenticated user can't see site details
 		$this->get('admin/site/'. $siteShow->id_site)->assertRedirect('admin/login');
 
-    	//TODO access test
+    	//Access test
+        for ($i = 0; $i < 4 ; $i++) { 
+            if($i == 1 || $i == 2) continue;
+
+            $this->be($this->employees[$i], 'admin');
+            $this->get('admin/site/'. $siteShow->id_site)
+                        ->assertStatus(200)
+                        ->assertSeeText($siteShow->name)
+                        ->assertSeeText($siteShow->address)
+                        ->assertDontSeeText('Supprimer')
+                        ->assertDontSeeText('Modifier')
+                        ->assertDontSeeText('Ajouter un horaire')
+                        ->assertDontSeeText('Ajouter une salle');
+
+            Auth::logout();
+        }
     }
 
     /**
@@ -288,7 +346,32 @@ class SiteTest extends TestCase
         session()->forget('ok');
         $this->assertDatabaseMissing('sites', array('name' => 'SiteUser', 'address' => '20 rue de l\'Avenue', 'wifi'=> 1, 'drink'=> 0));
 
-        //TODO access test
+        //Access test
+        $this->be($this->employees[2], 'admin');
+
+        $this->get('admin/site/'. $siteModify->id_site .'/edit')->assertStatus(200);
+        $this->put('/admin/site/'. $siteModify->id_site , array('name' => 'SitenameModifyAccess', 'address' => '13 rue de la modification', 'wifi'=>1))
+                ->assertRedirect('/admin/site/'. $siteModify->id_site)
+                ->assertSessionHas('ok', "Le site SitenameModifyAccess a été modifié.");
+        session()->forget('ok');
+        $this->assertDatabaseHas('sites', array('name' => 'SitenameModifyAccess', 'address' => '13 rue de la modification', 'wifi'=> 1, 'drink'=> 0));
+
+        Auth::logout();
+
+        for ($i = 0; $i < 4 ; $i++) { 
+            if($i == 1 || $i == 2) continue;
+
+            $this->be($this->employees[$i], 'admin');
+
+            $this->get('admin/site/'. $siteModify->id_site .'/edit')->assertStatus(403);
+            $this->put('/admin/site/'. $siteModify->id_site , array('name' => 'SitenameModifyNoAccess', 'address' => '13 rue de la modification', 'wifi'=>1))
+                ->assertStatus(403)
+                ->assertSessionMissing('ok');
+            $this->assertDatabaseMissing('sites', array('name' => 'SitenameModifyNoAccess', 'address' => '13 rue de la modification', 'wifi'=> 1, 'drink'=> 0));
+
+
+            Auth::logout();
+        }
     }
 
     /**
@@ -380,7 +463,29 @@ class SiteTest extends TestCase
 		$schedule = factory(Schedule::class)->create(['id_site' => $siteSchedule->id_site]);
 		$this->delete('schedule/'. $schedule->id_schedule)->assertRedirect('admin/login')->assertSessionMissing('ok');
 
-        //TODO access test
+        //Access test
+        $this->be($this->employees[2], 'admin');
+        $this->post('/schedule' , array('id_site' => $siteSchedule->id_site, 'day'=> 3, 'hour_opening'=> '22:00', 'hour_closing' => '23:00'))
+            ->assertRedirect('/admin/site/'. $siteSchedule->id_site)
+            ->assertSessionHas('ok', 'L\'horaire a été créé.');
+        session()->forget('ok');
+        $this->assertDatabaseHas('site_schedules', array('day' => 3, 'hour_opening'=> '22:00', 'hour_closing' => '23:00'));
+
+        Auth::logout();
+
+        for ($i = 0; $i < 4 ; $i++) { 
+            if($i == 1 || $i == 2) continue;
+
+            $this->be($this->employees[$i], 'admin');
+
+            $this->post('/schedule' , array('id_site' => $siteSchedule->id_site, 'day'=> 3, 'hour_opening'=> '22:10', 'hour_closing' => '23:10'))
+                ->assertStatus(403)
+                ->assertSessionMissing('ok');
+            $this->assertDatabaseMissing('site_schedules', array('day' => 3, 'hour_opening'=> '22:10', 'hour_closing' => '23:10'));
+
+
+            Auth::logout();
+        }
     }
 
     /**
@@ -419,7 +524,28 @@ class SiteTest extends TestCase
         $this->delete('/admin/site/'.$siteDelete->id_site)->assertRedirect('admin/login')->assertSessionMissing('ok');
         $this->assertDatabaseHas('sites', array('name' => $siteDelete->name, 'address' => $siteDelete->address, 'is_deleted' => 0));
        
-        //TODO access test
+        //Access test
+        $this->be($this->employees[2], 'admin');
+
+        $this->delete('/admin/site/'.$siteDelete->id_site)->assertRedirect('admin/site')->assertSessionHas('ok','Le site '.$siteDelete->name.' a été supprimé.');
+        $this->assertDatabaseHas('sites', array('name' => $siteDelete->name, 'address' => $siteDelete->address, 'is_deleted' => 1));
+
+        Auth::logout();
+
+        $siteDelete->is_deleted = 0;
+        $siteDelete->save();
+
+        for ($i = 0; $i < 4 ; $i++) { 
+            if($i == 1 || $i == 2) continue;
+
+            $this->be($this->employees[$i], 'admin');
+
+            $this->delete('/admin/site/'.$siteDelete->id_site)->assertStatus(403)->assertSessionMissing('ok');
+            $this->assertDatabaseHas('sites', array('name' => $siteDelete->name, 'address' => $siteDelete->address, 'is_deleted' => 0));
+
+            Auth::logout();
+        }
+
     }
 
 }
