@@ -159,7 +159,7 @@
 									      <th>Type de salle</th>
 									      <th>places maximum</th>
 												<th style="width:30px"></th>
-												@if (Auth::user()->role <= 2)
+												@if (Auth::user()->role <= 2 && Auth::user()->role > 0)
 			                    <th style="width:30px"></th>
 													<th style="width:30px"></th>
 												@endif
@@ -170,7 +170,7 @@
 									    	<td>{{ $room->room_name }}</td>
 									    	<td>{{ $room->place }}</td>
 												<td><a class="point-cursor" href="{{ route('room.show', $room->id_room) }}"><i class="fa fa-eye"></i></a></td>
-												@if (Auth::user()->role <= 2)
+												@if (Auth::user()->role <= 2 && Auth::user()->role > 0)
 													<td><a class="point-cursor" href="{{ route('room.edit', $room->id_room) }}"><i class="fa fa-pencil"></td>
 										    	<td>
 										    		{{ Form::open(['method' => 'DELETE', 'route' => ['room.destroy', $room->id_room]]) }}

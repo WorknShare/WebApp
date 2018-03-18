@@ -47,7 +47,7 @@
                   <tr>
                     <th style="width: 10px">#</th>
                     <th>Nom</th>
-                    @if ( Auth::user()->role <= 2)
+                    @if ( Auth::user()->role <= 2 && Auth::user()->role > 0)
                       <th style="width:30px"></th>
                       <th style="width:30px"></th>
                     @endif
@@ -60,7 +60,7 @@
                           <span class="type-name">{{ $typeOfRoom->name }}</span>
                         {!! Form::close() !!}
                       </td>
-                      @if (Auth::user()->role <= 2)
+                      @if (Auth::user()->role <= 2 && Auth::user()->role > 0)
                         <td><a class="text-primary editType point-cursor" value="Modifier"><i class="fa fa-pencil"></i></a></td>
                         <td>
                           {!! Form::model($typeOfRoom, ['route' => ['typeOfRooms.destroy', $typeOfRoom->id_room_type], 'method' => 'DELETE', 'id' => 'deleteType'. $typeOfRoom->id_room_type]) !!}
