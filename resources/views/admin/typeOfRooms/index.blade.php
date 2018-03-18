@@ -47,8 +47,10 @@
                   <tr>
                     <th style="width: 10px">#</th>
                     <th>Nom</th>
-                    <th style="width:30px"></th>
-                    <th style="width:30px"></th>
+                    @if ( Auth::user()->role <= 2 && Auth::user()->role > 0)
+                      <th style="width:30px"></th>
+                      <th style="width:30px"></th>
+                    @endif
                   </tr>
                   @foreach ($typeOfRooms as $typeOfRoom)
                     <tr>
@@ -58,13 +60,14 @@
                           <span class="type-name">{{ $typeOfRoom->name }}</span>
                         {!! Form::close() !!}
                       </td>
-                      <td><a class="text-primary editType point-cursor" value="Modifier"><i class="fa fa-pencil"></i></a></td>
-                      <td>
-                        {!! Form::model($typeOfRoom, ['route' => ['typeOfRooms.destroy', $typeOfRoom->id_room_type], 'method' => 'DELETE', 'id' => 'deleteType'. $typeOfRoom->id_room_type]) !!}
-                          <a class="text-danger point-cursor"  onclick="document.getElementById('deleteType{{$typeOfRoom->id_room_type}}').submit()"><i class="fa fa-trash"></i></a>
-                        {{ Form::close() }}
-                      </td>
-                      </td>
+                      @if (Auth::user()->role <= 2 && Auth::user()->role > 0)
+                        <td><a class="text-primary editType point-cursor" value="Modifier"><i class="fa fa-pencil"></i></a></td>
+                        <td>
+                          {!! Form::model($typeOfRoom, ['route' => ['typeOfRooms.destroy', $typeOfRoom->id_room_type], 'method' => 'DELETE', 'id' => 'deleteType'. $typeOfRoom->id_room_type]) !!}
+                            <a class="text-danger point-cursor"  onclick="document.getElementById('deleteType{{$typeOfRoom->id_room_type}}').submit()"><i class="fa fa-trash"></i></a>
+                          {{ Form::close() }}
+                        </td>
+                      @endif
                     </tr>
                   @endforeach
                 </table>

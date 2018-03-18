@@ -24,6 +24,7 @@ class TypeOfRoomController extends Controller
     {
       $this->typeOfRoomRepository = $typeOfRoomRepository;
       $this->middleware('auth:admin');
+      $this->middleware('access:2', ['only' => ['store', 'update', 'destroy']]);
     }
 
 

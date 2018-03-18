@@ -22,6 +22,7 @@ class RoomController extends Controller
   {
       $this->roomRepository = $roomRepository;
       $this->middleware('auth:admin');
+      $this->middleware('access:2', ['only' => ['store', 'edit', 'update', 'destroy']]);
   }
 
 
