@@ -159,21 +159,25 @@
 									      <th>Type de salle</th>
 									      <th>places maximum</th>
 												<th style="width:30px"></th>
-		                    <th style="width:30px"></th>
-												<th style="width:30px"></th>
+												@if (Auth::user()->role <= 2)
+			                    <th style="width:30px"></th>
+													<th style="width:30px"></th>
+												@endif
 									    </tr>
 									    @foreach ($rooms as $room)
 									    <tr>
 									    	<td>{{ $room->name }}</td>
 									    	<td>{{ $room->room_name }}</td>
 									    	<td>{{ $room->place }}</td>
-												<td><a class="point-cursor" href="{{ route('room.edit', $room->id_room) }}"><i class="fa fa-pencil"></td>
 												<td><a class="point-cursor" href="{{ route('room.show', $room->id_room) }}"><i class="fa fa-eye"></i></a></td>
-									    	<td>
-									    		{{ Form::open(['method' => 'DELETE', 'route' => ['room.destroy', $room->id_room]]) }}
-													<a class="text-danger submitDeleteRoom point-cursor" value="Supprimer" type="submit"><i class="fa fa-trash"></i></a>
-												{{ Form::close() }}
-									    	</td>
+												@if (Auth::user()->role <= 2)
+													<td><a class="point-cursor" href="{{ route('room.edit', $room->id_room) }}"><i class="fa fa-pencil"></td>
+										    	<td>
+										    		{{ Form::open(['method' => 'DELETE', 'route' => ['room.destroy', $room->id_room]]) }}
+														<a class="text-danger submitDeleteRoom point-cursor" value="Supprimer" type="submit"><i class="fa fa-trash"></i></a>
+													{{ Form::close() }}
+										    	</td>
+												@endif
 									    </tr>
 										@endforeach
 								  </table>
