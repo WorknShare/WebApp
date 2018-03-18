@@ -21,24 +21,26 @@
     @section('content')
       <div class="box box-solid">
         <div class="box-body">
-          <div class="row">
-            <div class="col-sm-12 col-md-8 col-lg-6">
-              <form action="{{ route('typeOfRooms.store') }}" method="POST">
-                {{ csrf_field() }}
-                <div class="row">
-                  <div class="col-xs-10">
-                    <div class="form-group has-feedback" id="descriptionGroup">
-                      <input class="form-control" placeholder="Nom du type de salle" maxlength="255" name="name" type="text" required>
-                      <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
+          @if ( Auth::user()->role <= 2 && Auth::user()->role > 0)
+            <div class="row">
+              <div class="col-sm-12 col-md-8 col-lg-6">
+                <form action="{{ route('typeOfRooms.store') }}" method="POST">
+                  {{ csrf_field() }}
+                  <div class="row">
+                    <div class="col-xs-10">
+                      <div class="form-group has-feedback" id="descriptionGroup">
+                        <input class="form-control" placeholder="name" maxlength="255" name="name" type="text" required>
+                        <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
+                      </div>
+                    </div>
+                    <div class="col-xs-2" style="padding:0">
+                      <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> <span class="hidden-xs">Ajouter</span></button>
                     </div>
                   </div>
-                  <div class="col-xs-2" style="padding:0">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> <span class="hidden-xs">Ajouter</span></button>
-                  </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
-          </div>
+          @endif
 
             @if(count($typeOfRooms))
 
