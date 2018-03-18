@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\User;
 use Storage;
 use Input;
 use Response;
@@ -16,7 +17,7 @@ use App\Http\Requests\UserRequest;
 class UserController extends Controller
 {
   private $userRepository;
-  private $amountPerPage = 1;
+  private $amountPerPage = 10;
 
   /**
   * Create a new UserController instance
@@ -28,9 +29,9 @@ class UserController extends Controller
   {
     //only or except
     $this->userRepository = $userRepository;
-    $this->middleware('auth:admin', ['only' => ['showAdmin','editAdmin', 'updateAdmin', 'indexAdmin']]);
-    $this->middleware('auth' , ['except' => ['showAdmin','editAdmin', 'updateAdmin', 'indexAdmin']]);
-
+    $this->middleware('auth:admin', ['only' => ['showAdmin','editAdmin', 'updateAdmin', 'indexAdmin', 'destroyAdmin']]);
+    $this->middleware('auth' , ['except' => ['showAdmin','editAdmin', 'updateAdmin', 'indexAdmin', 'destroyAdmin', 'unban']]);
+    $this->middleware('access:3', ['only' => ['editAdmin','updateAdmin','destroyAdmin', 'unban']]);
   }
 
 
@@ -58,7 +59,7 @@ class UserController extends Controller
     if(!empty($request->search))
     {
         $search = '%'.strtolower($request->search).'%';
-        $clients = $this->userRepository->getModel()->whereRaw('LOWER(email) LIKE ? OR LOWER(name) LIKE ? OR LOWER(surname) LIKE ?', array($search,$search,$search))->take($this->amountPerPage)->get();
+        $clients = $this->userRepository->getModel()->whereRaw('LOWER(email) LIKE ? OR LOWER(name) LIKE ? OR LOWER(surname) LIKE ? ORDER BY is_deleted', array($search,$search,$search))->take($this->amountPerPage)->get();
         $links = '';
         return view('admin.users.index', compact('clients', 'links'));
     }
@@ -69,6 +70,14 @@ class UserController extends Controller
         return view('admin.users.index', compact('clients', 'links'));
     }
 
+  }
+
+
+  public function showAdmin($id)
+  {
+    if(!is_numeric($id)) abort(404);
+    dd($id);
+    return view('admin.users.show');
   }
 
 
@@ -126,7 +135,7 @@ class UserController extends Controller
   public function editAdmin($id)
   {
     $user = $this->userRepository->getById($id);
-    return view('admin.user.edit', compact('user'));
+    return view('admin.users.edit', compact('user'));
   }
 
 
@@ -141,16 +150,24 @@ class UserController extends Controller
   public function update(UserRequest $request, $id)
   {
     if(strcmp($request->email, Auth::user()->email)){
-      $qrcode_maker = 'rm -f ../storage/app/public/images/qrcode/'. Auth::user()->tokenQrCode .'.png && cd /bin && qrcode-maker ' . $request->email . ' ' . Auth::user()->tokenQrCode;
+      Storage::delete('public/images/qrcode/'. Auth::user()->tokenQrCode .'.png');
+      $qrcode_maker = 'cd /bin && qrcode-maker ' . $request->email . ' ' . Auth::user()->tokenQrCode;
       $a = shell_exec($qrcode_maker);
     }
 
-    if(!is_numeric($id) || Auth::user()->id_client != $id) abort(404);
+    if(!is_numeric($id)) abort(404);
+    if(Auth::user()->id_client != $id) abort(403);
     $this->userRepository->update($id, $request->all());
     return redirect('myaccount')->withOk("Votre profil a été mise à jour");
   }
 
 
+  public function updateAdmin(UserRequest $request, $id)
+  {
+    if(!is_numeric($id)) abort(404);
+    $this->userRepository->update($id, $request->all());
+    return redirect('admin/user')->withOk("L'utilisateur " . $request->get('name') . " a été modifié");
+  }
   /**
   * update the record in the database with the modified informations.
   *
@@ -208,5 +225,22 @@ class UserController extends Controller
   public function destroy($id)
   {
     //
+  }
+
+  public function destroyAdmin($id)
+  {
+    if(!is_numeric($id)) abort(404);
+    $user = $this->userRepository->getById($id)->name;
+    $this->userRepository->destroy($id);
+    return redirect('admin/user')->withOk("L'utilisateur " . $user . " a été banni.");
+  }
+
+  public function unban($id)
+  {
+    if(!is_numeric($id)) abort(404);
+    $user = User::find($id);
+    $user->is_deleted = 0;
+    $user->save();
+    return redirect('admin/user')->withOk("L'utilisateur " . $user->name . " a été gracié.");
   }
 }
