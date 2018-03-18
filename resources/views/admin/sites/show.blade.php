@@ -69,18 +69,22 @@
 													<th>Jour</th>
 													<th>Ouverture</th>
 													<th>Fermeture</th>
+													@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
 													<th></th>
+													@endif
 												</tr>
 												@foreach ($schedules as $schedule)
 													<tr>
 														<td>{{ getDay($schedule->day) }}</td>
 														<td>{{ date('H:i', strtotime($schedule->hour_opening)) }}</td>
 														<td>{{ date('H:i', strtotime($schedule->hour_closing)) }}</td>
+														@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
 														<td>
 															{{ Form::open(['method' => 'DELETE', 'route' => ['schedule.destroy', $schedule->id_schedule]]) }}
 															<a class="text-danger submitDeleteSchedule point-cursor" value="Supprimer" type="submit"><i class="fa fa-trash"></i></a>
 															{{ Form::close() }}
 														</td>
+														@endif
 													</tr>
 												@endforeach
 											</table>
