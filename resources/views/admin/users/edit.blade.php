@@ -13,7 +13,7 @@ Modifier un utilisateur
 
 @section('breadcrumb_nav')
 	<li><a href="{{ route('admin.home') }}"><i class="fa fa-home"></i> Tableau de bord</a></li>
-	<li><a href="{{ route('user.index') }}"><i class="fa fa-user"></i> clients </a></li>
+	<li><a href="{{ route('user.index') }}"><i class="fa fa-user"></i> Clients </a></li>
 	<li class="active">Modifier {{ $user->name }}</li>
 @endsection
 
@@ -23,9 +23,9 @@ Modifier un utilisateur
       <div class="box box-solid">
         {!! Form::model($user, ['route' => ['user.update', $user->id_client], 'method' => 'put']) !!}
         <div class="box-body">
-          {!! Form::controlWithIcon('text', 'name', $errors, $user->name, 'Nom', 'glyphicon-font', 'Nom', ["maxlength" => '255', "required" => "required"]) !!}
-          {!! Form::controlWithIcon('text', 'surname', $errors, $user->surname, 'Prénom', 'glyphicon-font', 'Prénom', ["maxlength" => '255', "required" => "required"]) !!}
-          {!! Form::controlWithIcon('email', 'email', $errors, $user->email, 'Email', 'fa fa-at', 'Email', ["maxlength" => '255', "required" => "required"]) !!}
+          {!! Form::controlWithIcon('text', 'name', $errors, $user->name, 'Nom', 'glyphicon-user', 'Nom', ["maxlength" => '255', "required" => "required"]) !!}
+          {!! Form::controlWithIcon('text', 'surname', $errors, $user->surname, 'Prénom', 'glyphicon-user', 'Prénom', ["maxlength" => '255', "required" => "required"]) !!}
+          {!! Form::controlWithIcon('email', 'email', $errors, $user->email, 'Email', 'fa fa-envelope', 'Email', ["maxlength" => '255', "required" => "required"]) !!}
         </div>
         <!-- /.box-body -->
 

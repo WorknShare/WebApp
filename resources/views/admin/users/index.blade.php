@@ -32,13 +32,15 @@ Clients
 <div class="box-body no-padding table-container-responsive">
   <table class="table table-striped">
     <tr>
-      <th style="width: 10px">#</th>
-      <th>Email</th>
-      <th>Nom</th>
-      <th>Prénom</th>
-			<th>Compte actif</th>
-			<th style="width:30px"></th>
-			<th style="width:30px"></th>
+	    <th style="width: 10px">#</th>
+	    <th>Email</th>
+	    <th>Nom</th>
+	    <th>Prénom</th>
+		<th>Compte actif</th>
+		@if(Auth::user()->role <= 3 && Auth::user()->role > 0)
+		<th style="width:30px"></th>
+		<th style="width:30px"></th>
+		@endif
     </tr>
     @foreach ($clients as $client)
     <tr>
@@ -47,6 +49,7 @@ Clients
       <td>{{ $client->name }}</td>
       <td>{{ $client->surname }}</td>
 			<td>{!! Html::badge(!$client->is_deleted) !!}</td>
+			@if(Auth::user()->role <= 3 && Auth::user()->role > 0)
 			@if (!$client->is_deleted)
 				<td><a class="point-cursor" href="{{ route('user.edit_admin', $client->id_client) }}"><i class="fa fa-pencil"></td>
 				<td>
@@ -62,8 +65,7 @@ Clients
 					{{ Form::close() }}
 				</td>
 			@endif
-
-
+			@endif
     </tr>
 	@endforeach
   </table>

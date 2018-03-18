@@ -31,7 +31,7 @@ class UserController extends Controller
     $this->userRepository = $userRepository;
     $this->middleware('auth:admin', ['only' => ['showAdmin','editAdmin', 'updateAdmin', 'indexAdmin', 'destroyAdmin']]);
     $this->middleware('auth' , ['except' => ['showAdmin','editAdmin', 'updateAdmin', 'indexAdmin', 'destroyAdmin', 'unban']]);
-
+    $this->middleware('access:3', ['only' => ['editAdmin','updateAdmin','destroyAdmin', 'unban']]);
   }
 
 
