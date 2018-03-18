@@ -37,8 +37,12 @@ Route::prefix('admin')->group(function() {
   //Users
   Route::prefix('/user')->group(function() {
     Route::get('/', 'UserController@indexAdmin')->name('user.index');
+    Route::get('/{id}', 'UserController@showAdmin')->name('user.show');
     Route::get('/{id}/edit', 'UserController@editAdmin')->name('user.edit_admin');
     Route::put('/{id}', 'UserController@update')->name('user.update_admin');
+    Route::delete('/{id}', 'UserController@destroyAdmin')->name('user.ban');
+    Route::put('/unban/{id}', 'UserController@unban')->name('user.unban');
+    Route::put('/update/{myaccount}', 'UserController@updateAdmin')->name('user.update');
   });
 
   //Employees

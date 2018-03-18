@@ -27,7 +27,7 @@ function ajaxCalendar() {
 
 function calendarDisplay(data) {
   $('#container').text("");
-  $('#container').html("<div id='calendar' class='fc fc-unthemed fc-ltr'></div>");
+  $('#container').html("<div id='calendar' class='fc fc-unthemed fc-ltr' style='background-color : #ECF0F5'></div>");
   var array = [];
 
   $.each(data.calendar,function(index, value){
@@ -65,8 +65,11 @@ function calendarDisplay(data) {
   $('#calendar').fullCalendar({
     locale : 'fr',
     allDaySlot : false,
+    contentHeight: 'auto',
     noEventsMessage : "aucune réservation cette semaine",
     nowIndicator : true,
+    minTime : "07:00:00",
+    maxTime : "22:00:00",
     businessHours: {
       dow: [ 1, 2, 3, 4, 5 ],
       start: '9:00',
@@ -100,6 +103,6 @@ function calendarDisplay(data) {
     editable  : false,
     droppable : false,
   });
-
+  $(window).resize();
 }
 </script>

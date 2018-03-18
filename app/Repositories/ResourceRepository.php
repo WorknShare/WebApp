@@ -16,7 +16,7 @@ abstract class ResourceRepository
 
   /**
    * Get the model this repository is using
-   * 
+   *
    * @return \Illuminate\Database\Eloquent\Model
    */
   public function getModel()
@@ -26,7 +26,7 @@ abstract class ResourceRepository
 
   /**
    * Get all the existing recordings.
-   * 
+   *
    * @return array
    */
   public function getAll()
@@ -36,7 +36,7 @@ abstract class ResourceRepository
 
   /**
    * Get all the existing recordings ordered according to the given column.
-   * 
+   *
    * @param string $orderColumn
    * @param string $order (ex.: 'asc', 'desc')
    * @return array
@@ -48,7 +48,7 @@ abstract class ResourceRepository
 
   /**
    * Get the recordings matching the given WHERE clause
-   * 
+   *
    * @param string $column
    * @param $value
    * @param int $limit
@@ -65,7 +65,7 @@ abstract class ResourceRepository
 
   /**
    * Get a single recording by its id.
-   * 
+   *
    * @return model
    */
   public function getById($id)
@@ -75,7 +75,7 @@ abstract class ResourceRepository
 
   /**
    * Get a paginate of the recordings.
-   * 
+   *
    * @param int $n the amount of recordings per page
    * @return array
    */
@@ -86,7 +86,7 @@ abstract class ResourceRepository
 
   /**
    * Get a paginate of the recordings with only selected columns.
-   * 
+   *
    * @param int $n the amount of recordings per page
    * @param array $columns the columns to select with optional alias
    * @return array
@@ -98,7 +98,7 @@ abstract class ResourceRepository
 
   /**
    * Get a paginate of the recordings ordered according to the given column.
-   * 
+   *
    * @param int $n the amount of recordings per page
    * @param string $orderColumn
    * @param string $order (ex.: 'asc', 'desc')
@@ -111,7 +111,7 @@ abstract class ResourceRepository
 
   /**
    * Get if a record exists with the given id
-   * 
+   *
    * @param int $id
    * @return boolean
    */
@@ -122,7 +122,7 @@ abstract class ResourceRepository
 
   /**
    * Resource relative behavior for saving a record.
-   * 
+   *
    * @param Model $model
    * @param array $inputs
    * @return int id, the id of the saved resource

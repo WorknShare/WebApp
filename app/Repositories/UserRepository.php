@@ -37,4 +37,9 @@ class UserRepository extends ResourceRepository
 		return $model->id_client;
 	}
 
+  public function getPaginate($n)
+  {
+    return $this->model->orderBy('is_deleted')->paginate($n);
+  }
+
 }
