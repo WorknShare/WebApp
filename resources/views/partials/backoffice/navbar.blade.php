@@ -73,6 +73,9 @@
         </li>
         {!! Html::adminNavMenu('typeOfRooms.index', 'typeOfRooms', 'Types de salle', 'fa-puzzle-piece') !!}
         {!! Html::adminNavMenu('equipmenttype.index', 'equipmenttype', 'Matériel', 'fa-laptop') !!}
+        {!! Html::adminNavMenu('meal.index', 'meal', 'repas', 'fa-apple') !!}
+
+
       </ul>
       <!-- /.sidebar-menu -->
     </section>
