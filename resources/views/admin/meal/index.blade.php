@@ -23,8 +23,7 @@ Repas
     <tr>
       <th style="width: 10px">#</th>
       <th>Nom</th>
-      <th>Prix</th>
-			<th>Descriptif</th>
+      <th style="width:100px">Prix</th>
 			<th style="width:30px"></th>
 			<th style="width:30px"></th>
     </tr>
@@ -33,7 +32,6 @@ Repas
     	 <td>{{ $meal->id_meal }}</td>
        <td><b><a href="{{ route('meal.show', $meal->id_meal) }}">{{$meal->name }}</a></b></td>
 		   <td>{{ $meal->price }}€</td>
-			 <td> {{$meal->menu}}</td>
 			 <td><a class="point-cursor" href="{{ route('meal.edit', $meal->id_meal) }}"><i class="fa fa-pencil"></td>
 			 <td>
         {{ Form::open(['method' => 'DELETE', 'route' => ['meal.destroy', $meal->id_meal]]) }}
