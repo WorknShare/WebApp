@@ -31,7 +31,7 @@ Repas
     @foreach ($meals as $meal )
     <tr>
     	 <td>{{ $meal->id_meal }}</td>
-       <td><b>{{$meal->name }}</b></td>
+       <td><b><a href="{{ route('meal.show', $meal->id_meal) }}">{{$meal->name }}</a></b></td>
 		   <td>{{ $meal->price }}€</td>
 			 <td> {{$meal->menu}}</td>
 			 <td><a class="point-cursor" href="{{ route('meal.edit', $meal->id_meal) }}"><i class="fa fa-pencil"></td>

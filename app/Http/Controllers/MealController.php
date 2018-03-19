@@ -42,6 +42,21 @@ class MealController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        if(!is_numeric($id)) abort(404);
+
+        $meal = $this->mealRepository->getById($id);
+
+        return view('admin.meal.show', compact('meal'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
