@@ -13,7 +13,7 @@ Modifier un repas
 
 @section('breadcrumb_nav')
 	<li><a href="{{ route('admin.home') }}"><i class="fa fa-home"></i> Tableau de bord</a></li>
-	<li><a href="{{ route('site.index') }}"><i class="fa fa-map-marker"></i> Repas</a></li>
+	<li><a href="{{ route('site.index') }}"><i class="fa fa-apple"></i> Repas</a></li>
 	<li><a href="{{ route('site.show', $meal->id_meal) }}">{{ $meal->name }}</a></li>
 	<li class="active">Modifier</li>
 @endsection
