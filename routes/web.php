@@ -33,7 +33,9 @@ Route::prefix('admin')->group(function() {
   Route::resource('site', 'SiteController');
   Route::resource('typeOfRooms', 'TypeOfRoomController');
   Route::resource('meal', 'MealController');
-  
+  Route::put('site/{site}/affectmeal', 'SiteController@affectMeal')->name('site.affectmeal');
+  Route::put('site/{site}/removemeal', 'SiteController@removeMeal')->name('site.removemeal');
+
   //Users
   Route::prefix('/user')->group(function() {
     Route::get('/', 'UserController@indexAdmin')->name('user.index');

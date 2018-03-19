@@ -138,13 +138,62 @@
 			<div class="box-body">
 				<div class="row">
 					<div class="col-xs-12">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						@if(!count($meals))
+							<p class="text-muted">Il n'y a aucun repas pour l'instant.</p>
+						@else
+							<div class="box-body no-padding">
+								<table class="table table-striped">
+									<tr>
+										<th>Repas</th>
+										<th>Prix</th>
+										@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
+										<th></th>
+										@endif
+									</tr>
+									@foreach ($meals as $meal)
+										<tr>
+											<td><a href="{{ route('meal.show', $meal->id_meal) }}">{{ $meal->name }}</a></td>
+											<td>{{ $meal->price }}€</td>
+											@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
+											<td>
+												{{ Form::open(['method' => 'PUT', 'route' => ['site.removemeal', $site->id_site]]) }}
+												<input type="hidden" value="{{ $meal->id_meal }}" name="meal" required autocomplete="off">
+												<a class="text-danger submitDeleteMeal point-cursor" value="Supprimer" type="submit"><i class="fa fa-trash"></i></a>
+												{{ Form::close() }}
+											</td>
+											@endif
+										</tr>
+									@endforeach
+								</table>
+							</div>
+						@endif
+						@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
+							<div class="row">
+								<div class="col-xs-12 bottom-controls">
+									<a id="addMealButton" data-toggle="collapse" href="#addMealPane" class="btn btn-primary btn-xs pull-right">Ajouter un repas</a>
+								</div>
+							</div>
+						@endif
 					</div>
+					@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
+						<div class="col-xs-12 {{ $errors->has('meal') ? '' : 'collapse'}}" id="addMealPane">
+							<h5><b>Ajouter un repas</b></h5>
+							<form action="{{ route('site.affectmeal', $site->id_site) }}" method="post">
+								{{ csrf_field() }}
+								{{ method_field('put') }}
+								<div class="form-group">
+									<select name="meal" class="form-control">
+										@foreach(App\Meal::where("is_deleted", "=", 0)->get() as $meal)
+										@if(!siteHasMeal($meals, $meal->id_meal))
+											<option value="{{ $meal->id_meal }}">{{ $meal->name }}</option>
+										@endif
+										@endforeach
+									</select>
+								</div>
+								<button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Ajouter</button>
+							</form>
+						</div>
+					@endif
 				</div>
 			</div>
 		</div>
@@ -189,10 +238,10 @@
 													{{ Form::close() }}
 												</td>
 											@endif
-											</tr>
-										@endforeach
-									</table>
-								</div>
+										</tr>
+									@endforeach
+								</table>
+							</div>
 							@endif
 							@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
 								<div class="row">
@@ -306,6 +355,12 @@
 		//submit delete room
 		$('.submitDeleteRoom').click(function() {
 			if(confirm('Voulez-vous vraiment supprimer cette salle ?'))
+			$(this).parent().submit();
+		});
+
+		//submit delete meal
+		$('.submitDeleteMeal').click(function() {
+			if(confirm('Voulez-vous vraiment retirer ce repas de ce site ?'))
 			$(this).parent().submit();
 		});
 	})

@@ -36,6 +36,6 @@ class Site extends Model
 
   public function meals()
   {
-    return $this->hasMany('App\Meal', 'id_meal');
+    return $this->belongsToMany('App\Meal', 'site_meal', 'id_site', 'id_meal');
   }
 }

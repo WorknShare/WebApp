@@ -129,4 +129,5 @@ class MealController extends Controller
       $this->mealRepository->destroy($id);
       return redirect('admin/meal')->withOk("Le repas " . $meal . " a été supprimé.");
     }
+    
 }

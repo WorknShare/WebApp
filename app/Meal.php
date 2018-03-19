@@ -19,7 +19,7 @@ class Meal extends Model
 
   public function sites()
   {
-    return $this->belongsToMany('App\Site', 'id_site');
+    return $this->belongsToMany('App\Site', 'site_meal', 'id_meal', 'id_site');
   }
 
 }
