@@ -32,8 +32,8 @@
             {!! Form::controlWithIcon('text', 'name', $errors, $room->name, 'Nom', 'glyphicon-font', 'Nom', ["maxlength" => '255', "required" => "required"]) !!}
 
               <label for="type">Type de salle</label>
-              <select  id='type' style="margin-bottom : 2%" name="id_room_type" class="select2 form-control ">
-                @foreach(App\RoomTypes::all() as $roomtType)
+              <select  id='type' name="id_room_type" class="form-control">
+                @foreach(App\RoomTypes::where("is_deleted", "=", 0)->get() as $roomtType)
                   <option value="{{ $roomtType->id_room_type }}" {{$roomtType->id_room_type == $room->id_room_type ? 'selected' : ''}}>{{ $roomtType->name }}</option>
                 @endforeach
               </select>
@@ -50,12 +50,3 @@
     </div>
   </div>
 @endsection
-
-  @section('scripts')
-    <script type="text/javascript" src="{{ asset('bower_components/select2/dist/js/select2.min.js') }}"></script>
-    <script type="text/javascript">
-      $(document).ready(function() {
-        $('.select2').select2();
-      });
-    </script>
-  @endsection
