@@ -208,6 +208,10 @@
 			<div class="box-body">
 				<div class="row">
 					<div class="col-xs-12">
+						<?php $roomTypeCount = \App\RoomTypes::where('is_deleted', '=', 0)->count(); ?>
+						@if($roomTypeCount <= 0)
+						<div class="alert alert-info alert-dismissible"><i class="fa fa-info-circle"></i><b class="overflow-break-word">Vous devez <a href="{{ route('typeOfRooms.index') }}">créer au moins un type de salle</a> avant de pouvoir ajouter des salles.</b></div>
+						@endif
 						@if(!count($rooms))
 							<p class="text-muted">Il n'y a aucune salle pour l'instant.</p>
 						@else
@@ -242,36 +246,35 @@
 									@endforeach
 								</table>
 							</div>
-							@endif
-							@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
-								<div class="row">
-									<div class="col-xs-12 bottom-controls">
-										<a id="addRoomButton" data-toggle="collapse" href="#addRoomPane" class="btn btn-primary btn-xs pull-right">Ajouter une salle</a>
-									</div>
+						@endif
+						@if(Auth::user()->role <= 2 && Auth::user()->role > 0 && $roomTypeCount > 0)
+							<div class="row">
+								<div class="col-xs-12 bottom-controls">
+									<a id="addRoomButton" data-toggle="collapse" href="#addRoomPane" class="btn btn-primary btn-xs pull-right">Ajouter une salle</a>
 								</div>
-							@endif
-						</div>
-						@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
-							<div class="col-xs-12 {{ $errors->has('name') || $errors->has('place') || $errors->has('id_room_type') ? '' : 'collapse'}}" id="addRoomPane">
-								<h5><b>Ajouter une salle</b></h5>
-								<form action="{{ route('room.store') }}" method="post">
-									{{ csrf_field() }}
-									<input type="hidden" value="{{ $site->id_site }}" name="id_site">
-									{!! Form::control('text', 'name', $errors, old('name'), 'Nom', '', ["maxlength" => '255', "required" => "required"]) !!}
-									{!! Form::control('number', 'place', $errors, old('place'), 'Nombre de places', '', ["min" => '0', 'step' => '1', "required" => "required"]) !!}
-									<div class="form-group">
-										<label class="control-label">Type de salle</label>
-										<select name="id_room_type" class="form-control">
-											<option value="0"> Aucun</option>
-											@foreach(App\RoomTypes::where("is_deleted", "=", 0)->get() as $roomType)
-												<option value="{{ $roomType->id_room_type }}">{{ $roomType->name }}</option>
-											@endforeach
-										</select>
-									</div>
-									<button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Ajouter</button>
-								</form>
 							</div>
 						@endif
+					</div>
+					@if(Auth::user()->role <= 2 && Auth::user()->role > 0 && $roomTypeCount > 0)
+						<div class="col-xs-12 {{ $errors->has('name') || $errors->has('place') || $errors->has('id_room_type') ? '' : 'collapse'}}" id="addRoomPane">
+							<h5><b>Ajouter une salle</b></h5>
+							<form action="{{ route('room.store') }}" method="post">
+								{{ csrf_field() }}
+								<input type="hidden" value="{{ $site->id_site }}" name="id_site">
+								{!! Form::control('text', 'name', $errors, old('name'), 'Nom', '', ["maxlength" => '255', "required" => "required"]) !!}
+								{!! Form::control('number', 'place', $errors, old('place'), 'Nombre de places', '', ["min" => '0', 'step' => '1', "required" => "required"]) !!}
+								<div class="form-group">
+									<label class="control-label">Type de salle</label>
+									<select name="id_room_type" class="form-control">
+										@foreach(App\RoomTypes::where("is_deleted", "=", 0)->get() as $roomType)
+											<option value="{{ $roomType->id_room_type }}">{{ $roomType->name }}</option>
+										@endforeach
+									</select>
+								</div>
+								<button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Ajouter</button>
+							</form>
+						</div>
+					@endif
 					</div>
 				</div>
 			</div>
