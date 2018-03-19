@@ -15,7 +15,7 @@ class MealController extends Controller
   /**
   * Create a new $typeOfRoomController instance
   *
-  * @param App\Repositories\TypeOfRoomRepository $typeOfRoomRepository
+  * @param App\Repositories\MealRepository $mealRepository
   * @return void
   */
   public function __construct(MealRepository $mealRepository)
@@ -91,7 +91,7 @@ class MealController extends Controller
     {
       if(!is_numeric($id)) abort(404);
       $this->mealRepository->update($id, $request->all());
-      return redirect('admin/meal')->withOk("le repas " . $request->input('name') . " a été modifié.");
+      return redirect('admin/meal')->withOk("Le repas " . $request->input('name') . " a été modifié.");
     }
 
     /**

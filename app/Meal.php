@@ -17,9 +17,9 @@ class Meal extends Model
     'name','price', 'menu',
   ];
 
-  public function site()
+  public function sites()
   {
-    return $this->belongsTo('App\Site', 'id_site');
+    return $this->belongsToMany('App\Site', 'id_site');
   }
 
 }

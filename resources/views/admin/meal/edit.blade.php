@@ -26,10 +26,8 @@ Modifier un repas
 	        	<div class="box-body">
 		            {!! Form::controlWithIcon('text', 'name', $errors, $meal->name, 'Nom', 'glyphicon-font', 'Nom', ["maxlength" => '255', "required" => "required"]) !!}
 		            {!! Form::controlWithIcon('number', 'price', $errors, $meal->price, 'price', 'glyphicon-euro', 'prix', ["step" => '0.01', "required" => "required" ]) !!}
-                <textarea name="menu" class="form-control" maxlength="255" required   > {{$meal->menu}} </textarea>
-
+		            {!! Form::control('textarea', 'menu', $errors, $meal->menu, 'Menu', 'Menu') !!}
 		      	</div>
-	          	<!-- /.box-body -->
 
 		        <div class="box-footer">
 		          <button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Modifier</button>

@@ -27,7 +27,7 @@ class MealRequest extends FormRequest
             
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
-            'menu' => 'required|string|max:255',
+            'menu' => 'required|string',
         ];
     }
 }

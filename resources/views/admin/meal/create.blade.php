@@ -13,7 +13,7 @@ Créer un repas
 
 @section('breadcrumb_nav')
 	<li><a href="{{ route('admin.home') }}"><i class="fa fa-home"></i> Tableau de bord</a></li>
-	<li><a href="{{ route('site.index') }}"><i class="fa fa-map-marker"></i> repas</a></li>
+	<li><a href="{{ route('meal.index') }}"><i class="fa fa-map-marker"></i> Repas</a></li>
 	<li class="active">Créer un repas</li>
 @endsection
 
@@ -25,11 +25,9 @@ Créer un repas
 				{{ csrf_field() }}
 	        	<div class="box-body">
 		            {!! Form::controlWithIcon('text', 'name', $errors, old('name'), 'Nom', 'glyphicon-font', 'Nom', ["maxlength" => '255', "required" => "required"]) !!}
-                 {!! Form::controlWithIcon('number', 'price', $errors, old('price'), 'Prix', 'glyphicon-euro', 'Prix', ["step" => '0.01', "min" => "0", "required" => "required"]) !!}		            <div class="row">
-				        <textarea name="menu" class="form-control" maxlength="255" required>  </textarea>
-
+                	{!! Form::controlWithIcon('number', 'price', $errors, old('price'), 'Prix', 'glyphicon-euro', 'Prix', ["step" => '0.01', "min" => "0", "required" => "required"]) !!}
+                	{!! Form::control('textarea', 'menu', $errors, old('menu'), 'Menu', 'Menu') !!}
 	          	</div>
-	          	<!-- /.box-body -->
 
 		        <div class="box-footer">
 		          <button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Créer</button>

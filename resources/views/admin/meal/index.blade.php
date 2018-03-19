@@ -13,7 +13,7 @@ Repas
 
 @section('breadcrumb_nav')
 	<li><a href="{{ route('admin.home') }}"><i class="fa fa-home"></i> Tableau de bord</a></li>
-	<li class="active">repas</li>
+	<li class="active">Repas</li>
 @endsection
 
 @section('content')
@@ -23,8 +23,8 @@ Repas
     <tr>
       <th style="width: 10px">#</th>
       <th>Nom</th>
-      <th>prix</th>
-			<th>descriptif</th>
+      <th>Prix</th>
+			<th>Descriptif</th>
 			<th style="width:30px"></th>
 			<th style="width:30px"></th>
     </tr>
@@ -32,7 +32,7 @@ Repas
     <tr>
     	 <td>{{ $meal->id_meal }}</td>
        <td><b>{{$meal->name }}</b></td>
-		   <td><span class="price-tag">{{ $meal->price }}€</span> </td>
+		   <td>{{ $meal->price }}€</td>
 			 <td> {{$meal->menu}}</td>
 			 <td><a class="point-cursor" href="{{ route('meal.edit', $meal->id_meal) }}"><i class="fa fa-pencil"></td>
 			 <td>
