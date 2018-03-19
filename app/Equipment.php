@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Equipment extends Model
 {
-    
+
     protected $primaryKey = "id_equipment";
     public $timestamps = false;
 
@@ -29,4 +29,8 @@ class Equipment extends Model
         return $this->belongsTo('App\Site', 'id_site');
     }
 
+    public function reserve()
+    {
+      return $this->belongsToMany('App\reserveRoom', 'reserve_equipment', 'id_equipment', 'id_reserve_room');
+    }
 }
