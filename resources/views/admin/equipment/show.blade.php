@@ -13,7 +13,7 @@
 
 @section('breadcrumb_nav')
 	<li><a href="{{ route('admin.home') }}"><i class="fa fa-home"></i> Tableau de bord</a></li>
-	<li><a href="{{ route('equipmenttype.index') }}">Types de matériel</a></li>
+	<li><a href="{{ route('equipmenttype.index') }}"><i class="fa fa-laptop"></i> Types de matériel</a></li>
 	<li><a href="{{ route('equipmenttype.show', $type->id_equipment_type) }}">{{ $type->name }}</a></li>
 	<li class="active">{{ $equipment->serial_number }}</li>
 @endsection

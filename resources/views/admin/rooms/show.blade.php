@@ -2,7 +2,7 @@
 
 
 @section('title')
-Modifier un site
+Salle
 @endsection
 
 @section('page_title')

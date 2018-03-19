@@ -29,7 +29,7 @@
                   <div class="row">
                     <div class="col-xs-10">
                       <div class="form-group has-feedback" id="descriptionGroup">
-                        <input class="form-control" placeholder="name" maxlength="255" name="name" type="text" required>
+                        <input class="form-control" placeholder="Nom dy type de salle" maxlength="255" name="name" type="text" required>
                         <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
                       </div>
                     </div>

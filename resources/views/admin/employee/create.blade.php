@@ -13,7 +13,7 @@ Créer un employé
 
 @section('breadcrumb_nav')
 	<li><a href="{{ route('admin.home') }}"><i class="fa fa-home"></i> Tableau de bord</a></li>
-	<li><a href="{{ route('employee.index') }}"><i class="fa fa-map-marker"></i> Employés</a></li>
+	<li><a href="{{ route('employee.index') }}"><i class="fa fa-user"></i> Employés</a></li>
 	<li class="active">Créer un employé</li>
 @endsection
 

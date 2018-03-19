@@ -24,10 +24,6 @@ skin-blue sidebar-mini layout-top-nav
    <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-<footer class="main-footer">
-    <div class="container">
-      <strong>Copyright &copy; 2018 <a href="https://worknshare.fr">Work'n Share</a>.</strong> Tous droits réservés.
-    </div>
-    <!-- /.container -->
-</footer>
- @endsection 
+@component('components.footer')
+@endcomponent
+@endsection 

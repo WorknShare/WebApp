@@ -13,7 +13,7 @@
 
 @section('breadcrumb_nav')
 	<li><a href="{{ route('admin.home') }}"><i class="fa fa-home"></i> Tableau de bord</a></li>
-	<li><a href="{{ route('plan.index') }}"><i class="fa fa-map-marker"></i> Forfaits</a></li>
+	<li><a href="{{ route('plan.index') }}"><i class="fa fa-credit-card"></i> Forfaits</a></li>
 	<li class="active">{{ $plan->name }}</li>
 @endsection
 
