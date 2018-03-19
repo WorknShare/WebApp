@@ -27,7 +27,7 @@ class RoomRequest extends FormRequest
             'id_site' => 'required|integer|min:1',
             'name' => 'required|string|max:255',
             'place' => 'required|integer|min:0',
-            'id_room_type' => 'required|integer|min:1',
+            'id_room_type' => 'required|integer|min:0',
         ];
     }
 }
