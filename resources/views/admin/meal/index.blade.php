@@ -17,6 +17,16 @@ Repas
 @endsection
 
 @section('content')
+<div class="row">
+  <div class="col-sm-12 col-md-6 col-lg-4 pull-right">
+    <form action="{{ route('meal.index') }}" method="get" id="formSearch">
+      <div class="form-group has-feedback">
+        <input class="form-control " placeholder="Recherche" id="search" maxlength="255" name="search" type="text" value='{{ isset($_GET["search"]) ? $_GET["search"] : '' }}'>
+        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+      </div>
+    </form>
+  </div>
+</div>
 @if(count($meals))
 <div class="box-body no-padding table-container-responsive">
   <table class="table table-striped">

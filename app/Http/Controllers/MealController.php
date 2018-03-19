@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\MealRequest;
 use App\Repositories\MealRepository;
+use App\Http\Requests\SearchRequest;
 
 class MealController extends Controller
 {
@@ -26,19 +27,25 @@ class MealController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param App\Http\Requests\SearchRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(SearchRequest $request)
     {
-      $meals = $this->mealRepository->getPaginate($this->amountPerPage);
 
-      if ($meals->isEmpty() && $meals->currentPage() != 1)
+      if(!empty($request->search))
       {
-        return abort(404);
+          $search = '%'.strtolower($request->search).'%';
+          $meals = $this->mealRepository->getWhere('name',$search);
+          $links = '';
+          return view('admin.meal.index', compact('meals', 'links'));
       }
-
-      $links = $meals->render();
-      return view('admin.meal.index', compact('meals', 'links'));
+      else
+      {
+          $meals = $this->mealRepository->getPaginate($this->amountPerPage);
+          $links = $meals->render();
+          return view('admin.meal.index', compact('meals', 'links'));
+      }
     }
 
     /**
