@@ -34,19 +34,23 @@ Repas
       <th style="width: 10px">#</th>
       <th>Nom</th>
       <th style="width:100px">Prix</th>
+      @if(Auth::user()->role <= 2 && Auth::user()->role > 0)
 			<th style="width:30px"></th>
 			<th style="width:30px"></th>
+      @endif
     </tr>
     @foreach ($meals as $meal )
     <tr>
     	 <td>{{ $meal->id_meal }}</td>
        <td><b><a href="{{ route('meal.show', $meal->id_meal) }}">{{$meal->name }}</a></b></td>
 		   <td>{{ $meal->price }}€</td>
+       @if(Auth::user()->role <= 2 && Auth::user()->role > 0)
 			 <td><a class="point-cursor" href="{{ route('meal.edit', $meal->id_meal) }}"><i class="fa fa-pencil"></td>
 			 <td>
         {{ Form::open(['method' => 'DELETE', 'route' => ['meal.destroy', $meal->id_meal]]) }}
         <a class="text-danger submitDeleteMeal point-cursor" value="Supprimer" type="submit"><i class="fa fa-trash"></i></a>
         {{ Form::close() }}
+        @endif
      </td>
     </tr>
 	@endforeach
