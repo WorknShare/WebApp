@@ -220,7 +220,7 @@
 									<tr>
 										<th>Nom</th>
 										<th>Type de salle</th>
-										<th>places maximum</th>
+										<th>Places maximum</th>
 										<th style="width:30px"></th>
 										@if ( Auth::user()->role <= 2 && Auth::user()->role > 0)
 											<th style="width:30px"></th>
