@@ -6,7 +6,7 @@ $(function(){
 });
 
 function ajaxCalendar() {
-  var url = '{{ route('room.calendar', $room->id_room)}}';
+  var url = '{{ route('equipmenttype.equipment.calendar', ['equipmenttype' => $type->id_equipment_type , 'equipment' => $equipment->id_equipment])}}';
   $.ajax({
     type : 'GET',
     url : url,
@@ -14,10 +14,6 @@ function ajaxCalendar() {
   })
   .done(function(data) {
     console.log(data);
-    $('#title-room').text('{{ $room->name}}');
-    $('#route-site').attr("href", "{{ route('site.show', $site->id_site)}}");
-    $('#route-site').text('{{$site->name}}');
-    $('#name-room').text('{{$room->name}}');
     calendarDisplay(data);
   })
   .fail(function(data) {
@@ -96,10 +92,6 @@ function calendarDisplay(data) {
       }
     },
 
-    //eventClick
-    eventMouseover : function( event, jsEvent, view ) {
-      console.log('test : ', event.id);
-    },
     header    : {
       left  : 'prev,next today  refresh',
       center: 'title',

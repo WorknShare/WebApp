@@ -59,6 +59,7 @@ Route::prefix('admin')->group(function() {
 	Route::resource('equipmenttype', 'EquipmentTypeController', ['except' => ['create', 'edit']]);
 	Route::resource('equipmenttype.equipment', 'EquipmentController', ['except' => ['index','create', 'edit']]);
 	Route::put('equipmenttype/{equipmenttype}/equipment/{equipment}/affect', 'EquipmentController@affect')->name('equipmenttype.equipment.affect');
+  Route::get('equipmenttype/{equipmenttype}/equipment/{equipment}/calendar', 'EquipmentController@calendar')->name('equipmenttype.equipment.calendar');
 
 });
 Route::resource('schedule', 'ScheduleController', ['only' => ['store','destroy']]);

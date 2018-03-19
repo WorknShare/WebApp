@@ -16,7 +16,7 @@ class EquipmentController extends Controller
 
     /**
      * Create a new PlanAdvantageController instance
-     * 
+     *
      * @param \App\Repositories\EquipmentTypeRepository $equipmentTypeRepository
      * @param \App\Repositories\EquipmentRepository $equipmentRepository
      * @return void
@@ -75,6 +75,18 @@ class EquipmentController extends Controller
         return view('admin.equipment.show', compact('equipment', 'type', 'site', 'siteId'));
     }
 
+    public function calendar($id_equipment_type, $id_equipment)
+    {
+      if(!is_numeric($id_equipment_type) || !is_numeric($id_equipment)) abort(404);
+
+      $equipment = $this->equipmentRepository->getById($id_equipment);
+      $type = $equipment->type()->first();
+      if($type->id_equipment_type != $id_equipment_type) abort(400);
+      $calendar = $equipment->reserve()->join('clients', 'reserve_room.id_client', '=', 'clients.id_client')->select('reserve_room.*', 'clients.name')->get();;
+      return response()->json([
+          'calendar' => $calendar
+      ]);
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -86,11 +98,11 @@ class EquipmentController extends Controller
     public function update(EquipmentRequest $request, $id_equipment_type, $id_equipment)
     {
         if(!is_numeric($id_equipment_type) || !is_numeric($id_equipment)) abort(404);
-        
+
         $equipment = $this->equipmentRepository->getById($id_equipment);
         $type = $equipment->type()->first();
         if($type->id_equipment_type != $id_equipment_type) abort(400);
-    
+
         $request->merge(['id_equipment_type' => $id_equipment_type]);
 
         $equipment->update($request->all());
