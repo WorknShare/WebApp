@@ -31,6 +31,11 @@ class Site extends Model
 
   public function equipment()
   {
-      return $this->hasMany('App\Equipment', 'id_site');
+    return $this->hasMany('App\Equipment', 'id_site');
+  }
+
+  public function meals()
+  {
+    return $this->belongsToMany('App\Meal', 'site_meal', 'id_site', 'id_meal');
   }
 }

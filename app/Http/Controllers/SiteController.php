@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\SearchRequest;
+use App\Http\Requests\MealAffectRequest;
 use App\Http\Requests\SiteRequest;
 use App\Repositories\SiteRepository;
 
@@ -84,7 +85,8 @@ class SiteController extends Controller
         $site = $this->siteRepository->getById($id);
         $schedules = $site->schedules()->orderBy('day', 'asc')->get();
         $rooms = $site->rooms()->join('room_types', 'rooms.id_room_type', '=', 'room_types.id_room_type')->select('rooms.*', 'room_types.name as room_name')->get();
-        return view('admin.sites.show', compact('site', 'schedules', 'rooms'));
+        $meals = $site->meals()->get();
+        return view('admin.sites.show', compact('site', 'schedules', 'rooms', 'meals'));
     }
 
     /**
@@ -135,5 +137,50 @@ class SiteController extends Controller
         }
         $this->siteRepository->destroy($id);
         return redirect('admin/site')->withOk("Le site " . $name . " a été supprimé.");
+    }
+
+
+    /**
+     * Affects a meal to a site.
+     *
+     * @param  \App\Http\Requests\MealAffectRequest $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function affectMeal(MealAffectRequest $request, $id)
+    {
+        if(!is_numeric($id)) abort(404);
+
+        $site = $this->siteRepository->getById($id);
+        $meal = \App\Meal::where('is_deleted','=',0)->find($request->meal);
+
+        if(!is_null($meal))
+            $site->meals()->attach($request->meal);
+        else
+            abort(400);
+
+        return redirect('admin/site/'.$id)->withOk("Le repas " . $meal->name . " a été ajouté à ce site.");
+    }
+
+    /**
+     * Remove a meal from a site.
+     *
+     * @param  \App\Http\Requests\MealAffectRequest $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function removeMeal(MealAffectRequest $request, $id)
+    {
+        if(!is_numeric($id)) abort(404);
+
+        $site = $this->siteRepository->getById($id);
+        $meal = \App\Meal::where('is_deleted','=',0)->find($request->meal);
+
+        if(!is_null($meal) && $site->meals->contains($request->meal))
+            $site->meals()->detach($request->meal);
+        else
+            abort(400);
+
+        return redirect('admin/site/'.$id)->withOk("Le repas " . $meal->name . " a été retiré de ce site.");
     }
 }

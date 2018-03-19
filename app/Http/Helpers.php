@@ -50,3 +50,11 @@ function planHasAdvantage($plan, $idAdvantage) {
 	}
 	return false;
 }
+
+function siteHasMeal($meals, $idMeal)
+{
+	foreach ($meals as $meal) {
+		if($meal->id_meal == $idMeal) return true;
+	}
+	return false;
+}
