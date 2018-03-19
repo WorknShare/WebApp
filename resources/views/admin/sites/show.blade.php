@@ -262,7 +262,7 @@
 								{{ csrf_field() }}
 								<input type="hidden" value="{{ $site->id_site }}" name="id_site">
 								{!! Form::control('text', 'name', $errors, old('name'), 'Nom', '', ["maxlength" => '255', "required" => "required"]) !!}
-								{!! Form::control('number', 'place', $errors, old('place'), 'Nombre de places', '', ["min" => '0', 'step' => '1', "required" => "required"]) !!}
+								{!! Form::control('number', 'place', $errors, old('place'), 'Nombre de places', '', ["min" => '1', 'step' => '1', "required" => "required"]) !!}
 								<div class="form-group">
 									<label class="control-label">Type de salle</label>
 									<select name="id_room_type" class="form-control">
