@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddRoomsIdDeletedColumn extends Migration
+class AddRoomTypesIsDeletedColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddRoomsIdDeletedColumn extends Migration
      */
     public function up()
     {
-        Schema::table('rooms', function (Blueprint $table) {
+        Schema::table('room_types', function (Blueprint $table) {
             $table->boolean('is_deleted')->default(0);
         });
     }
@@ -25,7 +25,7 @@ class AddRoomsIdDeletedColumn extends Migration
      */
     public function down()
     {
-        Schema::table('rooms', function (Blueprint $table) {
+        Schema::table('room_types', function (Blueprint $table) {
             $table->dropColumn('is_deleted');
         });
     }

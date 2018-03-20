@@ -7,6 +7,7 @@ use App\Employee;
 use App\User;
 use App\Site;
 use App\Schedule;
+use App\RoomTypes;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
@@ -178,6 +179,7 @@ class SiteTest extends TestCase
     public function testSiteShow()
     {
     	$siteShow = factory(Site::class)->create();
+        factory(RoomTypes::class)->create(); //Avoid no room type message
     	$this->be($this->employees[1], 'admin');
 
     	//Employee can see site details
