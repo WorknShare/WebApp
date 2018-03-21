@@ -1,0 +1,9 @@
+@media (min-width: 992px) {
+	.navbar-default .navbar-brand {
+		padding-top: 7.5px;
+	}
+}
+
+.text-black {
+	color: rgba(0,0,0,0.5) !important;
+}
