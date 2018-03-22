@@ -1,8 +1,4 @@
-@extends('layouts.app')
-
-@section('body-class')
-skin-blue sidebar-mini layout-top-nav
-@endsection
+@extends('layouts.app_public')
 
 @section('navigation')
 @include('partials.frontoffice.navbar')
@@ -24,6 +20,8 @@ skin-blue sidebar-mini layout-top-nav
    <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-@component('components.footer')
+
+@component('components.footer_front')
 @endcomponent
+
 @endsection 

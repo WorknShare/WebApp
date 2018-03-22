@@ -32,7 +32,9 @@
 </head>
 <body>
 
-	@yield('content')
+    @yield('navigation')
+
+	@yield('content-wrapper')
 
 
 	<script src="{{ asset('landing/vendor/jquery/jquery-1.12.0.min.js') }}"></script>

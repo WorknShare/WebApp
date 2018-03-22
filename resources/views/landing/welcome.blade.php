@@ -1,8 +1,14 @@
 @extends('layouts.app_public')
 
-@section('content')
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/comparative.css') }}">
+@endsection
 
-    @include('partials.frontoffice.navbar')
+@section('navigation')
+@include('partials.frontoffice.navbar')
+@endsection
+
+@section('content-wrapper')
 
     <!--banner start-->
     <section class="ImageBackground Blurb Blurb--wrapper bg-primary bg-primary--gradient310 u-BorderRadius6 js-FullHeight js-Parallax" data-overlay="4">
@@ -249,167 +255,45 @@
     </section>
     <!--image post end-->
 
-    <!--plan start-->
+
     <section class="u-PaddingTop150 u-PaddingBottom150 u-xs-PaddingTop70 u-xs-PaddingBottom70">
         <div class="container">
             <div class="row media">
-                <div class="col-md-4 media-left media-middle">
-                    <div class="u-PaddingRight20 u-sm-PaddingRight0 u-sm-MarginBottom40">
-                        <h1 class="u-MarginTop0">Pricing Plan</h1>
-                        <p class="u-LineHeight2">Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets. Lid est laborum dolo rumes fugats untras.</p>
-                    </div>
-                </div>
-                <div class="col-md-8 media-body media-middle">
-                    <div class="row text-center u-xs-MarginTop50">
-                        <div class="col-sm-6 u-xs-MarginBottom40">
-                            <div class="u-BoxShadow100">
-                                <div class="Blurb Blurb--wrapper u-BorderRadius6">
-                                    <h3 class="Blurb__hoverText u-MarginTop0">Free</h3>
-                                    <div class="Blurb__hoverText u-FontSize50 u-Weight700">
-                                        <small class="u-InlineBlock u-VerticalMiddle">$</small>0
-                                    </div>
-                                    <small class="Blurb__hoverText text-muted text-uppercase">Per month</small>
-                                    <div class="u-MarginTop35 u-MarginBottom35 u-LineHeight3">
-                                        - 24/7 Tech Support
-                                        <br>
-                                        - Advanced Options
-                                        <br>
-                                        - 1GB Storage
-                                        <br>
-                                        - 1GB Bandwidth
-                                    </div>
-                                    <a class="Blurb__hoverBtn btn btn-default u-Rounded u-Weight300" href="#">Purchase This</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="u-BoxShadow100">
-                                <div class="Blurb Blurb--wrapper u-BorderRadius6">
-                                    <h3 class="Blurb__hoverText u-MarginTop0">Premium</h3>
-                                    <div class="Blurb__hoverText u-FontSize50 u-Weight700">
-                                        <small class="u-InlineBlock u-VerticalMiddle">$</small>29
-                                    </div>
-                                    <small class="Blurb__hoverText text-muted text-uppercase">Per month</small>
-                                    <div class="u-MarginTop35 u-MarginBottom35 u-LineHeight3">
-                                        - 24/7 Tech Support
-                                        <br>
-                                        - Advanced Options
-                                        <br>
-                                        - 1GB Storage
-                                        <br>
-                                        - 1GB Bandwidth
-                                    </div>
-                                    <a class="Blurb__hoverBtn btn btn-default u-Rounded u-Weight300" href="#">Purchase This</a>
-                                </div>
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-md-12 media-left media-middle">
+                            <div class="u-PaddingRight20 u-sm-PaddingRight0 u-sm-MarginBottom40">
+                                <h1 class="u-MarginTop0">Forfaits</h1>
                             </div>
                         </div>
                     </div>
                 </div>
+                @component('components.plan_comparative', [
+                  'plans' => $plans,
+                  'planAdvantages'=> $planAdvantages,
+                  'reserveCount' => $reserveCount,
+                  'orderMealCount' => $orderMealCount])
+                @endcomponent
             </div>
         </div>
     </section>
-    <!--plan end-->
 
-    <!--pricing  start-->
     <section class="u-PaddingTop150 u-PaddingBottom150 u-xs-PaddingTop70 u-xs-PaddingBottom70 u-BoxShadow40">
         <div class="container">
             <div class="row text-center">
                 <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 text-center">
-                    <h1 class="u-MarginTop10 u-MarginBottom10">Start building your site right now with Alien</h1>
+                    <h1 class="u-MarginTop10 u-MarginBottom10">Vivez l'expérience Work'n Share dès maintenant !</h1>
                 </div>
                 <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
-                    <p class="u-LineHeight2 u-MarginBottom40">Lid est laborum dolo rumes fugats untras Etharums ser.</p>
+                    <p class="u-LineHeight2 u-MarginBottom40">Inscrivez-vous et profitez directement de nos services.</p>
                     <p>
-                        <a class="btn btn-primary u-Rounded text-uppercase" href="#" role="button">Purchase Alien Here</a>
+                        <a class="btn btn-primary u-Rounded text-uppercase" href="{{ route('register') }}" role="button">Inscrivez-vous !</a>
                     </p>
                 </div>
             </div>
         </div>
     </section>
-    <!--pricing  end-->
 
-    <!--footer start-->
-    <footer class="bg-darker u-PaddingTop70 u-xs-PaddingTop50">
-        <div class="container text-sm">
-            <div class="row">
-                <div class="col-md-3 u-xs-MarginBottom30">
-                    <div class="logo u-MarginBottom25">
-                        <img src="{{ asset('landing/imgs/logo-light.png') }}" alt="">
-                    </div>
-                    <p>Alien is  fully responsible, performance oriented and SEO optimized, retina ready HTML template.</p>
-                    <h5 class="u-Weight700">Alien LLC</h5>
-                    <p>Street nr 100, 4536534, Chicago, US</p>
-
-                    <p>T (212) 555 55 00 <br>
-                    Email: sales@yourwebsite.com
-                    </p>
-                </div>
-                <div class="col-md-3 u-xs-MarginBottom30">
-                    <h5 class="text-uppercase u-Weight800 u-LetterSpacing2 u-MarginTop0">Follow Us</h5>
-                    <ul class="light-gray-link border-bottom-link list-unstyled u-LineHeight2 u-PaddingRight40 u-xs-PaddingRight0">
-                        <li> <a href="#"><i class="fa fa-angle-right u-MarginRight10" aria-hidden="true"></i>About Us</a></li>
-                        <li> <a href="#"><i class="fa fa-angle-right u-MarginRight10" aria-hidden="true"></i>Career</a></li>
-                        <li> <a href="#"><i class="fa fa-angle-right u-MarginRight10" aria-hidden="true"></i>Terms &amp; Condition</a></li>
-                        <li> <a href="#"><i class="fa fa-angle-right u-MarginRight10" aria-hidden="true"></i>Privacy Policy</a></li>
-                        <li> <a href="#"><i class="fa fa-angle-right u-MarginRight10" aria-hidden="true"></i>Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3 u-xs-MarginBottom30">
-                    <h5 class="text-uppercase u-Weight800 u-LetterSpacing2 u-MarginTop0">Recent Post</h5>
-                    <ul class="light-gray-link list-unstyled u-MarginBottom0">
-                        <li class="u-MarginBottom15">
-                            <a class="" href="#">
-                                The ultimate guide to freelancing as a creative...
-                            </a>
-                            <p class="">24 February 2017</p>
-                        </li>
-                        <li class="u-MarginBottom15">
-                            <a class="" href="#">
-                                Searching for the best UX: search forms and boxes in web design
-                            </a>
-                            <p>19 January 2017</p>
-                        </li>
-                        <li class="u-MarginBottom15">
-                            <a class="" href="#">
-                                Top 10 free tools for frontend web development
-                            </a>
-                            <p>2 January 2017</p>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5 class="text-uppercase u-Weight800 u-LetterSpacing2 u-MarginTop0">Subscribe</h5>
-
-                    <form action="">
-                        <input class="form-control" placeholder="Enter Email" type="email">
-                    </form>
-
-                    <h5 class="text-uppercase u-Weight800 u-LetterSpacing2 u-MarginTop50">We are Social</h5>
-                    <div class="social-links sl-default gray-border-links border-link circle-link colored-hover">
-                        <a href="#" class="facebook">
-                            <i class="fa fa-facebook"></i>
-                        </a>
-                        <a href="#" class="twitter">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                        <a href="#" class="g-plus">
-                            <i class="fa fa-google-plus"></i>
-                        </a>
-                        <a href="#" class="youtube">
-                            <i class="fa fa-youtube"></i>
-                        </a>
-                        <a href="#" class="dribbble">
-                            <i class="fa fa-dribbble"></i>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="text-center u-MarginTop30">
-            <div class="footer-separator"></div>
-            <p class="u-MarginBottom0 u-PaddingTop30 u-PaddingBottom30">Copyright 2017 @ Alien Template.</p>
-        </div>
-    </footer>
-    <!--footer end-->
+    @component('components.footer_front')
+    @endcomponent
 @endsection

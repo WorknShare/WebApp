@@ -1,0 +1,40 @@
+.comparative-header {
+	font-size: 25px;
+}
+
+.comparative-icon {
+	font-size: 35px;
+}
+
+.comparative-icon.text-success {
+	color: #00a65a;
+}
+
+.comparative-description {
+	max-width: 150px;
+	white-space: normal !important
+}
+
+.comparative-description.text-muted {
+	font-style: italic;
+}
+
+.comparative-table {
+	 border-spacing: 15px 50px;
+}
+
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+	border: none;
+	padding: 10px;
+	padding-left: 20px;
+	vertical-align: middle;
+}
+
+.comparative-table .price-tag {
+	font-size: 24px;
+	line-height: 24px;
+}
+
+.comparative-table .price-tag-info {
+	vertical-align: bottom;
+}
