@@ -114,13 +114,10 @@
         <div class="container">
             <div class="row text-center">
                 <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 text-center">
-                    <h1 class="u-MarginTop10 u-MarginBottom35">How it works</h1>
+                    <h1 class="u-MarginTop10 u-MarginBottom35">Comment ça fonctionne</h1>
                 </div>
                 <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-                    <p class="u-LineHeight2">Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima</p>
-                    <p>
-                        <a class="btn btn-go btn-go--info" href="#" role="button">Read The Story <i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                    </p>
+                    <p class="u-LineHeight2">Le processus de réservation est simple et rapide, pour que vous puissiez vous concentrer sur l'essentiel.</p>
                 </div>
             </div>
             <div class="row u-MarginTop100 u-xs-MarginTop50">
@@ -129,9 +126,9 @@
                         <div class="Step">
                             <div class="Step__thumb u-BoxShadow100">
                                 <span class="Step__thumb-number">01</span>
-                                <i class="Icon Icon-user-group"></i>
+                                <i class="Icon Icon-calendar"></i>
                             </div>
-                            <p class="u-MarginTop20 u-LineHeight2">Lid est laborum dolo rumes fugats.</p>
+                            <p class="u-MarginTop20 u-LineHeight2">Réservation sur le site.</p>
                         </div>
                         <div class="Step">
                             <div class="Step__thumb StepCurve StepCurve--down">
@@ -141,9 +138,9 @@
                         <div class="Step">
                             <div class="Step__thumb u-BoxShadow100">
                                 <span class="Step__thumb-number">02</span>
-                                <i class="Icon Icon-trophy"></i>
+                                <i class="Icon Icon-chair"></i>
                             </div>
-                            <p class="u-MarginTop20 u-LineHeight2">Lid est laborum dolo rumes fugats.</p>
+                            <p class="u-MarginTop20 u-LineHeight2">Espace et matériel prêts à votre arrivée.</p>
                         </div>
                         <div class="Step">
                             <div class="Step__thumb StepCurve StepCurve--up">
@@ -153,9 +150,9 @@
                         <div class="Step">
                             <div class="Step__thumb u-BoxShadow100">
                                 <span class="Step__thumb-number">03</span>
-                                <i class="Icon Icon-support"></i>
+                                <i class="Icon Icon-badge1"></i>
                             </div>
-                            <p class="u-MarginTop20 u-LineHeight2">Lid est laborum dolo rumes fugats.</p>
+                            <p class="u-MarginTop20 u-LineHeight2">Satisfaction garantie.</p>
                         </div>
                     </div>
                 </div>
@@ -169,10 +166,7 @@
         <div class="container">
             <div class="row text-center">
                 <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 text-center">
-                    <h1 class="u-MarginTop10 u-MarginBottom10">Alien Factors</h1>
-                </div>
-                <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
-                    <p class="u-LineHeight2">Lid est laborum dolo rumes fugats untras Etharums ser</p>
+                    <h1 class="u-MarginTop10 u-MarginBottom10">Quelques chiffres</h1>
                 </div>
             </div>
             <div class="row u-MarginTop70 u-xs-MarginTop40">
@@ -184,8 +178,8 @@
                                     <i class="Blurb__hoverText Icon Icon-happy Icon--44px" aria-hidden="true"></i>
                                 </div>
                                 <div class="">
-                                    <h2 class="js-CountTo u-Margin0" data-to="1256">1,256</h2>
-                                    <small class="text-uppercase u-LetterSpacing1">Happy Client</small>
+                                    <h2 class="js-CountTo u-Margin0" data-to="8515">8515</h2>
+                                    <small class="text-uppercase u-LetterSpacing1">Clients satisfaits</small>
                                 </div>
                             </div>
                         </div>
@@ -196,11 +190,11 @@
                         <div class="Blurb">
                             <div class="u-FlexCenter u-PaddingTop50 u-PaddingBottom50">
                                 <div class="u-PaddingRight25">
-                                    <i class="Blurb__hoverText Icon Icon-trophy Icon--44px" aria-hidden="true"></i>
+                                    <i class="Blurb__hoverText Icon Icon-user-group Icon--44px" aria-hidden="true"></i>
                                 </div>
                                 <div class="">
-                                    <h2 class="js-CountTo u-Margin0" data-to="22030">22,030</h2>
-                                    <small class="text-uppercase u-LetterSpacing1">Subscribes</small>
+                                    <h2 class="js-CountTo u-Margin0" data-to="127">127</h2>
+                                    <small class="text-uppercase u-LetterSpacing1">Partenaires</small>
                                 </div>
                             </div>
                         </div>
@@ -211,11 +205,11 @@
                         <div class="Blurb">
                             <div class="u-FlexCenter u-PaddingTop50 u-PaddingBottom50">
                                 <div class="u-PaddingRight25">
-                                    <i class="Blurb__hoverText Icon Icon-download Icon--44px" aria-hidden="true"></i>
+                                    <i class="Blurb__hoverText Icon Icon-desktop Icon--44px" aria-hidden="true"></i>
                                 </div>
                                 <div class="">
-                                    <h2 class="js-CountTo u-Margin0" data-to="105000">105,000</h2>
-                                    <small class="text-uppercase u-LetterSpacing1">Download</small>
+                                    <h2 class="js-CountTo u-Margin0" data-to="1450">1450</h2>
+                                    <small class="text-uppercase u-LetterSpacing1">Équipement</small>
                                 </div>
                             </div>
                         </div>
