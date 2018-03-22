@@ -37,7 +37,7 @@
                 <div class="col-md-6 media-body media-middle">
                     <div class="u-PaddingLeft50 u-PaddingRight50 u-xs-Padding0">
                         <h1 class="u-MarginTop0 u-MarginBottom30">Qu'est-ce que c'est ?</h1>
-                        <p class="u-LineHeight2">Work’n Share c’est votre espace de coworking au coeur de paris. Cet espace est dédié aux entrepreneurs, start ups, indépendants, salariés de tout horizon qui veulent travailler et recevoir leurs clients dans un cadre dynamique, convivial et professionnel.</p>
+                        <p class="u-LineHeight2">Work’n Share c’est votre espace de coworking au coeur de Paris. Cet espace est dédié aux entrepreneurs, start ups, indépendants, salariés de tout horizon qui veulent travailler et recevoir leurs clients dans un cadre dynamique, convivial et professionnel. Nos espaces lumineux et agréables vous attendent !</p>
 
                     </div>
                 </div>
@@ -45,29 +45,26 @@
             <div class="row u-MarginTop150 u-xs-MarginTop30">
                 <div class="col-md-4 col-sm-6 u-MarginBottom60">
                     <div class="u-PaddingRight40 u-md-Padding0 u-sm-PaddingRight20 u-xs-PaddingLeft20">
-                        <i class="Icon Icon-mobile Icon--32px"></i>
-                        <h3 class="u-MarginTop20">Fully Responsive</h3>
+                        <i class="Icon Icon-briefcase Icon--32px"></i>
+                        <h3 class="u-MarginTop20">Un véritable espace</h3>
                         <div class="Split Split--height1 u-Block"></div>
-                        <p class="u-MarginTop30 u-MarginBottom30">This one is a big one that has been haunting me since teenage years. When I was in highschool of University.</p>
-                        <a class="btn-go" href="#" role="button">Read More <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                        <p class="u-MarginTop30 u-MarginBottom30">Nos multiples sites permettent d'accueillir au total plus de 5000 personnes. Aucun laissé pour compte !</p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 u-MarginBottom60">
                     <div class="u-PaddingLeft20 u-PaddingRight20 u-md-Padding0 u-sm-PaddingLeft20 u-xs-PaddingRight20">
-                        <i class="Icon Icon-layers Icon--32px"></i>
-                        <h3 class="u-MarginTop20">Highly Customizable</h3>
+                        <i class="Icon Icon-map-pin Icon--32px"></i>
+                        <h3 class="u-MarginTop20">Idéalement placés</h3>
                         <div class="Split Split--height1 u-Block"></div>
-                        <p class="u-MarginTop30 u-MarginBottom30">This one is a big one that has been haunting me since teenage years. When I was in highschool of University.</p>
-                        <a class="btn-go" href="#" role="button">Read More <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                        <p class="u-MarginTop30 u-MarginBottom30">Nos sites sont idéalement placés partout sur Paris et facilement accessibles via les transports en commun.</p>
                     </div>
                 </div>
                 <div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-3 u-MarginBottom60">
                     <div class="u-PaddingLeft40 u-md-Padding0 u-sm-PaddingLeft10 u-sm-PaddingRight10 u-xs-PaddingLeft20 u-xs-PaddingRight20">
-                        <i class="Icon Icon-support Icon--32px"></i>
-                        <h3 class="u-MarginTop20">Amazing Support</h3>
+                        <i class="Icon Icon-clock Icon--32px"></i>
+                        <h3 class="u-MarginTop20">Haute disponibilité</h3>
                         <div class="Split Split--height1 u-Block"></div>
-                        <p class="u-MarginTop30 u-MarginBottom30">This one is a big one that has been haunting me since teenage years. When I was in highschool of University.</p>
-                        <a class="btn-go" href="#" role="button">Read More <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                        <p class="u-MarginTop30 u-MarginBottom30">Nos sites proposent des horaires flexibles et la grand quantité de matériel empruntable vous permet de rester productif.</p>
                     </div>
                 </div>
             </div>
@@ -101,7 +98,7 @@
                             <div class="media u-OverflowVisible u-MarginTop0">
                                 <div class="media-body media-middle">
                                     <p class="text-italic text-lg text-black u-MarginBottom30">Choisir Work'n Share fut évident. Le service s'adapte parfaitement à nos besoins et est très pratique à utiliser. La gestion administrative et logistique est maintenant plus facile et nous donne plus de temps pour organiser des événements, promouvoir notre espace de travail et se concentrer sur la dimension humaine.</p>
-                                    <p class="text-black" ><em>Bénédict D.</em></p>
+                                    <p class="text-black" ><em>Julies S.</em></p>
                                 </div>
                             </div>
                         </div>
