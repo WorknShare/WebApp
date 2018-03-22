@@ -26,7 +26,7 @@
                       <a href="{{ route('register') }}">S'inscrire</a>
                   </li>
                   @else
-                  <li> <a href="">{{ Auth::user()->surname . ' ' . Auth::user()->name }} </a></li>
+                  <li> <a href="{{ route('myaccount.index') }}">{{ Auth::user()->surname . ' ' . Auth::user()->name }} </a></li>
                   <li> 
                     <a href="{{ route('logout') }}" onclick="event.preventDefault();
                 document.getElementById('logout-form').submit();">Se déconnecter</a>

@@ -5,21 +5,21 @@
 @endsection
 
 @section('content-wrapper')
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+<section class="u-PaddingTop150 u-PaddingBottom100 u-xs-PaddingTop70 u-xs-PaddingBottom0">
+    <div class="container">
 
-   <!-- Main content -->
-   <section class="container">
-   	  @yield('page_title')
-   	  <ol class="breadcrumb">
-        @yield('breadcrumb_nav')
-      </ol>
-      @yield('content')
+	   <!-- Main content -->
+	   <section class="container">
+	   	  @yield('page_title')
+	   	  <ol class="breadcrumb">
+	        @yield('breadcrumb_nav')
+	      </ol>
+	      @yield('content')
 
-   </section>
-   <!-- /.content -->
-</div>
-<!-- /.content-wrapper -->
+	   </section>
+	   <!-- /.content -->
+	</div>
+</section>
 
 @component('components.footer_front')
 @endcomponent

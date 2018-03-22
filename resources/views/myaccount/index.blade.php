@@ -1,7 +1,7 @@
 @extends('layouts.frontoffice')
 
 @section('title')
-information personnelles
+Work'n Share - Information personnelles
 @endsection
 
 @section('page_title')
@@ -10,8 +10,6 @@ information personnelles
 	  @slot('description')Vos informations @endslot
 	@endcomponent
 @endsection
-
-
 
 @section('css')
 	<style>
@@ -38,8 +36,6 @@ information personnelles
 	</style>
 @endsection
 
-
-
 @section('content')
 
   <div class="row">
@@ -61,11 +57,11 @@ information personnelles
 											<td>{{$user->name}}</td>
 										</tr>
 										<tr>
-											<td>surnom</td>
+											<td>Prénom</td>
 											<td>{{$user->surname}}</td>
 										</tr>
 										<tr>
-											<td>email</td>
+											<td>Email</td>
 											<td>{{$user->email}}</td>
 										</tr>
 									</table>
@@ -90,7 +86,7 @@ information personnelles
 								<table>
 									<tr>
 										<td class="fixe">Forfait</td>
-										<td>nom du forfait</td>
+										<td>Nom du forfait</td>
 									</tr>
 									<tr>
 										<td>Description du forfait</td>
@@ -105,7 +101,7 @@ information personnelles
 						</div>
 						<div class="row">
 							<div class="col-xs-offset-3 col-xs-6">
-								<a class="btn btn-block btn-primary btn-lg" href='{{ route('site.index') }}'> changer de forfait</a>
+								<a class="btn btn-block btn-primary btn-lg" href='{{ route('site.index') }}'> Changer de forfait</a>
 							</div>
 						</div>
 					</div>
