@@ -1,7 +1,7 @@
 @extends('layouts.app_public')
 
 @section('title')
-Work'n Share - S'inscrire'
+Work'n Share - S'inscrire
 @endsection
 
 @section('css')
