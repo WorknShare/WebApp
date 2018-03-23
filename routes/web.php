@@ -69,7 +69,7 @@ Route::prefix('myaccount')->group(function(){
   Route::get('/QrCodeDownload', 'UserController@qrcodedownload')->name('myaccount.qrcodedownload');
 });
 
-Route::resource('order', 'ReserveRoomController');
+Route::resource('order', 'ReserveRoomController', ['except' => ['edit','update']]);
 
 //Plans
 Route::resource('planadvantage', 'PlanAdvantageController', ['only' => ['index','store','update','destroy']]);
