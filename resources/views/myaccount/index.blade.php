@@ -15,11 +15,10 @@ Work'n Share - Information personnelles
 	<style>
 	tr {
 		font-size : 19px;
-		padding: 2%;
 		color: #3C8DBC;
 	}
 	td {
-		padding-right : 2em;
+		padding-right : 3em;
 		padding-bottom : 1.5em;
 	}
 	a.btn.btn-block.btn-primary.btn-lg {
@@ -45,12 +44,12 @@ Work'n Share - Information personnelles
 				<div class="col-lg-6">
 					<div class="box box-solid">
 							<div class="row">
-								<div class="col-xs-offset-3 col-xs-6">
+								<div class="col-lg-offset-3 col-lg-7 col-xs-12">
 			            <h3>Vos informations personnelles</h3>
 			          </div>
 							</div>
 							<div class="row">
-								<div class="col-xs-offset-3">
+								<div class="col-xs-offset-2 col-lg-offset-4">
 									<table>
 										<tr>
 											<td class="fixe">Nom</td>
@@ -68,7 +67,7 @@ Work'n Share - Information personnelles
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-xs-offset-3 col-xs-6">
+								<div class="col-lg-offset-3 col-lg-7 col-xs-12">
 									<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.edit', $user->id_client) }}'> Modifier</a>
 								</div>
 							</div>
@@ -77,12 +76,12 @@ Work'n Share - Information personnelles
 				<div class="col-lg-6">
 					<div class="box box-solid">
 						<div class="row">
-							<div class="col-xs-offset-3 col-xs-6">
+							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
 								<h3>Votre forfait</br> en cours</h3>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-xs-offset-3">
+							<div class="col-xs-offset-1 col-lg-offset-3">
 								<table>
 									<tr>
 										<td class="fixe">Forfait</td>
@@ -100,7 +99,7 @@ Work'n Share - Information personnelles
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-xs-offset-3 col-xs-6">
+							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
 								<a class="btn btn-block btn-primary btn-lg" href='{{ route('site.index') }}'> Changer de forfait</a>
 							</div>
 						</div>
@@ -109,12 +108,12 @@ Work'n Share - Information personnelles
 				<div class="col-lg-6">
 					<div class="box box-solid">
 							<div class="row">
-								<div class="col-xs-offset-3 col-xs-6">
+								<div class="col-lg-offset-3 col-lg-7 col-xs-12">
 			            <h3>Vos Actions</h3>
 			          </div>
 							</div>
 							<div class="row">
-								<div class="col-xs-offset-3 col-xs-6">
+								<div class="col-lg-offset-3 col-lg-7 col-xs-12">
 									<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.editpwd') }}'> Changer mon mot de passe</a>
 									<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.qrcode') }}'> Votre QrCode</a>
 									<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.qrcode') }}'> Votre historique</a>
@@ -125,12 +124,12 @@ Work'n Share - Information personnelles
 				<div class="col-lg-6">
 					<div class="box box-solid">
 						<div class="row">
-							<div class="col-xs-offset-3 col-xs-6">
+							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
 								<h3>Nous contacter</h3>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-xs-offset-3">
+							<div class="col-lg-offset-3">
 								<table>
 									<tr>
 										<td class="fixe">Numéro</td>

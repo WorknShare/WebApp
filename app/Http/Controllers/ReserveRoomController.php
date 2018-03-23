@@ -36,7 +36,7 @@ class ReserveRoomController extends Controller
     {
         $user = Auth::user();
         $order = Auth::user()->reserves()->take(5)->get();
-        return view('reserve.index', compact('user', '$order'));
+        return view('reserve.index', compact('user', 'order'));
     }
 
     /**
@@ -72,37 +72,10 @@ class ReserveRoomController extends Controller
         if(!is_numeric($id)) abort(404);
         $user = Auth::user();
         $order = Auth::user()->reserves()->findOrFail($id);
-        $equipment = $order->equipment()->get();
-
-        dd($order, $equipment);
-        return view('reserve.show', compact('user', '$order'));
+        $equipment = $order->equipment()->join('equipment_types', 'equipment.id_equipment_type', '=', 'equipment_types.id_equipment_type')->select('equipment.*', 'equipment_types.name')->get();
+        return view('reserve.show', compact('user', 'order', '$equipment'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-      if(!is_numeric($id)) abort(404);
-      $user = Auth::user();
-      $order = Auth::user()->reserves()->findOrFail($id);
-      return view('reserve.edit', compact('user', '$order'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -112,6 +85,10 @@ class ReserveRoomController extends Controller
      */
     public function destroy($id)
     {
-        //
+      if(!is_numeric($id)) abort(404);
+      $user = Auth::user();
+      $orderNumber = Auth::user()->reserves()->findOrFail($id)->command_number;
+      $this->reserveRoomRepository->destroy($id);
+      return redirect('order')->withOk("La réservation n°" . $orderNumber . " a été supprimée.");
     }
 }

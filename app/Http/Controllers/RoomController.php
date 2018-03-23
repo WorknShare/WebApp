@@ -57,7 +57,7 @@ class RoomController extends Controller
     {
       if(!is_numeric($id)) abort(404);
       $room = $this->roomRepository->getById($id);
-      $calendar = $room->reserve()->join('clients', 'reserve_room.id_client', '=', 'clients.id_client')->select('reserve_room.*', 'clients.name')->get();;
+      $calendar = $room->reserve()->join('clients', 'reserve_room.id_client', '=', 'clients.id_client')->select('reserve_room.*', 'clients.name')->get();
       return response()->json([
           'calendar' => $calendar
       ]);
