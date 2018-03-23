@@ -1,0 +1,1 @@
+@extends('errors.error', ['status' => 401, 'message' => "Authentification requise"])

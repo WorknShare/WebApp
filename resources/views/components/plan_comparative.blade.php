@@ -5,12 +5,7 @@ $showedReserve = false;
 
 <div class="row">
   <div class="col-xs-12">
-    <div class="box box-solid">
-      <div class="box-header">
-        <h3 class="box-title">Forfaits</h3>
-      </div>
-      <!-- /.box-header -->
-      <div class="box-body table-responsive no-padding text-center">
+      <div class="table-responsive no-padding text-center">
         <table class="table comparative-table">
           <tbody>
             <tr>
@@ -28,7 +23,7 @@ $showedReserve = false;
             <tr>
               <td></td>
               @foreach($plans as $plan)
-              <td class="comparative-description overflow-break-word">{{ $plan->notes }}</td>
+              <td class="text-muted comparative-description overflow-break-word">{{ $plan->notes }}</td>
               @endforeach
             </tr>
             @foreach($planAdvantages as $planAdvantage)
@@ -81,8 +76,5 @@ $showedReserve = false;
           </tbody>
         </table>
       </div>
-      <!-- /.box-body -->
-    </div>
-    <!-- /.box -->
   </div>
 </div>

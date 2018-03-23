@@ -83,28 +83,6 @@
 	overflow-x:auto;
 }
 
-.comparative-header {
-	font-size: 25px;
-}
-
-.comparative-icon {
-	font-size: 25px;
-}
-
-.comparative-icon.text-success {
-	color: #00a65a;
-}
-
-.comparative-description {
-	max-width: 150px;
-	white-space: normal !important
-}
-
-.comparative-table {
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-weight: 300;
-}
-
 /*Reponsive title */
 @media (min-width: 992px) {
 	.content-header h1 {

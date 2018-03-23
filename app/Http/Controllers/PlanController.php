@@ -57,7 +57,7 @@ class PlanController extends Controller
         $planAdvantages = \App\PlanAdvantage::withCount('plans')->orderBy('plans_count', 'desc')->orderBy('id_plan_advantage', 'asc')->get();
         $orderMealCount = \App\Plan::where('order_meal', '=', 1)->count();
         $reserveCount = \App\Plan::where('reserve', '=', 1)->count();
-        return view('plans_index', compact('plans', 'planAdvantages', 'orderMealCount', 'reserveCount'));
+        return view('welcome', compact('plans', 'planAdvantages', 'orderMealCount', 'reserveCount'));
     }
 
     /**

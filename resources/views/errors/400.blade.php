@@ -1,0 +1,1 @@
+@extends('errors.error', ['status' => 400, 'message' => "Requête invalide"])

@@ -1,0 +1,1 @@
+@extends('errors.error', ['status' => 501, 'message' => "Non implémenté"])

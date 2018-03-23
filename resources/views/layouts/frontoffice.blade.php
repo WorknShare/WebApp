@@ -1,29 +1,29 @@
-@extends('layouts.app')
-
-@section('body-class')
-skin-blue sidebar-mini layout-top-nav
-@endsection
+@extends('layouts.app_public')
 
 @section('navigation')
-@include('partials.frontoffice.navbar')
+<section class="ImageBackground Blurb Blurb--wrapper bg-primary bg-primary--gradient310 js-Parallax frontoffice-banner hidden-xs" data-overlay="4">
+</section>
+@include('partials.frontoffice.navbar', ['code' => isset($code) ? $code : 200])
 @endsection
 
 @section('content-wrapper')
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+<section class="u-PaddingTop150 u-PaddingBottom100 u-xs-PaddingTop70 u-xs-PaddingBottom0">
+    <div class="container">
 
-   <!-- Main content -->
-   <section class="container">
-   	  @yield('page_title')
-   	  <ol class="breadcrumb">
-        @yield('breadcrumb_nav')
-      </ol>
-      @yield('content')
+	   <!-- Main content -->
+	   <section class="container">
+	   	  @yield('page_title')
+	   	  <ol class="breadcrumb">
+	        @yield('breadcrumb_nav')
+	      </ol>
+	      @yield('content')
 
-   </section>
-   <!-- /.content -->
-</div>
-<!-- /.content-wrapper -->
-@component('components.footer')
+	   </section>
+	   <!-- /.content -->
+	</div>
+</section>
+
+@component('components.footer_front')
 @endcomponent
+
 @endsection 

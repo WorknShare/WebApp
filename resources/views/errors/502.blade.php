@@ -1,0 +1,1 @@
+@extends('errors.error', ['status' => 502, 'message' => "Mauvaise passerelle"])

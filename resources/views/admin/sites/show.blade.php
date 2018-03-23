@@ -138,6 +138,10 @@
 			<div class="box-body">
 				<div class="row">
 					<div class="col-xs-12">
+						<?php $mealCount = \App\Meal::where('is_deleted', '=', 0)->count(); ?>
+						@if($mealCount <= 0)
+						<div class="alert alert-info alert-dismissible"><i class="fa fa-info-circle"></i><b class="overflow-break-word">Vous devez <a href="{{ route('meal.index') }}">créer au moins un repas</a> avant de pouvoir ajouter des repas.</b></div>
+						@endif
 						@if(!count($meals))
 							<p class="text-muted">Il n'y a aucun repas pour l'instant.</p>
 						@else
@@ -167,7 +171,7 @@
 								</table>
 							</div>
 						@endif
-						@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
+						@if(Auth::user()->role <= 2 && Auth::user()->role > 0 && $mealCount > 0)
 							<div class="row">
 								<div class="col-xs-12 bottom-controls">
 									<a id="addMealButton" data-toggle="collapse" href="#addMealPane" class="btn btn-primary btn-xs pull-right">Ajouter un repas</a>
@@ -175,7 +179,7 @@
 							</div>
 						@endif
 					</div>
-					@if(Auth::user()->role <= 2 && Auth::user()->role > 0)
+					@if(Auth::user()->role <= 2 && Auth::user()->role > 0 && $mealCount > 0)
 						<div class="col-xs-12 {{ $errors->has('meal') ? '' : 'collapse'}}" id="addMealPane">
 							<h5><b>Ajouter un repas</b></h5>
 							<form action="{{ route('site.affectmeal', $site->id_site) }}" method="post">
@@ -220,7 +224,7 @@
 									<tr>
 										<th>Nom</th>
 										<th>Type de salle</th>
-										<th>places maximum</th>
+										<th>Places maximum</th>
 										<th style="width:30px"></th>
 										@if ( Auth::user()->role <= 2 && Auth::user()->role > 0)
 											<th style="width:30px"></th>
