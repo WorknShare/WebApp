@@ -1,0 +1,1 @@
+@extends('errors.error', ['status' => 405, 'message' => "Méthode non autorisée"])

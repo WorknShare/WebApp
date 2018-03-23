@@ -1,0 +1,1 @@
+@extends('errors.error', ['status' => 403, 'message' => "Accès non autorisé"])

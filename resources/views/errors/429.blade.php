@@ -1,0 +1,1 @@
+@extends('errors.error', ['status' => 429, 'message' => "Trop de requêtes"])

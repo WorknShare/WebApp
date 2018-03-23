@@ -1,0 +1,1 @@
+@extends('errors.error', ['status' => 503, 'message' => "Service indisponible"])

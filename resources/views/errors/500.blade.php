@@ -1,0 +1,1 @@
+@extends('errors.error', ['status' => 500, 'message' => "Erreur interne"])
