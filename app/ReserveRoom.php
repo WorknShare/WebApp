@@ -9,7 +9,7 @@ class ReserveRoom extends Model
   protected $primaryKey = "id_reserve_room";
   protected $table = 'reserve_room';
   public $timestamps = true;
-  
+
   /**
   * The attributes that are mass assignable.
   *
@@ -22,6 +22,11 @@ class ReserveRoom extends Model
   public function rooms()
   {
     return $this->belongsTo('App\Room', 'id_room');
+  }
+
+  public function equipement()
+  {
+    return $this->belongsToMany('App\equipement', 'reserve_equipment', 'id_reserve_room', 'id_equipment');
   }
 
 }
