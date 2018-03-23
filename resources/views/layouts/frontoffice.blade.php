@@ -1,9 +1,9 @@
 @extends('layouts.app_public')
 
 @section('navigation')
-<section class="ImageBackground Blurb Blurb--wrapper bg-primary bg-primary--gradient310 js-Parallax frontoffice-banner" data-overlay="4">
+<section class="ImageBackground Blurb Blurb--wrapper bg-primary bg-primary--gradient310 js-Parallax frontoffice-banner hidden-xs" data-overlay="4">
 </section>
-@include('partials.frontoffice.navbar')
+@include('partials.frontoffice.navbar', ['code' => isset($code) ? $code : 200])
 @endsection
 
 @section('content-wrapper')

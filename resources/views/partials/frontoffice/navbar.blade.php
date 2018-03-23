@@ -15,7 +15,7 @@
           </div>
           <!-- End Header Navigation -->
 
-          <!-- Collect the nav links, forms, and other content for toggling -->
+          @if(!isset($code) || $code == 200)          
           <div class="collapse navbar-collapse" id="navbar-menu">
               <ul class="nav navbar-nav navbar-right" data-in="" data-out="">
                   @if(!Auth::check())
@@ -37,6 +37,7 @@
                   @endif
               </ul>
           </div>
+          @endif
       </div>
   </nav>
   <!-- End Navigation -->
