@@ -38,4 +38,9 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($password);
     }
+
+    public function reserves()
+    {
+      return $this->hasMany('App\ReserveRoom', 'id_client');
+    }
 }

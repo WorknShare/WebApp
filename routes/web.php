@@ -74,6 +74,8 @@ Route::prefix('myaccount')->group(function(){
   Route::get('/QrCodeDownload', 'UserController@qrcodedownload')->name('myaccount.qrcodedownload');
 });
 
+Route::resource('order', 'ReserveRoomController');
+
 //Plans
 Route::resource('planadvantage', 'PlanAdvantageController', ['only' => ['index','store','update','destroy']]);
 Route::resource('plan', 'PlanController');
@@ -81,7 +83,6 @@ Route::resource('plan', 'PlanController');
 Route::resource('myaccount', 'UserController');
 Route::resource('room', 'RoomController', ['except' => ['index', 'create']]);
 Route::get('room/calendar/{id}', 'RoomController@calendar')->name('room.calendar');
-
 
 Route::get('reserveroom/{reserveroom}', function ($id)
 {
