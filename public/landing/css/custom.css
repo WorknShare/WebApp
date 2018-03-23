@@ -7,3 +7,9 @@
 .text-black {
 	color: rgba(0,0,0,0.5) !important;
 }
+
+.frontoffice-banner {
+	position: absolute;
+	height: 125px;
+	width: 100%;
+}

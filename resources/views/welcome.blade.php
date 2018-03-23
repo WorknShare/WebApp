@@ -11,7 +11,7 @@
 @section('content-wrapper')
 
     <!--banner start-->
-    <section class="ImageBackground Blurb Blurb--wrapper bg-primary bg-primary--gradient310 u-BorderRadius6 js-FullHeight js-Parallax" data-overlay="4">
+    <section class="ImageBackground Blurb Blurb--wrapper bg-primary bg-primary--gradient310 js-FullHeight js-Parallax" data-overlay="4">
         <div class="container u-vCenter">
             <div class="row text-center text-white">
                 <div class="col-md-8 col-md-offset-2">
