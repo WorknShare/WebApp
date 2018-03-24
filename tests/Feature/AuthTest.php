@@ -85,28 +85,17 @@ class AuthTest extends TestCase
     	//------------------------------
 
         //Unauthenticated
-        $this->get('/home')->assertRedirect('/login');
+        $this->get('/myaccount')->assertRedirect('/login');
 
         //Authenticated
         $this->be($this->user, 'web');
-        $this->get('/login')->assertRedirect("/home");
-        $this->get('/register')->assertRedirect("/home");
+        $this->get('/login')->assertRedirect("/myaccount");
+        $this->get('/register')->assertRedirect("/myaccount");
         Auth::logout();
 
         $this->be($this->employees[1], 'admin');
-        $this->get('/home')->assertRedirect('/login');
+        $this->get('/myaccount')->assertRedirect('/login');
         Auth::logout();
-    }
-
-    /**
-     * Tests the role-related access in the backoffice 
-     *
-     * @return void
-     */
-    public function testAccess()
-    {
-        //TODO
-        $this->assertTrue(true);
     }
 
 }

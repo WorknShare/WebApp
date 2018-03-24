@@ -70,8 +70,8 @@ Route::prefix('myaccount')->group(function(){
 });
 
 //Plans
-Route::resource('planadvantage', 'PlanAdvantageController', ['only' => ['index','store','update','destroy']]);
-Route::resource('plan', 'PlanController');
+Route::get('plans', 'PlanController@choose')->name('plan.choose');
+Route::get('plans/{plan}', 'PlanController@payment')->name('plan.payment');
 
 Route::resource('myaccount', 'UserController');
 Route::resource('room', 'RoomController', ['except' => ['index', 'create']]);

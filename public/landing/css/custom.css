@@ -31,3 +31,12 @@
 	width: 100%;
 }
 
+.price-tag {
+	font-size: 24px;
+	line-height: 24px;
+	vertical-align: text-top;
+}
+
+.price-tag-info {
+	vertical-align: bottom;
+}

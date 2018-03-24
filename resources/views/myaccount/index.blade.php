@@ -86,22 +86,22 @@ Work'n Share - Information personnelles
 								<table>
 									<tr>
 										<td class="fixe">Forfait</td>
-										<td>Nom du forfait</td>
+										<td>{{ !empty($plan) ? $plan->name : 'Aucun forfait' }}</td>
 									</tr>
 									<tr>
-										<td>Description du forfait</td>
 										<td>Description</td>
+										<td>{{ !empty($plan) ? $plan->description : '' }}</td>
 									</tr>
 									<tr>
 										<td>Date de fin de validité</td>
-										<td>12/03/2018</td>
+										<td>{{ !empty($plan) ? 'TODO' : 'N/A' }}</td>
 									</tr>
 								</table>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-xs-offset-3 col-xs-6">
-								<a class="btn btn-block btn-primary btn-lg" href='{{ route('site.index') }}'> Changer de forfait</a>
+								<a class="btn btn-block btn-primary btn-lg" href='{{ route('plan.choose') }}'> Changer de forfait</a>
 							</div>
 						</div>
 					</div>
@@ -110,8 +110,8 @@ Work'n Share - Information personnelles
 					<div class="box box-solid">
 							<div class="row">
 								<div class="col-xs-offset-3 col-xs-6">
-			            <h3>Vos Actions</h3>
-			          </div>
+			            			<h3>Vos Actions</h3>
+			          			</div>
 							</div>
 							<div class="row">
 								<div class="col-xs-offset-3 col-xs-6">
@@ -120,7 +120,7 @@ Work'n Share - Information personnelles
 									<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.qrcode') }}'> Votre historique</a>
 								</div>
 							</div>
-		  		</div>
+		  			</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="box box-solid">

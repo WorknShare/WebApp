@@ -73,6 +73,18 @@ $showedReserve = false;
               <td><span class="price-tag">{{ $plan->price }}€</span><span class="text-muted price-tag-info">/mois</span></td>
               @endforeach
             </tr>
+            @if(isset($showButtons) ? $showButtons : false)
+            <tr>
+              <td></td>
+              @foreach($plans as $plan)
+              @if($plan->id_plan != Auth::user()->id_plan)
+                <td><a class="btn btn-block btn-primary btn-lg" href='{{ route('plan.payment', $plan->id_plan) }}'> Choisir !</a></td>
+              @else
+                <td></td>
+              @endif
+              @endforeach
+            </tr>
+            @endif
           </tbody>
         </table>
       </div>

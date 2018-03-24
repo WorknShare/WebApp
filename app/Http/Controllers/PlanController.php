@@ -28,9 +28,10 @@ class PlanController extends Controller
     {
         $this->planRepository = $planRepository;
         $this->planAdvantageRepository = $planAdvantageRepository;
-        $this->middleware('auth:admin', ['except' => ['indexPublic']]); //Requires admin permission
-        $this->middleware('password', ['except' => ['indexPublic']]);
-        $this->middleware('access:1', ['except' => ['index','show','indexPublic']]);
+        $this->middleware('auth:admin', ['except' => ['indexPublic','choose','payment']]); //Requires admin permission
+        $this->middleware('password', ['except' => ['indexPublic','choose','payment']]);
+        $this->middleware('access:1', ['except' => ['index','show','indexPublic','choose','payment']]);
+        $this->middleware('auth:web', ['only' => ['choose','payment']]);
     }
 
     /**
@@ -58,6 +59,31 @@ class PlanController extends Controller
         $orderMealCount = \App\Plan::where('order_meal', '=', 1)->count();
         $reserveCount = \App\Plan::where('reserve', '=', 1)->count();
         return view('welcome', compact('plans', 'planAdvantages', 'orderMealCount', 'reserveCount'));
+    }
+
+    /**
+     * Show the public comparative listing of the resource with choose buttons
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function choose()
+    {
+        $plans = \App\Plan::with('advantages')->orderBy('price', 'asc')->get();
+        $planAdvantages = \App\PlanAdvantage::withCount('plans')->orderBy('plans_count', 'desc')->orderBy('id_plan_advantage', 'asc')->get();
+        $orderMealCount = \App\Plan::where('order_meal', '=', 1)->count();
+        $reserveCount = \App\Plan::where('reserve', '=', 1)->count();
+        return view('myaccount.plans', compact('plans', 'planAdvantages', 'orderMealCount', 'reserveCount'));
+    }
+
+    /**
+     * Show the payment form
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function payment($id)
+    {
+        $plan = $this->planRepository->getById($id);
+        return view('myaccount.plan_payment', compact('plan'));
     }
 
     /**
