@@ -21,7 +21,7 @@ class RoomController extends Controller
   public function __construct(RoomRepository $roomRepository)
   {
       $this->roomRepository = $roomRepository;
-      $this->middleware('auth:admin');
+      $this->middleware('auth:admin', ['except' => ['calendar']]);
       $this->middleware('access:2', ['only' => ['store', 'edit', 'update', 'destroy']]);
   }
 
@@ -59,7 +59,8 @@ class RoomController extends Controller
       $room = $this->roomRepository->getById($id);
       $calendar = $room->reserve()->join('clients', 'reserve_room.id_client', '=', 'clients.id_client')->select('reserve_room.*', 'clients.name')->get();
       return response()->json([
-          'calendar' => $calendar
+          'calendar' => $calendar,
+          'room' => $room->name,
       ]);
     }
     /**

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Input;
+use App\Site;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReserveRoomRequest;
 use App\Repositories\ReserveRoomRepository;
@@ -23,7 +25,7 @@ class ReserveRoomController extends Controller
     public function __construct(ReserveRoomRepository $reserveRoomRepository)
     {
         $this->reserveRoomRepository = $reserveRoomRepository;
-        $this->middleware('auth');
+        $this->middleware('auth:web');
     }
 
 
@@ -35,8 +37,9 @@ class ReserveRoomController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $order = Auth::user()->reserves()->take(5)->get();
-        return view('reserve.index', compact('user', 'order'));
+        $sites = Site::paginate($this->amountPerPage);
+        $links = $sites->render();
+        return view('order.index', compact('user', 'sites', 'links'));
     }
 
     /**
@@ -46,7 +49,10 @@ class ReserveRoomController extends Controller
      */
     public function create()
     {
-      return view('reserve.create');
+      $id_site = input::get('site');
+      $site = SIte::find($id_site);
+      $rooms = $site->rooms()->join('room_types', 'rooms.id_room_type', '=', 'room_types.id_room_type')->select('rooms.*', 'room_types.name as room_type')->where('rooms.is_deleted','=',0)->get();
+      return view('order.create', compact('site', 'rooms'));
     }
 
     /**
@@ -73,7 +79,7 @@ class ReserveRoomController extends Controller
         $user = Auth::user();
         $order = Auth::user()->reserves()->findOrFail($id);
         $equipment = $order->equipment()->join('equipment_types', 'equipment.id_equipment_type', '=', 'equipment_types.id_equipment_type')->select('equipment.*', 'equipment_types.name')->get();
-        return view('reserve.show', compact('user', 'order', '$equipment'));
+        return view('order.show', compact('user', 'order', '$equipment'));
     }
 
 

@@ -38,11 +38,11 @@ Salle
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="{{ asset('bower_components/fastclick/lib/fastclick.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bower_components/moment/moment.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bower_components/fullcalendar/dist/fullcalendar.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bower_components/fullcalendar/dist/locale-all.js') }}"></script>
-@include('admin.rooms.calendarRoom')
+	<script type="text/javascript" src="{{ asset('bower_components/fastclick/lib/fastclick.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('bower_components/moment/moment.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('bower_components/fullcalendar/dist/fullcalendar.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('bower_components/fullcalendar/dist/locale-all.js') }}"></script>
+	@include('admin.rooms.calendarRoom')
 
 @endsection

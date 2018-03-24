@@ -84,7 +84,7 @@ class SiteController extends Controller
         if(!is_numeric($id)) abort(404);
         $site = $this->siteRepository->getById($id);
         $schedules = $site->schedules()->orderBy('day', 'asc')->get();
-        $rooms = $site->rooms()->join('room_types', 'rooms.id_room_type', '=', 'room_types.id_room_type')->select('rooms.*', 'room_types.name as room_name')->get();
+        $rooms = $site->rooms()->join('room_types', 'rooms.id_room_type', '=', 'room_types.id_room_type')->select('rooms.*', 'room_types.name as room_type')->where('rooms.is_deleted','=',0)->get();
         $meals = $site->meals()->get();
         return view('admin.sites.show', compact('site', 'schedules', 'rooms', 'meals'));
     }
