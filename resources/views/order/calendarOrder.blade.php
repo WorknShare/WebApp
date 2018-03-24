@@ -74,7 +74,7 @@ function calendarDisplay(data) {
 
     dayClick: function(date, jsEvent, view, resourceObj) {
 
-      alert('Date: ' + date.format());
+      alert('Date: ' + date.format());  
 
     },
     //Random default events
