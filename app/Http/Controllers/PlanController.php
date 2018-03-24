@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Repositories\PlanRepository;
 use App\Repositories\PlanAdvantageRepository;
+use App\Http\Requests\PlanPaymentRequest;
 
 use App\Http\Requests\Plan\PlanRequest;
 
@@ -28,10 +30,10 @@ class PlanController extends Controller
     {
         $this->planRepository = $planRepository;
         $this->planAdvantageRepository = $planAdvantageRepository;
-        $this->middleware('auth:admin', ['except' => ['indexPublic','choose','payment']]); //Requires admin permission
-        $this->middleware('password', ['except' => ['indexPublic','choose','payment']]);
-        $this->middleware('access:1', ['except' => ['index','show','indexPublic','choose','payment']]);
-        $this->middleware('auth:web', ['only' => ['choose','payment']]);
+        $this->middleware('auth:admin', ['except' => ['indexPublic','choose','payment','paymentSend']]); //Requires admin permission
+        $this->middleware('password', ['except' => ['indexPublic','choose','payment','paymentSend']]);
+        $this->middleware('access:1', ['except' => ['index','show','indexPublic','choose','payment','paymentSend']]);
+        $this->middleware('auth:web', ['only' => ['choose','payment','paymentSend']]);
     }
 
     /**
@@ -84,6 +86,32 @@ class PlanController extends Controller
     {
         $plan = $this->planRepository->getById($id);
         return view('myaccount.plan_payment', compact('plan'));
+    }
+
+    /**
+     * Create an order
+     *
+     * @param  \App\Http\Requests\PlanPaymentRequest $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function paymentSend(PlanPaymentRequest $request, $id)
+    {
+        $user = Auth::user();
+        $plan = $user->plan();
+
+        if(!empty($plan) && $plan->id_plan == $id) 
+        {
+            //Renew
+        }
+        else
+        {
+
+        }
+
+        /*$user->id_plan = $id;
+        $user->save();*/
+        return redirect('paymentaccepted')->with('commandNumber', 'test');
     }
 
     /**

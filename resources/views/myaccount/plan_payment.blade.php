@@ -103,7 +103,7 @@ Work'n Share - Forfaits
           <img src="{{ asset('dist/img/credit/american-express.png') }}" alt="American Express">
           <img src="{{ asset('dist/img/credit/paypal2.png') }}" alt="Paypal">
         </div>
-        <div class="form-group col-xs-12 col-sm-6">
+        <div class="form-group col-xs-12 col-sm-6 {{ $errors->has('credit_card_number') ? 'has-error' : '' }}">
           <label for="credit_card_number">Numéro de carte bancaire</label>
           <input class="form-control" placeholder="Numéro de carte bancaire" pattern="[0-9]{16}" id="credit_card_number" maxlength="16" required="required" name="credit_card_number" type="text" autocomplete="off">
 
@@ -112,7 +112,7 @@ Work'n Share - Forfaits
           @endif
         </div>
 
-        <div class="form-group col-xs-8 col-sm-4">
+        <div class="form-group col-xs-8 col-sm-4 {{ $errors->has('exp_month') || $errors->has('exp_year') ? 'has-error' : '' }}">
           <div class="row">
             <label class="col-xs-12">Date d'expriation</label>
           </div>
@@ -129,7 +129,7 @@ Work'n Share - Forfaits
                 @endforeach
               </select>
               @if($errors->has('exp_month'))
-                <span class="help-block"><strong>{{ $errors->first('exp_year') }}</strong></span>
+                <span class="help-block"><strong>{{ $errors->first('exp_month') }}</strong></span>
               @endif
             </div>
             <div class="col-xs-6">           
@@ -148,7 +148,7 @@ Work'n Share - Forfaits
             </div>
           </div>
         </div>
-        <div class="form-group col-xs-4 col-sm-2">
+        <div class="form-group col-xs-4 col-sm-2 {{ $errors->has('csc') ? 'has-error' : '' }}">
           <label for="csc">CSC</label>
           <input class="form-control" placeholder="CSC" pattern="[0-9]{3}" id="csc" maxlength="3" required="required" name="csc" type="text" autocomplete="off">
 

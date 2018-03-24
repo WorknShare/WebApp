@@ -186,5 +186,9 @@ return [
         'hour_closing' => 'heure de fermeture',
         'advantages' => 'avantages',
         'role' => 'rôle',
+        'csc' => 'CSC',
+        'exp_month' => 'mois d\'expiration',
+        'exp_year' => 'année d\'expiration',
+        'credit_card_number' => 'numéro de carte de crédit'
     ],
 ];

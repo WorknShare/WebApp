@@ -72,6 +72,11 @@ Route::prefix('myaccount')->group(function(){
 //Plans
 Route::get('plans', 'PlanController@choose')->name('plan.choose');
 Route::get('plans/{plan}', 'PlanController@payment')->name('plan.payment');
+Route::post('plans/{plan}', 'PlanController@paymentSend')->name('plan.payment');
+Route::get('paymentaccepted', function() {
+  if(!session()->has('commandNumber')) abort(404);
+  return view('payment_accepted');
+})->name('payment_accepted');
 
 Route::resource('myaccount', 'UserController');
 Route::resource('room', 'RoomController', ['except' => ['index', 'create']]);
