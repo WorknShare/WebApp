@@ -88,7 +88,7 @@ Work'n Share - Forfaits
             <span class="help-block"><strong>{{ $errors->first('city') }}</strong></span>
           @endif
         </div>
-        <div class="form-group col-xs-5 col-sm-2 {{ $errors->has('city') ? 'has-error' : '' }}">
+        <div class="form-group col-xs-5 col-sm-2 {{ $errors->has('postal') ? 'has-error' : '' }}">
           <label for="postal">Code postal</label>
           <input class="form-control" placeholder="Code postal" pattern="[0-9]{5}" id="postal" maxlength="5" required="required" name="postal" type="text" value="{{ old('postal') }}">
 
