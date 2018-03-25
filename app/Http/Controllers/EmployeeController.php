@@ -72,6 +72,7 @@ class EmployeeController extends Controller
      */
     public function store(EmployeeCreateRequest $request)
     {
+        $request['phone'] = str_replace(' ', '', $request['phone']);
         $employee = $this->employeeRepository->store($request->all());
         return redirect('admin/employee')->withOk("L'employé " . $employee->surname . ' ' . $employee->name . " a été créé.");
     }
@@ -114,6 +115,8 @@ class EmployeeController extends Controller
     {
         if(!is_numeric($id)) abort(404);
         if(Auth::user()->role != 1 && Auth::user()->id_employee != $id) abort(403);
+
+        $request['phone'] = str_replace(' ', '', $request['phone']);
         $this->employeeRepository->update($id, Auth::user()->role == 1 ? $request->all() : $request->except(['role']));
         return redirect('admin/employee/'.$id)
             ->withOk(Auth::user()->id_employee == $id ? 

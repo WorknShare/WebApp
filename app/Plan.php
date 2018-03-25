@@ -22,4 +22,14 @@ class Plan extends Model
 	{
 		return $this->belongsToMany('App\PlanAdvantage', 'plan_has_advantage', 'id_plan', 'id_plan_advantage');
 	}
+
+    public function users()
+    {
+        return $this->hasMany('App\User', 'id_client');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany('App\Payment', 'id_history');
+    }
 }

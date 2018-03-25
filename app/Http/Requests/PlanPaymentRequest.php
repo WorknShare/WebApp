@@ -25,8 +25,8 @@ class PlanPaymentRequest extends FormRequest
     {
         $currentYear = date('Y');
         return [
-            'name' => 'required|string|max:255',
-            'surname' => 'required|string|max:255',
+            'name' => 'required|string|max:25',
+            'surname' => 'required|string|max:25',
             'phone' => 'required|string|regex:/^(\d{2}\s?){5}$/',
             'address' => 'required|string|max:255',
             'city' => 'required|string|max:255',

@@ -50,7 +50,7 @@ Work'n Share - Forfaits
         {{ csrf_field() }}
         <div class="form-group col-xs-12 col-sm-4 {{ $errors->has('name') ? 'has-error' : '' }}">
           <label for="name">Nom</label>
-          <input class="form-control" placeholder="Nom" id="name" maxlength="255" required="required" name="name" type="text" value="{{ old('name') }}">
+          <input class="form-control" placeholder="Nom" id="name" maxlength="25" required="required" name="name" type="text" value="{{ old('name') }}">
 
           @if($errors->has('name'))
             <span class="help-block"><strong>{{ $errors->first('name') }}</strong></span>
@@ -58,7 +58,7 @@ Work'n Share - Forfaits
         </div>
         <div class="form-group col-xs-12 col-sm-4 {{ $errors->has('surname') ? 'has-error' : '' }}">
           <label for="surname">Prénom</label>
-          <input class="form-control" placeholder="Prénom" id="surname" maxlength="255" required="required" name="surname" type="text" value="{{ old('surname') }}">
+          <input class="form-control" placeholder="Prénom" id="surname" maxlength="25" required="required" name="surname" type="text" value="{{ old('surname') }}">
 
           @if($errors->has('surname'))
             <span class="help-block"><strong>{{ $errors->first('surname') }}</strong></span>

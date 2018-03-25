@@ -35,7 +35,8 @@ $showedReserve = false;
               @endforeach
             </tr>
             <?php $showedReserve = true; ?>
-            @elseif($orderMealCount >= $planAdvantage->plans_count && !$showedOrderMeal)
+            @endif
+            @if($orderMealCount >= $planAdvantage->plans_count && !$showedOrderMeal)
             <tr>
               <td><b>Commander des plateaux repas</b></td>
               @foreach($plans as $plan)
@@ -80,7 +81,7 @@ $showedReserve = false;
               @if($plan->id_plan != Auth::user()->id_plan)
                 <td><a class="btn btn-block btn-primary btn-lg" href='{{ route('plan.payment', $plan->id_plan) }}'> Choisir !</a></td>
               @else
-                <td></td>
+                <td><a class="btn btn-block btn-primary btn-lg" href='{{ route('plan.payment', $plan->id_plan) }}'> Renouveler</a></td>
               @endif
               @endforeach
             </tr>

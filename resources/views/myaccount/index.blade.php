@@ -40,39 +40,39 @@ Work'n Share - Information personnelles
 
   <div class="row">
   	<div class="col-xs-12">
-				<h1 style="text-align : center; padding : 4%">Votre compte</h1>
+			<h1 style="text-align : center; padding : 4%">Votre compte</h1>
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="box box-solid">
-							<div class="row">
-								<div class="col-xs-offset-3 col-xs-6">
-			            <h3>Vos informations personnelles</h3>
-			          </div>
+						<div class="row">
+							<div class="col-xs-offset-3 col-xs-6">
+								<h3>Vos informations personnelles</h3>
 							</div>
-							<div class="row">
-								<div class="col-xs-offset-3">
-									<table>
-										<tr>
-											<td class="fixe">Nom</td>
-											<td>{{$user->name}}</td>
-										</tr>
-										<tr>
-											<td>Prénom</td>
-											<td>{{$user->surname}}</td>
-										</tr>
-										<tr>
-											<td>Email</td>
-											<td>{{$user->email}}</td>
-										</tr>
-									</table>
-								</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-offset-3">
+								<table>
+									<tr>
+										<td class="fixe">Nom</td>
+										<td>{{$user->name}}</td>
+									</tr>
+									<tr>
+										<td>Prénom</td>
+										<td>{{$user->surname}}</td>
+									</tr>
+									<tr>
+										<td>Email</td>
+										<td>{{$user->email}}</td>
+									</tr>
+								</table>
 							</div>
-							<div class="row">
-								<div class="col-xs-offset-3 col-xs-6">
-									<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.edit', $user->id_client) }}'> Modifier</a>
-								</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-offset-3 col-xs-6">
+								<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.edit', $user->id_client) }}'> Modifier</a>
 							</div>
-		  		</div>
+						</div>
+		  			</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="box box-solid">
@@ -93,8 +93,8 @@ Work'n Share - Information personnelles
 										<td>{{ !empty($plan) ? $plan->description : '' }}</td>
 									</tr>
 									<tr>
-										<td>Date de fin de validité</td>
-										<td>{{ !empty($plan) ? 'TODO' : 'N/A' }}</td>
+										<td>Fin de validité</td>
+										<td>{{ !empty($limitDate) ? $limitDate : 'N/A' }}</td>
 									</tr>
 								</table>
 							</div>

@@ -8,28 +8,34 @@ use Illuminate\Http\Request;
 use App\Repositories\PlanRepository;
 use App\Repositories\PlanAdvantageRepository;
 use App\Http\Requests\PlanPaymentRequest;
-
+use App\Repositories\PaymentRepository;
 use App\Http\Requests\Plan\PlanRequest;
+
+use DateTime;
+use DateInterval;
 
 class PlanController extends Controller
 {
 
     private $planRepository;
     private $planAdvantageRepository;
+    private $paymentRepository;
     private $amountPerPage = 10;
 
     /**
      * Create a new PlanController instance
      * 
-     * @param App\Repositories\PlanRepository $planRepository
-     * @param App\Repositories\PlanAdvantageRepository $planAdvantageRepository
+     * @param \App\Repositories\PlanRepository $planRepository
+     * @param \App\Repositories\PlanAdvantageRepository $planAdvantageRepository
+     * @param \App\Repositories\PaymentRepository $paymentRepository
      *
      * @return void
      */
-    public function __construct(PlanRepository $planRepository, PlanAdvantageRepository $planAdvantageRepository)
+    public function __construct(PlanRepository $planRepository, PlanAdvantageRepository $planAdvantageRepository, PaymentRepository $paymentRepository)
     {
         $this->planRepository = $planRepository;
         $this->planAdvantageRepository = $planAdvantageRepository;
+        $this->paymentRepository = $paymentRepository;
         $this->middleware('auth:admin', ['except' => ['indexPublic','choose','payment','paymentSend']]); //Requires admin permission
         $this->middleware('password', ['except' => ['indexPublic','choose','payment','paymentSend']]);
         $this->middleware('access:1', ['except' => ['index','show','indexPublic','choose','payment','paymentSend']]);
@@ -98,20 +104,43 @@ class PlanController extends Controller
     public function paymentSend(PlanPaymentRequest $request, $id)
     {
         $user = Auth::user();
-        $plan = $user->plan();
+        $plan = $user->plan()->first();
 
-        if(!empty($plan) && $plan->id_plan == $id) 
+        $request->merge(['id_plan' => $id]);
+        $last = $user->lastPayment();
+        $dateNow = date("Y-m-d H:i:s");
+
+        if(!empty($last))
         {
-            //Renew
-        }
-        else
-        {
+            if(!empty($plan) && $plan->id_plan == $id) 
+            {
+                //Renew
 
+                //New command add difference between now and last command limit date
+                $dateNow = new DateTime($dateNow);
+                $limitDate = new DateTime($last->limit_date);
+                $interval = $dateNow->diff($limitDate, true);
+                $limitDate->add($interval);
+                $request->merge(['limit_date' => $limitDate->format('Y-m-d H:i:s')]);
+
+                //Last command set limit date to now
+                $last->limit_date = $dateNow;
+            }
+            else
+            {
+                //Changed plan
+                //Last command set limit date to now
+                $last->limit_date = $dateNow;
+            }
+            $last->save();
         }
 
-        /*$user->id_plan = $id;
-        $user->save();*/
-        return redirect('paymentaccepted')->with('commandNumber', 'test');
+        $request['phone'] = str_replace(' ', '', $request['phone']);
+        $payment = $this->paymentRepository->store($request->all());
+
+        $user->id_plan = $id;
+        $user->save();
+        return redirect('paymentaccepted')->with('commandNumber', $payment->command_number);
     }
 
     /**

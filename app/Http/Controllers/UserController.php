@@ -13,6 +13,7 @@ use App\Http\Requests\SearchRequest;
 use App\Repositories\UserRepository;
 use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\UserRequest;
+use DateTime;
 
 class UserController extends Controller
 {
@@ -42,8 +43,16 @@ class UserController extends Controller
   public function index()
   {
     $user = Auth::user();
-    $plan = $user->plan();
-    return view('myaccount.index', compact('user', 'plan'));
+    $plan = $user->plan()->first();
+
+    if(!empty($plan)) 
+    {
+      $limitDate = $user->lastPayment()->limit_date;
+      $dateFormat = new DateTime($limitDate);
+      $limitDate = $dateFormat->format('d/m/Y');
+    }
+
+    return view('myaccount.index', compact('user', 'plan', 'limitDate'));
   }
 
 
