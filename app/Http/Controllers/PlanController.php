@@ -118,11 +118,9 @@ class PlanController extends Controller
             {
                 //Renew
 
-                //New command add difference between now and last command limit date
-                $dateNow = new DateTime($dateNow);
+                //New command
                 $limitDate = new DateTime($last->limit_date);
-                $interval = $dateNow->diff($limitDate, true);
-                $limitDate->add($interval);
+                $limitDate->add(new DateInterval('P1M'));
                 $request->merge(['limit_date' => $limitDate->format('Y-m-d H:i:s')]);
 
                 //Last command set limit date to now
