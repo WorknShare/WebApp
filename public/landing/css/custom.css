@@ -40,3 +40,9 @@
 .price-tag-info {
 	vertical-align: bottom;
 }
+
+.alert .fa {
+ 	margin-right: 5px;
+ 	font-size: 20px;
+ 	vertical-align: text-bottom;
+}

@@ -98,7 +98,7 @@ class UserController extends Controller
   public function showQrCode()
   {
     $user = Auth::user();
-    return view('myaccount.qrCode', compact('user'));
+    return view('myaccount.qrcode', compact('user'));
   }
 
   /**

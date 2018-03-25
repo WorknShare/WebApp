@@ -91,7 +91,9 @@ class PlanController extends Controller
     public function payment($id)
     {
         $plan = $this->planRepository->getById($id);
-        return view('myaccount.plan_payment', compact('plan'));
+        $userPlan =  Auth::user()->plan()->first();
+        $showWarning = isset($userPlan) && $userPlan->id_plan != $id;
+        return view('myaccount.plan_payment', compact('plan', 'showWarning'));
     }
 
     /**

@@ -11,7 +11,15 @@ Work'n Share - Forfaits
 	@endcomponent
 @endsection
 
+@section('css')
+  <link rel="stylesheet" href="{{ asset('landing/css/responsive_buttons.css') }}">
+@endsection
+
 @section('content')
+
+  @if($showWarning)
+  <div class="alert alert-warning"><i class="fa fa-warning"></i> <b>Attention !</b> Changer de forfait avant la date d'expiration de votre forfait actuel résultera en la perte du temps restant de ce dernier.</div>
+  @endif
 
   <div class="row">
     <div class="col-xs-12">
@@ -45,7 +53,7 @@ Work'n Share - Forfaits
     </div>
   </div>
 
-  <div class="row">
+  <div class="row u-MarginBottom25">
       <form action="{{ route('plan.payment', $plan->id_plan) }}" method="post">
         {{ csrf_field() }}
         <div class="form-group col-xs-12 col-sm-4 {{ $errors->has('name') ? 'has-error' : '' }}">
@@ -158,7 +166,8 @@ Work'n Share - Forfaits
         </div>
 
         <div class="col-xs-12">
-          <button class="btn btn-primary btn-lg pull-right" href='{{ route('plan.payment', $plan->id_plan) }}' type="submit"><i class="Icon Icon-lock Icon--24px u-MarginRight10"></i> Procéder au paiement</a>
+          <a class="btn btn-default btn-responsive pull-left" href='{{ route('plan.choose') }}' type="button"><i class="fa fa-chevron-left u-MarginRight10"></i> Retour</a>
+          <button class="btn btn-primary btn-responsive pull-right" href='{{ route('plan.payment', $plan->id_plan) }}' type="submit"><i class="Icon Icon-lock Icon--24px u-MarginRight10"></i> Procéder au paiement</a>
         </div>
       </form>
   </div>
