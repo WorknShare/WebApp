@@ -235,7 +235,7 @@
 									@foreach ($rooms as $room)
 										<tr>
 											<td>{{ $room->name }}</td>
-											<td>{{ $room->room_name }}</td>
+											<td>{{ $room->room_type }}</td>
 											<td>{{ $room->place }}</td>
 											<td><a class="point-cursor" href="{{ route('room.show', $room->id_room) }}"><i class="fa fa-eye"></i></a></td>
 											@if ( Auth::user()->role <= 2 && Auth::user()->role > 0)

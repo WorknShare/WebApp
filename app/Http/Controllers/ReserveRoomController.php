@@ -51,7 +51,7 @@ class ReserveRoomController extends Controller
     {
       $id_site = input::get('site');
       $site = SIte::find($id_site);
-      $rooms = $site->rooms()->join('room_types', 'rooms.id_room_type', '=', 'room_types.id_room_type')->select('rooms.*', 'room_types.name as room_type')->where('rooms.is_deleted','=',0)->get();
+      $rooms = $site->rooms()->join('room_types', 'rooms.id_room_type', '=', 'room_types.id_room_type')->select('rooms.*', 'room_types.name as room_type')->where([['rooms.is_deleted','=',0], ['room_types.is_deleted','=',0]])->get();
       return view('order.create', compact('site', 'rooms'));
     }
 
