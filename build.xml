@@ -57,23 +57,29 @@
     </target>
 
     <target name="deploy" description="Deploy the application">
+    	<echo>Setting app in maintenance mode...</echo>
     	<exec command="php artisan down" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
+    	<echo>App is now in maintenance mode.</echo>
 
-    	<exec command="cp -R ./app /var/www/worknshare/app" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp -R ./config /var/www/worknshare/config" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp -R ./database /var/www/worknshare/database" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp -R ./public /var/www/worknshare/public" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp -R ./resources /var/www/worknshare/resources" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp -R ./routes /var/www/worknshare/routes" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp ./composer.json /var/www/worknshare" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp ./composer.lock /var/www/worknshare" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp ./package.json /var/www/worknshare" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp ./server.php /var/www/worknshare" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp ./webpack.mix.js /var/www/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<echo>Copying files...</echo>
+    	<exec command="cp -R ./app /var/www/html/worknshare/app" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -R ./config /var/www/html/worknshare/config" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -R ./database /var/www/html/worknshare/database" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -R ./public /var/www/html/worknshare/public" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -R ./resources /var/www/html/worknshare/resources" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -R ./routes /var/www/html/worknshare/routes" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp ./composer.json /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp ./composer.lock /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp ./package.json /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp ./server.php /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp ./webpack.mix.js /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<echo>Files copied.</echo>
 
     	<exec command="composer update" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
     	<exec command="php artisan migrate --force" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
 
+    	<echo>Disabling maintenance mode...</echo>
     	<exec command="php artisan up" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
+    	<echo>Deploy successful.</echo>
     </target>
 </project>
