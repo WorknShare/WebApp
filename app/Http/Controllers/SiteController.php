@@ -85,7 +85,7 @@ class SiteController extends Controller
         $site = $this->siteRepository->getById($id);
         $schedules = $site->schedules()->orderBy('day', 'asc')->get();
         $rooms = $site->rooms()->join('room_types', 'rooms.id_room_type', '=', 'room_types.id_room_type')->select('rooms.*', 'room_types.name as room_name')->get();
-        $meals = $site->meals()->get();
+        $meals = $site->meals()->where('is_deleted','=',0)->get();
         return view('admin.sites.show', compact('site', 'schedules', 'rooms', 'meals'));
     }
 
