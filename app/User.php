@@ -11,6 +11,7 @@ class User extends Authenticatable
 
 
     protected $primaryKey = "id_client";
+    protected $table = 'clients';
 
     /**
      * The attributes that are mass assignable.
@@ -30,12 +31,23 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    protected $table = 'clients';
-
-
-
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);
+    }
+
+    public function plan()
+    {
+        return $this->belongsTo('App\Plan', 'id_plan');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany('App\Payment', 'id_client');
+    }
+
+    public function lastPayment()
+    {
+        return $this->payments()->latest()->first();
     }
 }

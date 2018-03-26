@@ -1,0 +1,17 @@
+@media  (max-width: 768px) {
+  .btn-responsive.btn {
+  	height: 28px;
+	padding: 0 20px;
+	font-size: 13px;
+	line-height: 26px;    
+  }
+}
+
+@media  (min-width: 992px) {
+  .btn-responsive.btn {
+  	height: 54px;
+	padding: 0 40px;
+	font-size: 18px;
+	line-height: 51px;    
+  }
+}

@@ -7,7 +7,15 @@
 }
 
 .comparative-icon.text-success {
-	color: #00a65a;
+	background-image: -webkit-linear-gradient(140deg,#457aff,#30d4b9); /* For Chrome and Safari */
+    background-image:    -moz-linear-gradient(140deg,#457aff,#30d4b9); /* For old Fx (3.6 to 15) */
+    background-image:     -ms-linear-gradient(140deg,#457aff,#30d4b9); /* For pre-releases of IE 10*/
+    background-image:      -o-linear-gradient(140deg,#457aff,#30d4b9); /* For old Opera (11.1 to 12.0) */
+    background-image:         linear-gradient(140deg,#457aff,#30d4b9); /* Standard */
+    color:transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+	/*color: #00a65a;*/
 }
 
 .comparative-description {
@@ -21,6 +29,17 @@
 
 .comparative-table {
 	 border-spacing: 15px 50px;
+}
+
+.comparative-table th {
+	background-image: -webkit-linear-gradient(140deg,#457aff,#30d4b9); /* For Chrome and Safari */
+    background-image:    -moz-linear-gradient(140deg,#457aff,#30d4b9); /* For old Fx (3.6 to 15) */
+    background-image:     -ms-linear-gradient(140deg,#457aff,#30d4b9); /* For pre-releases of IE 10*/
+    background-image:      -o-linear-gradient(140deg,#457aff,#30d4b9); /* For old Opera (11.1 to 12.0) */
+    background-image:         linear-gradient(140deg,#457aff,#30d4b9); /* Standard */
+    color:transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
 }
 
 .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {

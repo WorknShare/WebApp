@@ -3,34 +3,44 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Repositories\PlanRepository;
 use App\Repositories\PlanAdvantageRepository;
-
+use App\Http\Requests\PlanPaymentRequest;
+use App\Repositories\PaymentRepository;
 use App\Http\Requests\Plan\PlanRequest;
+
+use DateTime;
+use DateInterval;
 
 class PlanController extends Controller
 {
 
     private $planRepository;
     private $planAdvantageRepository;
+    private $paymentRepository;
     private $amountPerPage = 10;
 
     /**
      * Create a new PlanController instance
      * 
-     * @param App\Repositories\PlanRepository $planRepository
-     * @param App\Repositories\PlanAdvantageRepository $planAdvantageRepository
+     * @param \App\Repositories\PlanRepository $planRepository
+     * @param \App\Repositories\PlanAdvantageRepository $planAdvantageRepository
+     * @param \App\Repositories\PaymentRepository $paymentRepository
      *
      * @return void
      */
-    public function __construct(PlanRepository $planRepository, PlanAdvantageRepository $planAdvantageRepository)
+    public function __construct(PlanRepository $planRepository, PlanAdvantageRepository $planAdvantageRepository, PaymentRepository $paymentRepository)
     {
         $this->planRepository = $planRepository;
         $this->planAdvantageRepository = $planAdvantageRepository;
-        $this->middleware('auth:admin', ['except' => ['indexPublic']]); //Requires admin permission
-        $this->middleware('password', ['except' => ['indexPublic']]);
-        $this->middleware('access:1', ['except' => ['index','show','indexPublic']]);
+        $this->paymentRepository = $paymentRepository;
+        $this->middleware('auth:admin', ['except' => ['indexPublic','choose','payment','paymentSend', 'planHistory']]); //Requires admin permission
+        $this->middleware('password', ['except' => ['indexPublic','choose','payment','paymentSend', 'planHistory']]);
+        $this->middleware('access:1', ['except' => ['index','show','indexPublic','choose','payment','paymentSend', 'planHistory']]);
+        $this->middleware('auth:web', ['only' => ['choose','payment','paymentSend', 'planHistory']]);
+        $this->middleware('plan.valid', ['only' => ['choose','payment','paymentSend', 'planHistory']]);
     }
 
     /**
@@ -58,6 +68,93 @@ class PlanController extends Controller
         $orderMealCount = \App\Plan::where('order_meal', '=', 1)->count();
         $reserveCount = \App\Plan::where('reserve', '=', 1)->count();
         return view('welcome', compact('plans', 'planAdvantages', 'orderMealCount', 'reserveCount'));
+    }
+
+    /**
+     * Show the public comparative listing of the resource with choose buttons
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function choose()
+    {
+        $plans = \App\Plan::with('advantages')->orderBy('price', 'asc')->get();
+        $planAdvantages = \App\PlanAdvantage::withCount('plans')->orderBy('plans_count', 'desc')->orderBy('id_plan_advantage', 'asc')->get();
+        $orderMealCount = \App\Plan::where('order_meal', '=', 1)->count();
+        $reserveCount = \App\Plan::where('reserve', '=', 1)->count();
+        return view('myaccount.plans', compact('plans', 'planAdvantages', 'orderMealCount', 'reserveCount'));
+    }
+
+    /**
+     * Show the payment form
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function payment($id)
+    {
+        $plan = $this->planRepository->getById($id);
+        $userPlan =  Auth::user()->plan()->first();
+        $showWarning = isset($userPlan) && $userPlan->id_plan != $id;
+        return view('myaccount.plan_payment', compact('plan', 'showWarning'));
+    }
+
+    /**
+     * Create an order
+     *
+     * @param  \App\Http\Requests\PlanPaymentRequest $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function paymentSend(PlanPaymentRequest $request, $id)
+    {
+        $user = Auth::user();
+        $plan = $user->plan()->first();
+
+        $request->merge(['id_plan' => $id]);
+        $last = $user->lastPayment();
+        $dateNow = date("Y-m-d H:i:s");
+
+        if(!empty($last))
+        {
+            if(!empty($plan) && $plan->id_plan == $id) 
+            {
+                //Renew
+
+                //New command
+                $limitDate = new DateTime($last->limit_date);
+                $limitDate->add(new DateInterval('P1M'));
+                $request->merge(['limit_date' => $limitDate->format('Y-m-d H:i:s')]);
+
+                //Last command set limit date to now
+                $last->limit_date = $dateNow;
+            }
+            else
+            {
+                //Changed plan
+                //Last command set limit date to now
+                $last->limit_date = $dateNow;
+            }
+            $last->save();
+        }
+
+        $request['phone'] = str_replace(' ', '', $request['phone']);
+        $payment = $this->paymentRepository->store($request->all());
+
+        $user->id_plan = $id;
+        $user->save();
+        return redirect('paymentaccepted')->with('commandNumber', $payment->command_number);
+    }
+
+    /**
+     * Show the plan payment history of the current user
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function planHistory()
+    {
+        $user = Auth::user();
+        $payments = $user->payments()->with('plan')->orderBy('created_at','desc')->paginate($this->amountPerPage);
+        $links = $payments->render();
+        return view('myaccount.plan_history', compact('user', 'payments', 'links'));
     }
 
     /**

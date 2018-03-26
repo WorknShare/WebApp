@@ -59,6 +59,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'password' => \App\Http\Middleware\ChangedPasswordMiddleware::class,
         'access' => \App\Http\Middleware\BackofficeAccessMiddleware::class,
+        'plan.valid' => \App\Http\Middleware\PlanValidity::class,
+        'plan.access' => \App\Http\Middleware\PlanAccess::class,
     ];
 
 }

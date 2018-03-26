@@ -13,6 +13,7 @@ use App\Http\Requests\SearchRequest;
 use App\Repositories\UserRepository;
 use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\UserRequest;
+use DateTime;
 
 class UserController extends Controller
 {
@@ -27,11 +28,11 @@ class UserController extends Controller
   */
   public function __construct(UserRepository $userRepository)
   {
-    //only or except
     $this->userRepository = $userRepository;
     $this->middleware('auth:admin', ['only' => ['showAdmin','editAdmin', 'updateAdmin', 'indexAdmin', 'destroyAdmin']]);
-    $this->middleware('auth' , ['except' => ['showAdmin','editAdmin', 'updateAdmin', 'indexAdmin', 'destroyAdmin', 'unban']]);
+    $this->middleware('auth:web' , ['except' => ['showAdmin','editAdmin', 'updateAdmin', 'indexAdmin', 'destroyAdmin', 'unban']]);
     $this->middleware('access:3', ['only' => ['editAdmin','updateAdmin','destroyAdmin', 'unban']]);
+    $this->middleware('plan.valid', ['except' => ['showAdmin','editAdmin', 'updateAdmin', 'indexAdmin', 'destroyAdmin', 'unban']]);
   }
 
 
@@ -43,7 +44,16 @@ class UserController extends Controller
   public function index()
   {
     $user = Auth::user();
-    return view('myaccount.index', compact('user'));
+    $plan = $user->plan()->first();
+
+    if(!empty($plan)) 
+    {
+      $limitDate = $user->lastPayment()->limit_date;
+      $dateFormat = new DateTime($limitDate);
+      $limitDate = $dateFormat->format('d/m/Y');
+    }
+
+    return view('myaccount.index', compact('user', 'plan', 'limitDate'));
   }
 
 
@@ -89,7 +99,7 @@ class UserController extends Controller
   public function showQrCode()
   {
     $user = Auth::user();
-    return view('myaccount.qrCode', compact('user'));
+    return view('myaccount.qrcode', compact('user'));
   }
 
   /**

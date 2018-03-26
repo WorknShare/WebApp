@@ -34,51 +34,56 @@ Work'n Share - Information personnelles
 		margin-bottom : 50px;
 	}
 	</style>
+	<link rel="stylesheet" href="{{ asset('landing/css/responsive_buttons.css') }}">
 @endsection
 
 @section('content')
+	
+	@if(!empty($planWarning))
+  	<div class="alert alert-warning"><i class="fa fa-warning"></i> Votre forfait expire <b>{{ $planWarning }}</b>. <a href="{{ route('plan.payment', $userPlan->id_plan) }}">Renouveler mon forfait</a>.</div>
+  	@endif
 
   <div class="row">
   	<div class="col-xs-12">
-				<h1 style="text-align : center; padding : 4%">Votre compte</h1>
+			<h1 style="text-align : center; padding : 4%">Votre compte</h1>
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="box box-solid">
-							<div class="row">
-								<div class="col-xs-offset-3 col-xs-6">
-			            <h3>Vos informations personnelles</h3>
-			          </div>
+						<div class="row">
+							<div class="col-xs-offset-3 col-xs-6">
+								<h3>Informations personnelles</h3>
 							</div>
-							<div class="row">
-								<div class="col-xs-offset-3">
-									<table>
-										<tr>
-											<td class="fixe">Nom</td>
-											<td>{{$user->name}}</td>
-										</tr>
-										<tr>
-											<td>Prénom</td>
-											<td>{{$user->surname}}</td>
-										</tr>
-										<tr>
-											<td>Email</td>
-											<td>{{$user->email}}</td>
-										</tr>
-									</table>
-								</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-offset-3">
+								<table>
+									<tr>
+										<td class="fixe">Nom</td>
+										<td>{{$user->name}}</td>
+									</tr>
+									<tr>
+										<td>Prénom</td>
+										<td>{{$user->surname}}</td>
+									</tr>
+									<tr>
+										<td>Email</td>
+										<td>{{$user->email}}</td>
+									</tr>
+								</table>
 							</div>
-							<div class="row">
-								<div class="col-xs-offset-3 col-xs-6">
-									<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.edit', $user->id_client) }}'> Modifier</a>
-								</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-offset-3 col-xs-6">
+								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.edit', $user->id_client) }}'> Modifier</a>
 							</div>
-		  		</div>
+						</div>
+		  			</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="box box-solid">
 						<div class="row">
 							<div class="col-xs-offset-3 col-xs-6">
-								<h3>Votre forfait</br> en cours</h3>
+								<h3>&nbsp;<br>Forfait</h3>
 							</div>
 						</div>
 						<div class="row">
@@ -86,22 +91,23 @@ Work'n Share - Information personnelles
 								<table>
 									<tr>
 										<td class="fixe">Forfait</td>
-										<td>Nom du forfait</td>
+										<td>{{ !empty($plan) ? $plan->name : 'Aucun forfait' }}</td>
 									</tr>
 									<tr>
-										<td>Description du forfait</td>
 										<td>Description</td>
+										<td>{{ !empty($plan) ? $plan->description : '' }}</td>
 									</tr>
 									<tr>
-										<td>Date de fin de validité</td>
-										<td>12/03/2018</td>
+										<td>Fin de validité</td>
+										<td>{{ !empty($limitDate) ? $limitDate : 'N/A' }}</td>
 									</tr>
 								</table>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-xs-offset-3 col-xs-6">
-								<a class="btn btn-block btn-primary btn-lg" href='{{ route('site.index') }}'> Changer de forfait</a>
+								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('plan.choose') }}'> Changer de forfait</a>
+								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('plan.history') }}'> Historique</a>
 							</div>
 						</div>
 					</div>
@@ -110,17 +116,17 @@ Work'n Share - Information personnelles
 					<div class="box box-solid">
 							<div class="row">
 								<div class="col-xs-offset-3 col-xs-6">
-			            <h3>Vos Actions</h3>
-			          </div>
+			            			<h3>Vos Actions</h3>
+			          			</div>
 							</div>
 							<div class="row">
 								<div class="col-xs-offset-3 col-xs-6">
-									<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.editpwd') }}'> Changer mon mot de passe</a>
-									<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.qrcode') }}'> Votre QrCode</a>
-									<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.qrcode') }}'> Votre historique</a>
+									<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.editpwd') }}'> Changer mon mot de passe</a>
+									<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.qrcode') }}'> Votre QrCode</a>
+									<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.qrcode') }}'> Votre historique</a>
 								</div>
 							</div>
-		  		</div>
+		  			</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="box box-solid">

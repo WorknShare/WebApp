@@ -31,3 +31,38 @@
 	width: 100%;
 }
 
+.price-tag {
+	font-size: 24px;
+	line-height: 24px;
+}
+
+.price-tag-info {
+	vertical-align: bottom;
+}
+
+.alert .fa {
+ 	margin-right: 5px;
+ 	font-size: 20px;
+ 	vertical-align: text-bottom;
+}
+
+.overflow-break-word {
+	overflow-wrap: break-word;
+}
+
+body {
+	min-height: 100vh;
+	background-color: #222;
+}
+
+section {
+	background-color: #FFF;
+}
+
+.alert a {
+	color: #42a5fb;
+}
+
+.alert a:hover {
+	color: #457aff;
+}

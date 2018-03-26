@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHistoryTable extends Migration
+class ReplacePaymentDurationColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateHistoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('history', function (Blueprint $table) {
-            $table->increments('id_history');
-            $table->string('command_number')->unique();
-            $table->datetime('date_command');
-            $table->datetime('duration');
+        Schema::table('history', function (Blueprint $table) {
+            $table->dropColumn('duration');
+            $table->datetime('limit_date');
         });
     }
 
@@ -28,6 +26,9 @@ class CreateHistoryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('history');
+        Schema::table('history', function (Blueprint $table) {
+            $table->datetime('duration');
+            $table->dropColumn('limit_date');
+        });
     }
 }
