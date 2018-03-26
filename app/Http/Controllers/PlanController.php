@@ -40,6 +40,7 @@ class PlanController extends Controller
         $this->middleware('password', ['except' => ['indexPublic','choose','payment','paymentSend', 'planHistory']]);
         $this->middleware('access:1', ['except' => ['index','show','indexPublic','choose','payment','paymentSend', 'planHistory']]);
         $this->middleware('auth:web', ['only' => ['choose','payment','paymentSend', 'planHistory']]);
+        $this->middleware('plan.valid', ['only' => ['choose','payment','paymentSend', 'planHistory']]);
     }
 
     /**

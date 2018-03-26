@@ -34,7 +34,6 @@
 .price-tag {
 	font-size: 24px;
 	line-height: 24px;
-	vertical-align: text-bottom;
 }
 
 .price-tag-info {
@@ -58,4 +57,12 @@ body {
 
 section {
 	background-color: #FFF;
+}
+
+.alert a {
+	color: #42a5fb;
+}
+
+.alert a:hover {
+	color: #457aff;
 }

@@ -38,6 +38,10 @@ Work'n Share - Information personnelles
 @endsection
 
 @section('content')
+	
+	@if(!empty($planWarning))
+  	<div class="alert alert-warning"><i class="fa fa-warning"></i> Votre forfait expire <b>{{ $planWarning }}</b>. <a href="{{ route('plan.payment', $userPlan->id_plan) }}">Renouveler mon forfait</a>.</div>
+  	@endif
 
   <div class="row">
   	<div class="col-xs-12">
