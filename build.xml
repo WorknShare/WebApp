@@ -4,11 +4,11 @@
 
     <target name="ci"
         description="Tâche principale d'intégration continue"
-        depends="setup,test"
+        depends="setup,test,deploy"
     />
 
     <target name="setup" description="Download or updates the dependencies">
-		<exec command="composer install" passthru="true" checkreturn="true" dir="."/>
+		<exec command="composer update" passthru="true" checkreturn="true" dir="."/>
 		<exec command="rm .env" passthru="true" checkreturn="true" dir="."/>
 		<echo file=".env" append="true">APP_NAME=WorknShare${line.separator}</echo>
 		<echo file=".env" append="true">APP_ENV=testing${line.separator}</echo>
@@ -54,5 +54,26 @@
 
     <target name="test" description="Runs tests with PHPUnit">
 		<exec command="php ./vendor/phpunit/phpunit/phpunit" passthru="true" checkreturn="true" dir="."/>
+    </target>
+
+    <target name="deploy" description="Deploy the application">
+    	<exec command="php artisan down" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
+
+    	<exec command="cp -R ./app /var/www/worknshare/app" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -R ./config /var/www/worknshare/config" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -R ./database /var/www/worknshare/database" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -R ./public /var/www/worknshare/public" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -R ./resources /var/www/worknshare/resources" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -R ./routes /var/www/worknshare/routes" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp ./composer.json /var/www/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp ./composer.lock /var/www/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp ./package.json /var/www/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp ./server.php /var/www/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp ./webpack.mix.js /var/www/worknshare" passthru="true" checkreturn="true" dir="."/>
+
+    	<exec command="composer update" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
+    	<exec command="php artisan migrate" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
+
+    	<exec command="php artisan up" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
     </target>
 </project>
