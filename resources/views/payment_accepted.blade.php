@@ -34,7 +34,7 @@ Work'n Share - Paiement accepté
           <h1 class="u-MarginBottom15 u-MarginTop15">Paiement accepté.</h1>
           <h3 class="text-muted u-MarginTop0">Merci !</h3>
 
-          <p>Votre commande numéro {{ session('commandNumber') }} a bien été enregistrée.</p>
+          <p>Votre commande numéro <b>{{ session('commandNumber') }}</b> a bien été enregistrée.</p>
         </div>
     </div>
 

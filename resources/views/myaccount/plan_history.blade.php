@@ -52,7 +52,7 @@ Work'n Share - Historique des paiements
   <div class="col-xs-12">
     {{ $links }}
   </div>
-  <div class="col-xs-12">
+  <div class="col-xs-12 u-MarginBottom15">
     <a class="btn btn-default btn-responsive pull-left" href='{{ route('myaccount.index') }}' type="button"><i class="fa fa-chevron-left u-MarginRight10"></i> Retour</a>
   </div>
 </div>
