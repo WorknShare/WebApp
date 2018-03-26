@@ -63,10 +63,10 @@ class PlanController extends Controller
      */
     public function indexPublic()
     {
-        $plans = \App\Plan::with('advantages')->orderBy('price', 'asc')->get();
+        $plans = \App\Plan::with('advantages')->where('is_deleted','=',0)->orderBy('price', 'asc')->get();
         $planAdvantages = \App\PlanAdvantage::withCount('plans')->orderBy('plans_count', 'desc')->orderBy('id_plan_advantage', 'asc')->get();
-        $orderMealCount = \App\Plan::where('order_meal', '=', 1)->count();
-        $reserveCount = \App\Plan::where('reserve', '=', 1)->count();
+        $orderMealCount = \App\Plan::where([['order_meal', '=', 1],['is_deleted', '=', 0]])->count();
+        $reserveCount = \App\Plan::where([['reserve', '=', 1],['is_deleted', '=', 0]])->count();
         return view('welcome', compact('plans', 'planAdvantages', 'orderMealCount', 'reserveCount'));
     }
 
@@ -77,10 +77,10 @@ class PlanController extends Controller
      */
     public function choose()
     {
-        $plans = \App\Plan::with('advantages')->orderBy('price', 'asc')->get();
+        $plans = \App\Plan::with('advantages')->where('is_deleted','=',0)->orderBy('price', 'asc')->get();
         $planAdvantages = \App\PlanAdvantage::withCount('plans')->orderBy('plans_count', 'desc')->orderBy('id_plan_advantage', 'asc')->get();
-        $orderMealCount = \App\Plan::where('order_meal', '=', 1)->count();
-        $reserveCount = \App\Plan::where('reserve', '=', 1)->count();
+        $orderMealCount = \App\Plan::where([['order_meal', '=', 1],['is_deleted', '=', 0]])->count();
+        $reserveCount = \App\Plan::where([['reserve', '=', 1],['is_deleted', '=', 0]])->count();
         return view('myaccount.plans', compact('plans', 'planAdvantages', 'orderMealCount', 'reserveCount'));
     }
 
@@ -106,6 +106,7 @@ class PlanController extends Controller
      */
     public function paymentSend(PlanPaymentRequest $request, $id)
     {
+        if(!$this->planRepository->exists($id)) abort(404);
         $user = Auth::user();
         $plan = $user->plan()->first();
 

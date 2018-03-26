@@ -36,6 +36,7 @@ Clients
 	    <th>Email</th>
 	    <th>Nom</th>
 	    <th>Prénom</th>
+	    <th>Forfait</th>
 		<th>Compte actif</th>
 		@if(Auth::user()->role <= 3 && Auth::user()->role > 0)
 		<th style="width:30px"></th>
@@ -45,11 +46,12 @@ Clients
     @foreach ($clients as $client)
     <tr>
     	<td>{{ $client->id_client }}</td>
-      <td><b><a href="{{ route('user.edit_admin', $client->id_client) }}">{{ $client->email }}</a></b></td>
-      <td>{{ $client->name }}</td>
-      <td>{{ $client->surname }}</td>
-			<td>{!! Html::badge(!$client->is_deleted) !!}</td>
-			@if(Auth::user()->role <= 3 && Auth::user()->role > 0)
+      	<td><b><a href="{{ route('user.edit_admin', $client->id_client) }}">{{ $client->email }}</a></b></td>
+      	<td>{{ $client->name }}</td>
+      	<td>{{ $client->surname }}</td>
+      	<td>{{ !empty($client->plan) ? $client->plan->name : 'Aucun' }}</td>
+		<td>{!! Html::badge(!$client->is_deleted) !!}</td>
+		@if(Auth::user()->role <= 3 && Auth::user()->role > 0)
 			@if (!$client->is_deleted)
 				<td><a class="point-cursor" href="{{ route('user.edit_admin', $client->id_client) }}"><i class="fa fa-pencil"></td>
 				<td>
@@ -65,7 +67,7 @@ Clients
 					{{ Form::close() }}
 				</td>
 			@endif
-			@endif
+		@endif
     </tr>
 	@endforeach
   </table>

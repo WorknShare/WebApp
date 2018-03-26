@@ -69,7 +69,7 @@ class UserController extends Controller
     if(!empty($request->search))
     {
         $search = '%'.strtolower($request->search).'%';
-        $clients = $this->userRepository->getModel()->whereRaw('LOWER(email) LIKE ? OR LOWER(name) LIKE ? OR LOWER(surname) LIKE ? ORDER BY is_deleted', array($search,$search,$search))->take($this->amountPerPage)->get();
+        $clients = $this->userRepository->getModel()->with('plan')->whereRaw('LOWER(email) LIKE ? OR LOWER(name) LIKE ? OR LOWER(surname) LIKE ? ORDER BY is_deleted', array($search,$search,$search))->take($this->amountPerPage)->get();
         $links = '';
         return view('admin.users.index', compact('clients', 'links'));
     }

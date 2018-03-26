@@ -9,6 +9,8 @@ use App\Plan;
 class PlanRepository extends ResourceRepository
 {
 
+    protected $softDeleted = true;
+
 	/**
      * Create a new repository instance.
      *
