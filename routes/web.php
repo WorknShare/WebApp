@@ -67,6 +67,7 @@ Route::prefix('myaccount')->group(function(){
   Route::put('/pwd', 'UserController@updatePwd')->name('myaccount.updatepwd');
   Route::get('/QrCodeImage', 'UserController@qrcodeAccess')->name('myaccount.qrcodedisplay');
   Route::get('/QrCodeDownload', 'UserController@qrcodedownload')->name('myaccount.qrcodedownload');
+  Route::get('planhistory', 'PlanController@planHistory')->name('plan.history');
 });
 
 //Plans

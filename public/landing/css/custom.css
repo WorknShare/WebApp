@@ -34,7 +34,7 @@
 .price-tag {
 	font-size: 24px;
 	line-height: 24px;
-	vertical-align: text-top;
+	vertical-align: text-bottom;
 }
 
 .price-tag-info {
@@ -45,4 +45,8 @@
  	margin-right: 5px;
  	font-size: 20px;
  	vertical-align: text-bottom;
+}
+
+.overflow-break-word {
+	overflow-wrap: break-word;
 }

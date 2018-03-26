@@ -30,12 +30,12 @@ class Payment extends Model
 
     public function client()
 	{
-		return $this->belongsTo('App\User', 'client_history_plan', 'id_history', 'id_client');
+		return $this->belongsTo('App\User', 'id_client');
 	}
 
 	public function plan()
 	{
-		return $this->belongsTo('App\Plan', 'client_history_plan', 'id_history', 'id_plan');
+		return $this->belongsTo('App\Plan', 'id_plan');
 	}
 
 	public function clientAndPlan()

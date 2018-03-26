@@ -34,6 +34,7 @@ Work'n Share - Information personnelles
 		margin-bottom : 50px;
 	}
 	</style>
+	<link rel="stylesheet" href="{{ asset('landing/css/responsive_buttons.css') }}">
 @endsection
 
 @section('content')
@@ -46,7 +47,7 @@ Work'n Share - Information personnelles
 					<div class="box box-solid">
 						<div class="row">
 							<div class="col-xs-offset-3 col-xs-6">
-								<h3>Vos informations personnelles</h3>
+								<h3>Informations personnelles</h3>
 							</div>
 						</div>
 						<div class="row">
@@ -69,7 +70,7 @@ Work'n Share - Information personnelles
 						</div>
 						<div class="row">
 							<div class="col-xs-offset-3 col-xs-6">
-								<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.edit', $user->id_client) }}'> Modifier</a>
+								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.edit', $user->id_client) }}'> Modifier</a>
 							</div>
 						</div>
 		  			</div>
@@ -78,7 +79,7 @@ Work'n Share - Information personnelles
 					<div class="box box-solid">
 						<div class="row">
 							<div class="col-xs-offset-3 col-xs-6">
-								<h3>Votre forfait</br> en cours</h3>
+								<h3>&nbsp;<br>Forfait</h3>
 							</div>
 						</div>
 						<div class="row">
@@ -101,7 +102,8 @@ Work'n Share - Information personnelles
 						</div>
 						<div class="row">
 							<div class="col-xs-offset-3 col-xs-6">
-								<a class="btn btn-block btn-primary btn-lg" href='{{ route('plan.choose') }}'> Changer de forfait</a>
+								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('plan.choose') }}'> Changer de forfait</a>
+								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('plan.history') }}'> Historique</a>
 							</div>
 						</div>
 					</div>
@@ -115,9 +117,9 @@ Work'n Share - Information personnelles
 							</div>
 							<div class="row">
 								<div class="col-xs-offset-3 col-xs-6">
-									<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.editpwd') }}'> Changer mon mot de passe</a>
-									<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.qrcode') }}'> Votre QrCode</a>
-									<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.qrcode') }}'> Votre historique</a>
+									<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.editpwd') }}'> Changer mon mot de passe</a>
+									<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.qrcode') }}'> Votre QrCode</a>
+									<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.qrcode') }}'> Votre historique</a>
 								</div>
 							</div>
 		  			</div>

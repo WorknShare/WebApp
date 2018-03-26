@@ -71,7 +71,7 @@ $showedReserve = false;
             <tr>
               <td></td>
               @foreach($plans as $plan)
-              <td><span class="price-tag">{{ $plan->price }}€</span><span class="text-muted price-tag-info">/mois</span></td>
+              <td><span class="price-tag">{{ $plan->price }}€</span><span class="text-muted price-tag-info">/mois TTC</span></td>
               @endforeach
             </tr>
             @if(isset($showButtons) ? $showButtons : false)

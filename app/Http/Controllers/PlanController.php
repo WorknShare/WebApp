@@ -36,10 +36,10 @@ class PlanController extends Controller
         $this->planRepository = $planRepository;
         $this->planAdvantageRepository = $planAdvantageRepository;
         $this->paymentRepository = $paymentRepository;
-        $this->middleware('auth:admin', ['except' => ['indexPublic','choose','payment','paymentSend']]); //Requires admin permission
-        $this->middleware('password', ['except' => ['indexPublic','choose','payment','paymentSend']]);
-        $this->middleware('access:1', ['except' => ['index','show','indexPublic','choose','payment','paymentSend']]);
-        $this->middleware('auth:web', ['only' => ['choose','payment','paymentSend']]);
+        $this->middleware('auth:admin', ['except' => ['indexPublic','choose','payment','paymentSend', 'planHistory']]); //Requires admin permission
+        $this->middleware('password', ['except' => ['indexPublic','choose','payment','paymentSend', 'planHistory']]);
+        $this->middleware('access:1', ['except' => ['index','show','indexPublic','choose','payment','paymentSend', 'planHistory']]);
+        $this->middleware('auth:web', ['only' => ['choose','payment','paymentSend', 'planHistory']]);
     }
 
     /**
@@ -141,6 +141,19 @@ class PlanController extends Controller
         $user->id_plan = $id;
         $user->save();
         return redirect('paymentaccepted')->with('commandNumber', $payment->command_number);
+    }
+
+    /**
+     * Show the plan payment history of the current user
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function planHistory()
+    {
+        $user = Auth::user();
+        $payments = $user->payments()->with('plan')->orderBy('created_at','desc')->paginate($this->amountPerPage);
+        $links = $payments->render();
+        return view('myaccount.plan_history', compact('user', 'payments', 'links'));
     }
 
     /**

@@ -12,7 +12,7 @@ Work'n Share - Forfaits
 @endsection
 
 @section('css')
-  <link rel="stylesheet" href="{{ asset('landing/css/responsive_buttons.css') }}">
+<link rel="stylesheet" href="{{ asset('landing/css/responsive_buttons.css') }}">
 @endsection
 
 @section('content')
@@ -39,7 +39,7 @@ Work'n Share - Forfaits
             <tr>
               <td>{{ $plan->name }}</td>
               <td>1 mois</td>
-              <td><span class="price-tag">{{ $plan->price }}€</span></td>
+              <td><span class="price-tag">{{ $plan->price }}€</span><span class="text-muted price-tag-info">&nbsp;TTC</span></td>
             </tr>
           </tbody>
         </table>
@@ -167,7 +167,7 @@ Work'n Share - Forfaits
 
         <div class="col-xs-12">
           <a class="btn btn-default btn-responsive pull-left" href='{{ route('plan.choose') }}' type="button"><i class="fa fa-chevron-left u-MarginRight10"></i> Retour</a>
-          <button class="btn btn-primary btn-responsive pull-right" href='{{ route('plan.payment', $plan->id_plan) }}' type="submit"><i class="Icon Icon-lock Icon--24px u-MarginRight10"></i> Procéder au paiement</a>
+          <button class="btn btn-primary btn-responsive pull-right" href='{{ route('plan.payment', $plan->id_plan) }}' type="submit"><i class="Icon Icon-lock Icon--24px u-MarginRight10"></i> Procéder au paiement</button>
         </div>
       </form>
   </div>
