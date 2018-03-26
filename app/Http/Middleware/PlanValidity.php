@@ -36,7 +36,7 @@ class PlanValidity
                 else
                 {
                     //Almost expired
-                    $now->add(new DateInterval('P37D'));
+                    $now->add(new DateInterval('P7D'));
 
                     if($limitDate < $now)
                     {
