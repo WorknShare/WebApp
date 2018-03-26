@@ -57,7 +57,6 @@
     </target>
 
     <target name="deploy" description="Deploy the application">
-    	<exec command="whoami" passthru="true"/>
     	<echo>Setting app in maintenance mode...</echo>
     	<exec command="php artisan down" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
     	<echo>App is now in maintenance mode.</echo>
