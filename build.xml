@@ -62,17 +62,17 @@
     	<echo>App is now in maintenance mode.</echo>
 
     	<echo>Copying files...</echo>
-    	<exec command="cp -R ./app /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp -R ./config /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp -R ./database /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp -R ./public /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp -R ./resources /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp -R ./routes /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp ./composer.json /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp ./composer.lock /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp ./package.json /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp ./server.php /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
-    	<exec command="cp ./webpack.mix.js /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -R -f ./app /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -R -f ./config /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -R -f ./database /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -R -f ./public /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -R -f ./resources /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -R -f ./routes /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -f ./composer.json /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -f ./composer.lock /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -f ./package.json /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -f ./server.php /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -f ./webpack.mix.js /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
     	<echo>Files copied.</echo>
 
     	<exec command="composer update" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
