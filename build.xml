@@ -72,7 +72,7 @@
     	<exec command="cp ./webpack.mix.js /var/www/worknshare" passthru="true" checkreturn="true" dir="."/>
 
     	<exec command="composer update" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
-    	<exec command="php artisan migrate" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
+    	<exec command="php artisan migrate --force" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
 
     	<exec command="php artisan up" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
     </target>
