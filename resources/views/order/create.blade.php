@@ -54,7 +54,7 @@
 												</tr>
 												@foreach ($rooms as $room)
 													<tr>
-														<td style="max-width: 200px;" class="ellipsis" title="{{ $room->name }}"><b><a class="point-cursor" onclick="ajaxCalendar({{$room->id_room}}); addEquipment(2);">{{ $room->name }}</a></b></td>
+														<td style="max-width: 200px;" class="ellipsis" title="{{ $room->name }}"><b><a class="point-cursor" onclick="ajaxCalendar({{$room->id_room}})">{{ $room->name }}</a></b></td>
 														<td>{{ $room->room_type }}</td>
 														<td>{!! $room->place !!}</td>
 													</tr>
@@ -75,32 +75,44 @@
 								<div class="row">
 									<div class="col-xs-12">
 										<form action="{{ route('order.store') }}" method="post" id="orderForm">
+											<input type="hidden" name="id_client" value="{{ $user->id_client }}"></input>
+											<input type="hidden" name="id_room" id="id_room"></input>
 											{{ csrf_field() }}
 											<div class="box-body">
 												<div class='input-group date' id='datepicker'>
-													<input id="date_start" type='text' class="form-control" name="date_start"/>
+													<input id="date" type='text' class="form-control" name="date"/>
 													<span class="input-group-addon">
 														<span class="glyphicon glyphicon-calendar"></span>
 													</span>
 												</div>
 												<div class="col-xs-12 col-sm-6">
-													{!! Form::timePicker('start', $errors, 'Début :') !!}
+													{!! Form::timePicker('hour_start', $errors, 'Début :') !!}
 												</div>
 												<div class="col-xs-12 col-sm-6">
-													{!! Form::timePicker('end', $errors, 'Fin :') !!}
+													{!! Form::timePicker('hour_end', $errors, 'Fin :') !!}
 												</div>
-												<label for="type">Equipement</label>
-												<select  id='type' name="id_room_type" class="form-control" required>
-													<option value="" disabled selected>Select your option</option>
-													@foreach(App\EquipmentType::where("is_deleted", "=", 0)->get() as $roomEquipment)
-														<option value="{{ $roomEquipment->id_equipment_type }}" {{$roomEquipment->id_equipment_type == old('id_room_type') ? 'selected' : ''}}>{{ $roomEquipment->name }}</option>
-													@endforeach
-												</select>
-												<select class="form-control" id="equipment">
+												<label for="type">équipement</label>
+												<div class="row">
+													<div class="col-xs-12 col-sm-5">
+														<select  id='type' name="id_room_type" class="form-control" required>
+															<option value="" disabled selected>choisir</option>
+															@foreach(App\EquipmentType::where("is_deleted", "=", 0)->get() as $roomEquipment)
+																<option value="{{ $roomEquipment->id_equipment_type }}" {{$roomEquipment->id_equipment_type == old('id_room_type') ? 'selected' : ''}}>{{ $roomEquipment->name }}</option>
+															@endforeach
+														</select>
+													</div>
+													<div class="col-xs-12 col-sm-5 equipmentContainer" style="display : none">
+														<select  id='equipment' name="id_equipment" class="form-control" required>
+														</select>
+													</div>
+													<div class=" col-xs-6 col-sm-2 equipmentContainer" style="display : none">
+														<button type="button" style="margin-top : 7px" onclick="addEquipment()" class="btn btn-sm btn-dark pull-right">Ajouter</button>
+													</div>
+												</div>
 
-												</select>
+
 											</div>
-											<div class="box-footer">
+											<div style="margin-top : 10px" class="box-footer">
 												<button type="submit" class="btn btn-gradient btn--alien pull-right"><i class="fa fa-check"></i> Créer</button>
 											</div>
 										</form>

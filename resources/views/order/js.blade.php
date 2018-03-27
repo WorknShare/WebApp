@@ -4,14 +4,32 @@
   $(function() {
 
     $('#type').on('change', function() {
-  	 	console.log($('#type').val());
+      var url = '{{ route('order.getEquipment',':id' )}}';
+      url = url.replace(':id', $('#type').val());
+      console.log($('#type').val());
+      $.ajax({
+        type : 'GET',
+        url : url,
+        dataType: "json"
+      })
+      .done(function(data) {
+        console.log(data);
+        $('#equipment').html('');
+        $('.equipmentContainer').css('display', 'block'); 
+        $.each(data.equipments,function(index, value){
+          $('#equipment').append('<option value="'+ value.id_equipment+ '">' + value.serial_number + '</option>');
+        });
+      })
+      .fail(function(data) {
+        console.log('error');
+      });
   	});
 
     $('#datepicker').datepicker({
       format: 'yyyy-mm-dd',
     });
     //Timepicker
-    $('#start').timepicker({
+    $('#hour_start').timepicker({
       minuteStep: 1,
       showInputs: false,
       showSeconds: false,
@@ -19,9 +37,9 @@
       defaultTime: {!! empty(old('start')) ? '"8:00"' : '"'.old('start').'"' !!},
     })
 
-    $('#start').timepicker().on('changeTime.timepicker', function(e) {
-      var closingHour = $('#end').data('timepicker').hour;
-      var closingMinute = $('#end').data('timepicker').minute;
+    $('#hour_start').timepicker().on('changeTime.timepicker', function(e) {
+      var closingHour = $('#hour_end').data('timepicker').hour;
+      var closingMinute = $('#hour_end').data('timepicker').minute;
       if(e.time.hours > closingHour || (e.time.hours >= closingHour && e.time.minutes >= closingMinute)) {
 
         if(closingMinute == 0) {
@@ -31,11 +49,11 @@
           closingMinute--;
         }
 
-        $('#start').timepicker('setTime', closingHour + ':' + closingMinute);
+        $('#hour_start').timepicker('setTime', closingHour + ':' + closingMinute);
       }
     });
 
-    $('#end').timepicker({
+    $('#hour_end').timepicker({
       minuteStep: 1,
       showInputs: false,
       showSeconds: false,
@@ -43,9 +61,9 @@
       defaultTime: {!! empty(old('end')) ? '"19:00"' : '"'.old('end').'"' !!},
     })
 
-    $('#end').timepicker().on('changeTime.timepicker', function(e) {
-      var openingHour = $('#start').data('timepicker').hour;
-      var openingMinute = $('#start').data('timepicker').minute;
+    $('#hour_end').timepicker().on('changeTime.timepicker', function(e) {
+      var openingHour = $('#hour_start').data('timepicker').hour;
+      var openingMinute = $('#hour_start').data('timepicker').minute;
       if(e.time.hours < openingHour || (e.time.hours == openingHour && e.time.minutes <= openingMinute)) {
 
         if(openingMinute == 59) {
@@ -56,7 +74,7 @@
         }
 
 
-        $('#end').timepicker('setTime', openingHour + ':' + openingMinute);
+        $('#hour_end').timepicker('setTime', openingHour + ':' + openingMinute);
       }
     });
 
@@ -65,6 +83,7 @@
   function ajaxCalendar(id) {
     var url = '{{ route('room.calendar', ':id')}}';
     url = url.replace(':id', id);
+    $('#id_room').attr('value', id);
     $.ajax({
       type : 'GET',
       url : url,
@@ -140,10 +159,9 @@
         var day = date._i[2];
         var month = ((date._i[1] + 1) < 10 ? '0' : '') + (date._i[1] + 1);
         var year = date._i[0];
-        $('#start').timepicker('setTime', date.hour() + ':' + date.minute());
+        $('#hour_start').timepicker('setTime', date.hour() + ':' + date.minute());
         $('#datepicker').datepicker('update', year + '-' + month + '-' + day);
         $('html,body').animate({scrollTop: $("#orderBox").offset().top}, 'slow');
-        console.log(date);
 
       },
       //Random default events

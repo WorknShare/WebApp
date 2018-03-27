@@ -24,7 +24,7 @@ class ReserveRoom extends Model
     return $this->belongsTo('App\Room', 'id_room');
   }
 
-  public function equipment()
+  public function equipments()
   {
     return $this->belongsToMany('App\Equipment', 'reserve_equipment', 'id_reserve_room', 'id_equipment');
   }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class EquipmentType extends Model
 {
-    
+
     protected $primaryKey = "id_equipment_type";
     public $timestamps = false;
 
@@ -19,7 +19,7 @@ class EquipmentType extends Model
         'name','id_deleted'
     ];
 
-    public function equipment()
+    public function equipments()
 	{
 		return $this->hasMany('App\Equipment', 'id_equipment_type');
 	}

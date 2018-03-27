@@ -70,6 +70,7 @@ Route::prefix('myaccount')->group(function(){
 });
 
 Route::resource('order', 'ReserveRoomController', ['except' => ['edit','update']]);
+Route::get('/{id}/order', 'ReserveRoomController@getEquipment')->name('order.getEquipment');
 
 //Plans
 Route::resource('planadvantage', 'PlanAdvantageController', ['only' => ['index','store','update','destroy']]);
