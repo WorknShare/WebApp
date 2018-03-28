@@ -58,6 +58,9 @@ Route::prefix('admin')->group(function() {
 	Route::put('equipmenttype/{equipmenttype}/equipment/{equipment}/affect', 'EquipmentController@affect')->name('equipmenttype.equipment.affect');
   Route::get('equipmenttype/{equipmenttype}/equipment/{equipment}/calendar', 'EquipmentController@calendar')->name('equipmenttype.equipment.calendar');
 
+  Route::get('order', 'ReserveRoomController@indexAdmin')->name('order.index_admin');
+  Route::get('/{order}/order', 'ReserveRoomController@showAdmin')->name('order.show_admin');
+
 });
 Route::resource('schedule', 'ScheduleController', ['only' => ['store','destroy']]);
 
@@ -72,6 +75,7 @@ Route::prefix('myaccount')->group(function(){
 
 Route::resource('order', 'ReserveRoomController', ['except' => ['edit','update']]);
 Route::get('/{id}/order', 'ReserveRoomController@getEquipment')->name('order.getEquipment');
+
 
 //Plans
 Route::get('plans', 'PlanController@choose')->name('plan.choose');
