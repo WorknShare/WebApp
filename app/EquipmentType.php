@@ -19,7 +19,7 @@ class EquipmentType extends Model
         'name','id_deleted'
     ];
 
-    public function equipments()
+    public function equipment()
 	{
 		return $this->hasMany('App\Equipment', 'id_equipment_type');
 	}

@@ -59,7 +59,7 @@ class ReserveRoomController extends Controller
     public function getEquipment($id)
     {
       $type = \App\EquipmentType::find($id);
-      $equipments = $type->equipments()->where('is_deleted','=',0)->get();
+      $equipments = $type->equipment()->where('is_deleted','=',0)->get();
       return response()->json([
           'equipments' => $equipments,
       ]);
@@ -88,7 +88,7 @@ class ReserveRoomController extends Controller
         if(!is_numeric($id)) abort(404);
         $user = Auth::user();
         $order = Auth::user()->reserves()->findOrFail($id);
-        $equipment = $order->equipments()->join('equipment_types', 'equipment.id_equipment_type', '=', 'equipment_types.id_equipment_type')->select('equipment.*', 'equipment_types.name')->get();
+        $equipment = $order->equipment()->join('equipment_types', 'equipment.id_equipment_type', '=', 'equipment_types.id_equipment_type')->select('equipment.*', 'equipment_types.name')->get();
         return view('order.show', compact('user', 'order', '$equipment'));
     }
 
