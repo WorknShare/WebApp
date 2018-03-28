@@ -1,13 +1,13 @@
 @extends('layouts.frontoffice')
 
 @section('title')
-Work'n Share - Information personnelles
+	Work'n Share - Information personnelles
 @endsection
 
 @section('page_title')
 	@component('components.header')
-	  @slot('title')Profil @endslot
-	  @slot('description')Vos informations @endslot
+		@slot('title')Profil @endslot
+		@slot('description')Vos informations @endslot
 	@endcomponent
 @endsection
 
@@ -15,11 +15,10 @@ Work'n Share - Information personnelles
 	<style>
 	tr {
 		font-size : 19px;
-		padding: 2%;
 		color: #3C8DBC;
 	}
 	td {
-		padding-right : 2em;
+		padding-right : 3em;
 		padding-bottom : 1.5em;
 	}
 	a.btn.btn-block.btn-primary.btn-lg {
@@ -38,24 +37,24 @@ Work'n Share - Information personnelles
 @endsection
 
 @section('content')
-	
-	@if(!empty($planWarning))
-  	<div class="alert alert-warning"><i class="fa fa-warning"></i> Votre forfait expire <b>{{ $planWarning }}</b>. <a href="{{ route('plan.payment', $userPlan->id_plan) }}">Renouveler mon forfait</a>.</div>
-  	@endif
 
-  <div class="row">
-  	<div class="col-xs-12">
+	@if(!empty($planWarning))
+		<div class="alert alert-warning"><i class="fa fa-warning"></i> Votre forfait expire <b>{{ $planWarning }}</b>. <a href="{{ route('plan.payment', $userPlan->id_plan) }}">Renouveler mon forfait</a>.</div>
+	@endif
+
+	<div class="row">
+		<div class="col-xs-12">
 			<h1 style="text-align : center; padding : 4%">Votre compte</h1>
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="box box-solid">
 						<div class="row">
-							<div class="col-xs-offset-3 col-xs-6">
-								<h3>Informations personnelles</h3>
+							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
+								<h3>Vos informations personnelles</h3>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-xs-offset-3">
+							<div class="col-xs-offset-2 col-lg-offset-4">
 								<table>
 									<tr>
 										<td class="fixe">Nom</td>
@@ -73,21 +72,21 @@ Work'n Share - Information personnelles
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-xs-offset-3 col-xs-6">
-								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.edit', $user->id_client) }}'> Modifier</a>
+							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
+								<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.edit', $user->id_client) }}'> Modifier</a>
 							</div>
 						</div>
-		  			</div>
+					</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="box box-solid">
 						<div class="row">
-							<div class="col-xs-offset-3 col-xs-6">
+							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
 								<h3>&nbsp;<br>Forfait</h3>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-xs-offset-3">
+							<div class="col-xs-offset-1 col-lg-offset-3">
 								<table>
 									<tr>
 										<td class="fixe">Forfait</td>
@@ -114,29 +113,29 @@ Work'n Share - Information personnelles
 				</div>
 				<div class="col-lg-6">
 					<div class="box box-solid">
-							<div class="row">
-								<div class="col-xs-offset-3 col-xs-6">
-			            			<h3>Vos Actions</h3>
-			          			</div>
+						<div class="row">
+							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
+								<h3>Vos Actions</h3>
 							</div>
-							<div class="row">
-								<div class="col-xs-offset-3 col-xs-6">
-									<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.editpwd') }}'> Changer mon mot de passe</a>
-									<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.qrcode') }}'> Votre QrCode</a>
-									<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.qrcode') }}'> Votre historique</a>
-								</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
+								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.editpwd') }}'> Changer mon mot de passe</a>
+								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.qrcode') }}'> Votre QrCode</a>
+								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.qrcode') }}'> Votre historique</a>
 							</div>
-		  			</div>
+						</div>
+					</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="box box-solid">
 						<div class="row">
-							<div class="col-xs-offset-3 col-xs-6">
+							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
 								<h3>Nous contacter</h3>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-xs-offset-3">
+							<div class="col-lg-offset-3">
 								<table>
 									<tr>
 										<td class="fixe">Numéro</td>
@@ -156,6 +155,6 @@ Work'n Share - Information personnelles
 					</div>
 				</div>
 			</div>
-  	</div>
-  </div>
+		</div>
+	</div>
 @endsection

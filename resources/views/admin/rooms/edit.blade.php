@@ -32,9 +32,9 @@
             {!! Form::controlWithIcon('text', 'name', $errors, $room->name, 'Nom', 'glyphicon-font', 'Nom', ["maxlength" => '255', "required" => "required"]) !!}
 
               <label for="type">Type de salle</label>
-              <select  id='type' name="id_room_type" class="form-control">
-                @foreach(App\RoomTypes::where("is_deleted", "=", 0)->get() as $roomtType)
-                  <option value="{{ $roomtType->id_room_type }}" {{$roomtType->id_room_type == $room->id_room_type ? 'selected' : ''}}>{{ $roomtType->name }}</option>
+              <select  id='type' name="id_room_type" class="form-control" required>
+                @foreach(App\RoomTypes::where("is_deleted", "=", 0)->get() as $roomType)
+                  <option value="{{ $roomType->id_room_type }}" {{$roomType->id_room_type == $room->id_room_type ? 'selected' : ''}}>{{ $roomType->name }}</option>
                 @endforeach
               </select>
 

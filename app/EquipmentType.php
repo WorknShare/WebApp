@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class EquipmentType extends Model
 {
-    
+
     protected $primaryKey = "id_equipment_type";
     public $timestamps = false;
 

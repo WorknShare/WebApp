@@ -70,6 +70,9 @@ Route::prefix('myaccount')->group(function(){
   Route::get('planhistory', 'PlanController@planHistory')->name('plan.history');
 });
 
+Route::resource('order', 'ReserveRoomController', ['except' => ['edit','update']]);
+Route::get('/{id}/order', 'ReserveRoomController@getEquipment')->name('order.getEquipment');
+
 //Plans
 Route::get('plans', 'PlanController@choose')->name('plan.choose');
 Route::get('plans/{plan}', 'PlanController@payment')->name('plan.payment');
@@ -82,7 +85,6 @@ Route::get('paymentaccepted', function() {
 Route::resource('myaccount', 'UserController');
 Route::resource('room', 'RoomController', ['except' => ['index', 'create']]);
 Route::get('room/calendar/{id}', 'RoomController@calendar')->name('room.calendar');
-
 
 Route::get('reserveroom/{reserveroom}', function ($id)
 {

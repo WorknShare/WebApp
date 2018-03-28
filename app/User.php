@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this->payments()->latest()->first();
     }
+
+    public function reserves()
+    {
+      return $this->hasMany('App\ReserveRoom', 'id_client');
+    }
 }
