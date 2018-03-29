@@ -39,14 +39,13 @@ class MealController extends Controller
           $search = '%'.strtolower($request->search).'%';
           $meals = $this->mealRepository->getWhere('name',$search);
           $links = '';
-          return view('admin.meal.index', compact('meals', 'links'));
       }
       else
       {
           $meals = $this->mealRepository->getPaginate($this->amountPerPage);
           $links = $meals->render();
-          return view('admin.meal.index', compact('meals', 'links'));
       }
+      return view('admin.meal.index', compact('meals', 'links'));
     }
 
     /**

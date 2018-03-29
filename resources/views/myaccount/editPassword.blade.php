@@ -19,7 +19,7 @@ Modifier
 	        	<div class="box-body">
 		            {!! Form::controlWithIcon('password', 'oldPwd', $errors, '', 'Ancien mot de passe', 'glyphicon-font', 'Ancien mot de passe', ["maxlength" => '60', "required" => "required"]) !!}
 		            {!! Form::controlWithIcon('password', 'password', $errors, '', 'Nouveau mot de passe', 'glyphicon-font', 'Nouveau mot de passe', ["maxlength" => '60', "required" => "required"]) !!}
-                {!! Form::controlWithIcon('password', 'confirmedPwd', $errors, '', 'Confirmer mot de passe', 'glyphicon-font', 'Confirmer mot de passe', ["maxlength" => '60', "required" => "required"]) !!}
+                {!! Form::controlWithIcon('password', 'password_confirmation', $errors, '', 'Confirmer mot de passe', 'glyphicon-font', 'Confirmer mot de passe', ["maxlength" => '60', "required" => "required"]) !!}
 	          	</div>
 
 		        <div class="box-footer">

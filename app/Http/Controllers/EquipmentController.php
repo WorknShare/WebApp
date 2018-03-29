@@ -82,7 +82,7 @@ class EquipmentController extends Controller
       $equipment = $this->equipmentRepository->getById($id_equipment);
       $type = $equipment->type()->first();
       if($type->id_equipment_type != $id_equipment_type) abort(400);
-      $calendar = $equipment->reserve()->join('clients', 'reserve_room.id_client', '=', 'clients.id_client')->select('reserve_room.*', 'clients.name')->get();;
+      $calendar = $equipment->reserve()->join('clients', 'reserve_room.id_client', '=', 'clients.id_client')->select('reserve_room.*', 'clients.name')->get();
       return response()->json([
           'calendar' => $calendar
       ]);

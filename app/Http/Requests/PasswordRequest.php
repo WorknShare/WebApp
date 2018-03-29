@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class PasswordRequest extends FormRequest
 {
@@ -23,10 +24,10 @@ class PasswordRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-          'oldPwd' => 'required|string|max:60',
-          'password' => 'required|string|max:60',
-          'confirmedPwd' => 'required|string|max:60',
-        ];
+        $rules = [];
+        $old = Auth::user()->password;
+        $rules['password'] ='required|string|min:6|confirmed';
+        $rules['oldPwd'] = array('required','string','match:'.$old);
+        return $rules;
     }
 }
