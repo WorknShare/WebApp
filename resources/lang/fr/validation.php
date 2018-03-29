@@ -88,6 +88,7 @@ return [
     'url' => "Le format de l'URL de :attribute n'est pas valide.",
     'match' => 'La valeur ne correspond pas.',
     'least' => 'Il n\'y a pas assez de ce :attribute.',
+    'after_datetime' => 'Le champ :attribute doit être une date postérieure au :date.',
 
     /*
     |--------------------------------------------------------------------------
