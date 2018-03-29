@@ -25,6 +25,12 @@ class AppServiceProvider extends ServiceProvider
             $employee = Employee::find($parameters[0]);
             return $value == $parameters[1] || DB::table('employees')->where($attribute, '=', $parameters[1])->count()-($employee->role == $parameters[1] ? 1 : 0) >= 1;
         });
+
+        Validator::extend('after_datetime', function ($attribute, $value, $parameters, $validator) {
+            $data = $validator->getData();
+            $hour = $data[$parameters[0]];
+            return strtotime($value.' '.$hour) > strtotime($parameters[1]);
+        });
     }
 
     /**
