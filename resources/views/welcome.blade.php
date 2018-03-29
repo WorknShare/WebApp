@@ -2,6 +2,7 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/comparative.css') }}">
+<link rel="stylesheet" href="{{ asset('css/wave.css') }}">
 @endsection
 
 @section('navigation')
@@ -11,12 +12,12 @@
 @section('content-wrapper')
 
     <!--banner start-->
-    <section class="ImageBackground Blurb Blurb--wrapper bg-primary bg-primary--gradient310 js-FullHeight js-Parallax" data-overlay="4">
+    <section class="ImageBackground Blurb Blurb--wrapper bg-primary bg-primary--gradient310 js-FullHeight js-Parallax" data-overlay="4" id="wave-container">
         <div class="container u-vCenter">
             <div class="row text-center text-white">
                 <div class="col-md-8 col-md-offset-2">
-                    <h1 class="u-FontSize50 u-xs-FontSize40 u-Weight700 u-MargnTop0">Votre tremplin vers la productivité </h1>
-                    <h4 class="u-MarginBottom50 text-white">Rejoignez nos espaces de coworking au coeur de Paris</h4>
+                    <h1 class="u-FontSize50 u-xs-FontSize40 u-Weight700 u-MargnTop0 shadow">Votre tremplin vers la productivité </h1>
+                    <h4 class="u-MarginBottom50 text-white shadow">Rejoignez nos espaces de coworking au coeur de Paris</h4>
                     <p>
                         <a class="btn btn-primary u-Rounded text-uppercase u-MarginRight20 u-xs-MarginBottom20" href="{{ route('register') }}">S'inscrire</a>
                         <a class="btn btn-white u-Rounded text-uppercase u-xs-MarginBottom20" href="{{ route('login') }}">Se connecter</a>
@@ -287,4 +288,10 @@
 
     @component('components.footer_front')
     @endcomponent
+@endsection
+
+@section('scripts')
+<script src="{{ asset('landing/js/three.min.js') }}"></script>
+<script src="{{ asset('landing/js/three.controls.orbit.js') }}"></script>
+<script src="{{ asset('landing/js/wave.js') }}"></script>
 @endsection

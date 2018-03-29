@@ -74,3 +74,11 @@ section {
 .alert a:hover {
 	color: #457aff;
 }
+
+.shadow {
+	text-shadow: 1px 1px 1px #444444;
+}
+
+.full-height {
+	min-height: 100vh;
+}
