@@ -28,6 +28,7 @@ class ReserveRoomController extends Controller
     {
         $this->reserveRoomRepository = $reserveRoomRepository;
         $this->middleware('auth:web', ['except' => ['indexAdmin', 'showAdmin', 'destroyAdmin']]);
+        $this->middleware('password');
         $this->middleware('auth:admin', ['only' => ['indexAdmin', 'showAdmin', 'destroyAdmin']]);
     }
 

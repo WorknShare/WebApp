@@ -26,7 +26,7 @@ class ReserveRoomRequest extends FormRequest
         return [
           'id_client' => 'required|integer|min:1',
           'id_room' => 'required|integer|min:1',
-          'date' => 'required|date_format:Y-m-d',
+          'date' => 'required|date_format:Y-m-d|after:tomorrow|after_datetime:hour_start,now',
           'hour_start' => 'required|date_format:H:i',
           'hour_end' => 'required|date_format:H:i|after:hour_start',
           'equipments' => 'array',

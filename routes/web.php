@@ -79,6 +79,9 @@ Route::resource('order', 'ReserveRoomController', ['except' => ['edit','update']
 Route::get('/{id}/order', 'ReserveRoomController@getEquipment')->name('order.getEquipment');
 Route::get('orderhistory', 'ReserveRoomController@indexHistory')->name('order.history');
 
+Route::resource('meal', 'ReserveMealController');
+
+
 //Plans
 Route::get('plans', 'PlanController@choose')->name('plan.choose');
 Route::get('plans/{plan}', 'PlanController@payment')->name('plan.payment');
