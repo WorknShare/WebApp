@@ -65,11 +65,16 @@ class LoginController extends Controller
 
         if ($this->attemptLogin($request))
         {
-            return $this->sendLoginResponse($request);
+            if(Auth::user()->is_deleted)
+            {
+                Auth::logout();
+                return redirect('login')->withErrors([$this->username() => "Votre compte est banni"]);
+            } else return $this->sendLoginResponse($request);
         }
 
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
     }
+
 }
