@@ -45,6 +45,20 @@ class ReserveRoomController extends Controller
         return view('order.index', compact('user', 'sites', 'links'));
     }
 
+    public function indexHistory()
+    {
+      $user = Auth::user();
+      $orders = $user->getModel()->reserves()->join('rooms', 'reserve_room.id_room', '=', 'rooms.id_room')
+                                             ->join('sites', 'sites.id_site', '=', 'rooms.id_site')
+                                             ->select('reserve_room.*', 'rooms.name as room_name', 'sites.name as site_name')
+                                             ->orderBy('date_start', 'desc')
+                                             ->paginate($this->amountPerPage);
+
+
+      $links = $orders->render();
+      return view('order.history', compact('orders', 'links'));
+    }
+
     public function indexAdmin(SearchRequest $request)
     {
 
@@ -121,10 +135,18 @@ class ReserveRoomController extends Controller
     {
         if(!is_numeric($id)) abort(404);
         $user = Auth::user();
-        $order = Auth::user()->reserves()->findOrFail($id)->join('rooms', 'reserve_room.id_room', '=', 'rooms.id_room')->get();
-        dd($order);
-        $equipments = $order->equipment()->join('equipment_types', 'equipment.id_equipment_type', '=', 'equipment_types.id_equipment_type')->select('equipment.*', 'equipment_types.name')->get();
-        return view('order.show', compact('user', 'order', 'equipments'));
+        $order = Auth::user()->reserves()->getModel()->join('rooms', 'reserve_room.id_room', '=', 'rooms.id_room')
+                                                          ->join('sites', 'sites.id_site', '=', 'rooms.id_site')
+                                                          ->select('reserve_room.*', 'rooms.name as room_name', 'sites.name as site_name')
+                                                          ->orderBy('date_start', 'desc')
+                                                          ->findOrFail($id);
+
+        $equipments = $this->reserveRoomRepository->getbyId($id)->equipments()
+                                                                ->join('equipment_types', 'equipment.id_equipment_type', '=', 'equipment_types.id_equipment_type')
+                                                                ->select('equipment.*', 'equipment_types.name')
+                                                                ->get();
+
+        return view('order.show', compact('order', 'equipments'));
     }
 
     public function showAdmin($id)
@@ -159,5 +181,14 @@ class ReserveRoomController extends Controller
       $orderNumber = $this->reserveRoomRepository->getById($id)->command_number;
       $this->reserveRoomRepository->destroy($id);
       return redirect('admin/order')->withOk("La réservation n°" . $orderNumber . " a été supprimée.");
+    }
+
+    public function destroy($id)
+    {
+      if(!is_numeric($id)) abort(404);
+      $user = Auth::user();
+      $orderNumber = $user->getModel()->reserves()->findOrFail($id)->command_number;
+      $this->reserveRoomRepository->destroy($id);
+      return redirect('orderhistory')->withOk("La réservation n°" . $orderNumber . " a été supprimée.");
     }
 }

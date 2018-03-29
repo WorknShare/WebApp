@@ -61,6 +61,8 @@ Route::prefix('admin')->group(function() {
   Route::get('order', 'ReserveRoomController@indexAdmin')->name('order.index_admin');
   Route::get('/{order}/order', 'ReserveRoomController@showAdmin')->name('order.show_admin');
 
+  Route::delete('/{id}', 'ReserveRoomController@destroyAdmin')->name('order.destroy_admin');
+
 });
 Route::resource('schedule', 'ScheduleController', ['only' => ['store','destroy']]);
 
@@ -75,8 +77,7 @@ Route::prefix('myaccount')->group(function(){
 
 Route::resource('order', 'ReserveRoomController', ['except' => ['edit','update']]);
 Route::get('/{id}/order', 'ReserveRoomController@getEquipment')->name('order.getEquipment');
-Route::delete('/{id}', 'ReserveRoomController@destroyAdmin')->name('order.destroy_admin');
-
+Route::get('orderhistory', 'ReserveRoomController@indexHistory')->name('order.history');
 
 //Plans
 Route::get('plans', 'PlanController@choose')->name('plan.choose');
