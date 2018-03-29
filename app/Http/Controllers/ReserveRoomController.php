@@ -27,8 +27,8 @@ class ReserveRoomController extends Controller
     public function __construct(ReserveRoomRepository $reserveRoomRepository)
     {
         $this->reserveRoomRepository = $reserveRoomRepository;
-        $this->middleware('auth:web', ['except' => ['indexAdmin', 'showAdmin']]);
-        $this->middleware('auth:admin', ['only' => ['indexAdmin', 'showAdmin']]);
+        $this->middleware('auth:web', ['except' => ['indexAdmin', 'showAdmin', 'destroyAdmin']]);
+        $this->middleware('auth:admin', ['only' => ['indexAdmin', 'showAdmin', 'destroyAdmin']]);
     }
 
 
@@ -54,7 +54,7 @@ class ReserveRoomController extends Controller
           $orders = ReserveRoom::join('rooms', 'reserve_room.id_room', '=', 'rooms.id_room')
                                 ->join('sites', 'sites.id_site', '=', 'rooms.id_site')
                                 ->join('clients', 'clients.id_client', '=', 'reserve_room.id_client')
-                                ->select('reserve_room.*', 'rooms.name as room_name', 'sites.name as site_name', 'clients.name as client_name')
+                                ->select('reserve_room.*', 'rooms.name as room_name', 'sites.name as site_name', 'clients.name as client_name', 'clients.surname as client_surname')
                                 ->whereRaw('LOWER(command_number) LIKE ?', array($search))
                                 ->orderBy('date_start', 'desc')
                                 ->take($this->amountPerPage)
@@ -67,7 +67,7 @@ class ReserveRoomController extends Controller
           $orders = ReserveRoom::join('rooms', 'reserve_room.id_room', '=', 'rooms.id_room')
                                 ->join('sites', 'sites.id_site', '=', 'rooms.id_site')
                                 ->join('clients', 'clients.id_client', '=', 'reserve_room.id_client')
-                                ->select('reserve_room.*', 'rooms.name as room_name', 'sites.name as site_name', 'clients.name as client_name')
+                                ->select('reserve_room.*', 'rooms.name as room_name', 'sites.name as site_name', 'clients.name as client_name', 'clients.surname as client_surname')
                                 ->orderBy('date_start', 'desc')
                                 ->paginate($this->amountPerPage);
 
@@ -91,7 +91,8 @@ class ReserveRoomController extends Controller
 
     public function getEquipment($id)
     {
-      $type = \App\EquipmentType::find($id);
+      if(!is_numeric($id)) abort(404);
+      $type = \App\EquipmentType::findOrFail($id);
       $equipments = $type->equipment()->where('is_deleted','=',0)->get();
       return response()->json([
           'equipments' => $equipments,
@@ -129,12 +130,13 @@ class ReserveRoomController extends Controller
     public function showAdmin($id)
     {
       if(!is_numeric($id)) abort(404);
-      $order = $this->reserveRoomRepository->getById($id)->join('rooms', 'reserve_room.id_room', '=', 'rooms.id_room')
-                                            ->join('sites', 'sites.id_site', '=', 'rooms.id_site')
-                                            ->join('clients', 'clients.id_client', '=', 'reserve_room.id_client')
-                                            ->select('reserve_room.*', 'rooms.name as room_name', 'sites.name as site_name', 'clients.name as client_name')
-                                            ->where('id_reserve_room', '=', $id)
-                                            ->get()[0];
+      $order = $this->reserveRoomRepository->getModel()
+                                           ->join('rooms', 'reserve_room.id_room', '=', 'rooms.id_room')
+                                           ->join('sites', 'sites.id_site', '=', 'rooms.id_site')
+                                           ->join('clients', 'clients.id_client', '=', 'reserve_room.id_client')
+                                           ->select('reserve_room.*', 'rooms.name as room_name', 'sites.name as site_name', 'clients.name as client_name', 'clients.surname as client_surname')
+                                           ->where('id_reserve_room', '=', $id)
+                                           ->get()[0];
 
       $equipments = $this->reserveRoomRepository->getById($id)
                                                 ->equipments()
@@ -151,12 +153,11 @@ class ReserveRoomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroyAdmin($id)
     {
       if(!is_numeric($id)) abort(404);
-      $user = Auth::user();
-      $orderNumber = Auth::user()->reserves()->findOrFail($id)->command_number;
+      $orderNumber = $this->reserveRoomRepository->getById($id)->command_number;
       $this->reserveRoomRepository->destroy($id);
-      return redirect('order')->withOk("La réservation n°" . $orderNumber . " a été supprimée.");
+      return redirect('admin/order')->withOk("La réservation n°" . $orderNumber . " a été supprimée.");
     }
 }

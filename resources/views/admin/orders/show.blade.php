@@ -19,7 +19,7 @@
 
 @section('content')
 <div class="row">
-	<div class="col-xs-12">
+	<div class="col-xs-12 col-md-6">
 		<div class="box box-solid">
 			<div class="box-header with-border">
 				<h3 class="box-title overflow-break-word" style="width:100%">Commande n°{{ $order->command_number }}</h3>
@@ -27,26 +27,33 @@
 			<div class="box-body">
 				<div class="row">
           <div class="col-xs-12">
-            <div class="col-xs-12 col-sm-3 col-md-3 overflow-break-word">
-  						<b>Client :</b> {{ $order->client_name }}
-  					</div>
-  					<div class="col-xs-12 col-sm-3 col-md-3">
-  						<span><b>Date</b></span> {{date('d M Y', strtotime($order->date_start))}}
-  					</div>
-  					<div class="col-xs-12 col-sm-3  col-md-3">
-  						<span><b>heure de début :</b></span> {{date('H:i', strtotime($order->date_start))}}
-  					</div>
-            <div class="col-xs-12 col-sm-3  col-md-3">
-  						<span><b>heure de fin :</b></span> {{date('H:i', strtotime($order->date_end))}}
-  					</div>
+						<div class="row">
+							<div class="col-xs-12 col-sm-3 col-md-4 overflow-break-word">
+	  						<b>Client :</b> {{ $order->client_name }}
+	  					</div>
+							<div class="col-xs-12 col-sm-3 col-md-4 overflow-break-word">
+	  						<b>Site :</b> {{ $order->site_name }}
+	  					</div>
+							<div class="col-xs-12 col-sm-3 col-md-4 overflow-break-word">
+	  						<b>Salle :</b> {{ $order->room_name }}
+	  					</div>
+						</div>
+						<div class="row" style="margin-top : 10px">
+							<div class="col-xs-12 col-sm-3 col-md-4">
+	  						<span><b>Date</b></span> {{date('d M Y', strtotime($order->date_start))}}
+	  					</div>
+							<div class="col-xs-12 col-sm-3  col-md-4">
+	  						<span><b>heure de début :</b></span> {{date('H:i', strtotime($order->date_start))}}
+	  					</div>
+	            <div class="col-xs-12 col-sm-3  col-md-4">
+	  						<span><b>heure de fin :</b></span> {{date('H:i', strtotime($order->date_end))}}
+	  					</div>
+						</div>
           </div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-
-<div class="row">
 	<div class="col-xs-12 col-md-6">
 		<div class="box box-solid">
 			<div class="box-header with-border">
@@ -82,6 +89,11 @@
 
 	<div class="row">
 		<div class="col-xs-12">
+			@if(Auth::user()->role <= 3 && Auth::user()->role > 0)
+				{{ Form::open(['method' => 'DELETE', 'route' => ['order.destroy_admin', $order->id_reserve_room]]) }}
+				<button class="btn btn-danger pull-right" value="Supprimer" onclick="return confirm('Voulez-vous vraiment supprimer cette réservation ?')" type="submit"><i class="fa fa-trash"></i> Supprimer</button>
+				{{ Form::close() }}
+			@endif
 			<a class="btn btn-default pull-left" href='{{ route('order.index_admin') }}'> <i class="fa fa-chevron-left"></i> Retour</a>
 		</div>
 	</div>

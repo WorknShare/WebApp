@@ -38,14 +38,18 @@ Réservations
       <th>client</th>
       <th>date</th>
       <th>site</th>
+			<th>status</td>
     </tr>
     @foreach ($orders as $order)
     <tr>
       <td>{{ $order->id_reserve_room }}</td>
       <td style="max-width: 200px;" class="ellipsis" title="{{ $order->command_number }}"><b><a href="{{ route('order.show_admin', $order->id_reserve_room) }}">{{ $order->command_number }}</a></b></td>
-    	<td>{{ $order->client_name }}</td>
-      <td>{{ date('d M Y', strtotime($order->date_start)) }}</td>
+    	<td>{{ $order->client_name }} {{ $order->client_surname }}</td>
+      <td>{{ date('d/m/Y', strtotime($order->date_start)) }}</td>
       <td>{{ $order->site_name }}</td>
+
+			<td>{!! Html::badge_reserve($order->is_deleted, $order->date_end) !!}</td>
+
     </tr>
 	@endforeach
   </table>

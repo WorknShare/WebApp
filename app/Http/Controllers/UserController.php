@@ -28,7 +28,7 @@ class UserController extends Controller
   public function __construct(UserRepository $userRepository)
   {
     $this->userRepository = $userRepository;
-    $this->middleware('auth:admin', ['only' => ['showAdmin','editAdmin', 'updateAdmin', 'indexAdmin', 'destroyAdmin']]);
+    $this->middleware('auth:admin', ['only' => ['showAdmin','editAdmin', 'updateAdmin', 'indexAdmin', 'destroyAdmin', 'unban']]);
     $this->middleware('auth:web' , ['except' => ['showAdmin','editAdmin', 'updateAdmin', 'indexAdmin', 'destroyAdmin', 'unban']]);
     $this->middleware('access:3', ['only' => ['editAdmin','updateAdmin','destroyAdmin', 'unban']]);
     $this->middleware('plan.valid', ['except' => ['showAdmin','editAdmin', 'updateAdmin', 'indexAdmin', 'destroyAdmin', 'unban']]);
@@ -45,7 +45,7 @@ class UserController extends Controller
     $user = Auth::user();
     $plan = $user->plan()->first();
 
-    if(!empty($plan)) 
+    if(!empty($plan))
     {
       $limitDate = $user->lastPayment()->limit_date;
       $dateFormat = new DateTime($limitDate);
