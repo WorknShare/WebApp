@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use DateTime;
 use Illuminate\Support\ServiceProvider;
 use Collective\Html\FormBuilder;
 use Collective\Html\HtmlBuilder;
@@ -115,6 +116,26 @@ class HtmlMacrosServiceProvider extends ServiceProvider
             return sprintf('<span class="badge %s">%s</span>',
                             $yes ? 'bg-green' : 'bg-red',
                             $yes ? 'Oui' : 'Non');
-        });   
+        });
+
+        HtmlBuilder::macro('badge_reserve' , function($status=true, $date) {
+          $now = new DateTime('now');
+          $date = new DateTime($date);
+          if(!$status){
+            if($now > $date){
+              $class = 'badge bg-blue';
+              $value = 'Fini';
+            }
+            else{
+              $class = 'badge bg-green';
+              $value = 'Prévu';
+            }
+          }
+          else{
+            $class = 'badge bg-red';
+            $value = 'Annulé';
+          }
+          return sprintf('<span class="badge %s">%s</span>', $class, $value);
+        });
     }
 }

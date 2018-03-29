@@ -131,25 +131,14 @@
 					<div class="box box-solid">
 						<div class="row">
 							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
-								<h3>Nous contacter</h3>
+								<h3>Réservation</h3>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-lg-offset-3">
-								<table>
-									<tr>
-										<td class="fixe">Numéro</td>
-										<td>06 06 06 06 06</td>
-									</tr>
-									<tr>
-										<td>email</td>
-										<td>contact@worknshare.fr</td>
-									</tr>
-									<tr>
-										<td>adresse</td>
-										<td>242, Rue Du Faubourg Saint Antoine </br> 75012 PARIS</td>
-									</tr>
-								</table>
+							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
+								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('order.index') }}'>Réserver une salle</a>
+								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.qrcode') }}'>Commander un repas</a>
+								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('order.history') }}'>votre historique</a>
 							</div>
 						</div>
 					</div>
