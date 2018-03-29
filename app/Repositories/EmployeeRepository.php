@@ -40,4 +40,10 @@ class EmployeeRepository extends ResourceRepository
         return $model->id_client;
 	}
 
+    public function getSearch($search, $amount)
+    {
+        $search = '%'.strtolower($search).'%';
+        return $this->getModel()->whereRaw('LOWER(email) LIKE ? OR LOWER(name) LIKE ? OR LOWER(surname) LIKE ?', array($search,$search,$search))->take($amount)->get();
+    }
+
 }

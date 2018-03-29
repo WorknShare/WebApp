@@ -41,17 +41,15 @@ class EmployeeController extends Controller
     {
         if(!empty($request->search))
         {
-            $search = '%'.strtolower($request->search).'%';
-            $employees = $this->employeeRepository->getModel()->whereRaw('LOWER(email) LIKE ? OR LOWER(name) LIKE ? OR LOWER(surname) LIKE ?', array($search,$search,$search))->take($this->amountPerPage)->get();
+            $employees = $this->employeeRepository->getSearch($request->search, $this->amountPerPage);
             $links = '';
-            return view('admin.employee.index', compact('employees', 'links'));
         }
         else
         {
             $employees = $this->employeeRepository->getPaginate($this->amountPerPage);
             $links = $employees->render();
-            return view('admin.employee.index', compact('employees', 'links'));
         }
+        return view('admin.employee.index', compact('employees', 'links'));
     }
 
     /**
@@ -135,10 +133,9 @@ class EmployeeController extends Controller
         if(!is_numeric($id)) abort(404);
         if($id == Auth::user()->id_employee) abort(403);
         $employee = $this->employeeRepository->getById($id);
-        $name = $employee->name;
-        $surname = $employee->surname;
+        $name = $employee->surname . ' ' . $employee->name;
         $this->employeeRepository->destroy($id);
-        return redirect('admin/employee')->withOk("L'employé " . $surname . ' ' .$name . " a été supprimé.");
+        return redirect('admin/employee')->withOk("L'employé " . $name . " a été supprimé.");
     }
 
     /**

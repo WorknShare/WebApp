@@ -76,6 +76,9 @@ class AuthTest extends TestCase
             $this->get('/admin/plan')->assertRedirect('/admin/employee/'. $this->employees[$i]->id_employee . '/editpasswordprompt');
             $this->get('/admin/planadvantage')->assertRedirect('/admin/employee/'. $this->employees[$i]->id_employee . '/editpasswordprompt');
             $this->get('/admin/site')->assertRedirect('/admin/employee/'. $this->employees[$i]->id_employee . '/editpasswordprompt');
+            $this->get('/admin/typeOfRooms')->assertRedirect('/admin/employee/'. $this->employees[$i]->id_employee . '/editpasswordprompt');
+            $this->get('/admin/equipmenttype')->assertRedirect('/admin/employee/'. $this->employees[$i]->id_employee . '/editpasswordprompt');
+            $this->get('/admin/meal')->assertRedirect('/admin/employee/'. $this->employees[$i]->id_employee . '/editpasswordprompt');
             //$this->get('/admin/user')->assertRedirect('/admin/employee/'. $this->employees[$i]->id_employee . '/editpasswordprompt');
             Auth::logout();
         }
