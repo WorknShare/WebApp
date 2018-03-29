@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use Auth;
 use Input;
 use Illuminate\Http\Request;
-use App\Http\Requests\MealRequest;
-use App\Repositories\MealRepository;
+use App\Http\Requests\OrderMealRequest;
+use App\Repositories\ReserveMealRepository;
 
 class ReserveMealController extends Controller
 {
 
-    private $mealRepository;
+    private $reserveMealRepository;
     private $amountPerPage = 10;
 
     /**
@@ -20,9 +20,9 @@ class ReserveMealController extends Controller
     * @param App\Repositories\MealRepository $mealRepository
     * @return void
     */
-    public function __construct(MealRepository $mealRepository)
+    public function __construct(ReserveMealRepository $reserveMealRepository)
     {
-      $this->mealRepository = $mealRepository;
+      $this->reserveMealRepository = $reserveMealRepository;
       $this->middleware('auth:web');
     }
     /**
@@ -55,12 +55,13 @@ class ReserveMealController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\OrderMealRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OrderMealRequest $request)
     {
-        //
+      $reserve = $this->reserveMealRepository->store($request->all());
+      return redirect('order')->withOk("La réservation n°" . $reserve->command_number . " a bien été enregistrée.");
     }
 
     /**
