@@ -23,6 +23,7 @@ class MealController extends Controller
   {
     $this->mealRepository = $mealRepository;
     $this->middleware('auth:admin');
+    $this->middleware('password');
     $this->middleware('access:2', ['except' => ['index','show']]);
   }
     /**
