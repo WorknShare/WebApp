@@ -31,6 +31,6 @@ class Equipment extends Model
 
     public function reserve()
     {
-      return $this->belongsToMany('App\reserveRoom', 'reserve_equipment', 'id_equipment', 'id_reserve_room');
+      return $this->belongsToMany('App\ReserveRoom', 'reserve_equipment', 'id_equipment', 'id_reserve_room');
     }
 }
