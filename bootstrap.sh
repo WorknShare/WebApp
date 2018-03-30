@@ -24,6 +24,9 @@ chmod -R 777 /vagrant/bootstrap/
 cp /vagrant/apache2.conf /etc/apache2/apache2.conf
 cp /vagrant/000-default.conf /etc/apache2/sites-available/000-default.conf
 cp /vagrant/qrcode-maker /bin/qrcode-maker
+chmod +x /bin/qrcode-maker
+mkdir /vagrant/storage/app/public/images
+mkdir /vagrant/storage/app/public/images/qrCode
 
 mysql -u root --password="root" --execute="CREATE USER 'laravel'@'localhost' IDENTIFIED BY 'secret'";
 mysql -u root --password="root" --execute="CREATE DATABASE worknshare DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci";
