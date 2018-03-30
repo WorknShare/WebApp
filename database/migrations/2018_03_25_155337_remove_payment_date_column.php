@@ -26,7 +26,7 @@ class RemovePaymentDateColumn extends Migration
     public function down()
     {
         Schema::table('history', function (Blueprint $table) {
-            $table->datetime('date_command');
+            $table->datetime('date_command')->nullable();
         });
     }
 }

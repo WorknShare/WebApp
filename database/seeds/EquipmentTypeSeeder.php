@@ -11,7 +11,7 @@ class EquipmentTypeSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\EquipmentType::class, 25)->create()->each(function ($u) {
+        factory(App\EquipmentType::class, 15)->create()->each(function ($u) {
         	for ($i = 0 ; $i < 40 ; $i++) { 	
         		$u->equipment()->save(factory(App\Equipment::class)->make());
         	}

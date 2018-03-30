@@ -27,8 +27,8 @@ class ReplacePaymentDurationColumn extends Migration
     public function down()
     {
         Schema::table('history', function (Blueprint $table) {
-            $table->datetime('duration');
             $table->dropColumn('limit_date');
+            $table->datetime('duration')->nullable();
         });
     }
 }
