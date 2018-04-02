@@ -18,14 +18,15 @@ $.alert = function(type, message) {
 	}
 
 	var div = $(alert).prependTo('.content');
-	div.css('opacity', 0).css('padding-top', 0).css('padding-bottom', 0).css('margin-bottom', 0)
+	var height = div.height() + 30;
+	div.css('opacity', 0).css('padding-top', 0).css('padding-bottom', 0).css('margin-bottom', 0).css('height', 0)
 	  .slideDown('slow')
 	  .animate(
-	    { opacity: 1, paddingTop: 15, paddingBottom: 15, marginBottom: 15 },
+	    { opacity: 1, paddingTop: 15, paddingBottom: 15, marginBottom: 15, height: height },
 	    { queue: false, duration: 'slow' }
 	   	);
 	window.setTimeout(function() {
-		div.animate({ height: 0, opacity: 0, paddingTop: 0, paddingBottom: 0, marginBottom: 0 }, 'slow', function(){ $(this).remove(); } );
+		div.animate({ height: 0, opacity: 0, paddingTop: 0, paddingBottom: 0, marginBottom: 0, height: 0 }, 'slow', function(){ $(this).remove(); } );
 	}, 5000);
 	return this;
 }
