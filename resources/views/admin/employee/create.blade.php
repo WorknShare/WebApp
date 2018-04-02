@@ -46,6 +46,7 @@ Créer un employé
 							<option value="1"> Administrateur</option>
 							<option value="2"> Gestionnaire</option>
 							<option value="3"> Responsable client</option>
+							<option value="4"> Technicien</option>
 	                  	</select>
 	                  	@if($errors->has('role'))
 	                	<span class="help-block"><strong>{{ $errors->first('role') }}</strong></span>

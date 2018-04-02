@@ -11,21 +11,20 @@ var container = document.getElementById("wave-container");
 function init() {
 
 	
-	camera = new THREE.PerspectiveCamera( 70, container.offsetWidth / container.offsetHeight, 5, 10000 );
+	camera = new THREE.PerspectiveCamera( 70, container.offsetWidth / container.offsetHeight, 5, 2000 );
 	camera.position.x = 114;
 	camera.position.y = -300;
 	camera.position.z = 487;
 
 	controls = new THREE.OrbitControls( camera );
-	controls.enabled = false;
 	
 	scene = new THREE.Scene();
 	geometry = new THREE.PlaneGeometry(2250, 900, 12, 12);
 
-	material = new THREE.MeshPhongMaterial( { color:0xffffff, wireframe:true, linewidth: 2244, opacity: 0.5, transparent: true, depthWrite: false } ); 
+	material = new THREE.MeshPhongMaterial( { color:0xffffff, wireframe:true, opacity: 0.5, transparent: true, depthWrite: false } );
 	
 	mesh = new THREE.Mesh( geometry, material );
-	mesh.rotation.x = -0.5;	
+	mesh.rotation.x = -0.5;
 	scene.add( mesh );
 
 	var light = new THREE.AmbientLight( 0xffffff ); // soft white light

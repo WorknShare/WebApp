@@ -47,6 +47,7 @@ Modifier un employé
 							<option value="1" {{ $employee->role == 1 ? 'selected' : '' }}> Administrateur</option>
 							<option value="2" {{ $employee->role == 2 ? 'selected' : '' }}> Gestionnaire</option>
 							<option value="3" {{ $employee->role == 3 ? 'selected' : '' }}> Responsable client</option>
+							<option value="4" {{ $employee->role == 4 ? 'selected' : '' }}> Technicien</option>
 	                  	</select>
 	                  	@if($errors->has('role'))
 	                	<span class="help-block"><strong>{{ $errors->first('role') }}</strong></span>
