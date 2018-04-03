@@ -84,6 +84,8 @@ $(function() {
 
 	$.updatePlansPie = function(data) {
 
+		$("#planNotEnoughData").hide();
+
 		var pieChartCanvas = $('#plansPie').get(0).getContext('2d');
 		if(pieChart == undefined) {
 			pieChart = new Chart(pieChartCanvas);
@@ -99,14 +101,21 @@ $(function() {
 		pieChartCanvas.canvas.style.height = "150px";
 
 		var i = 0;
+		var ok = false;
 		$.each(data, function(i, item) {
+			if(item.users_count > 0) ok = true;
 			var color = colorPalette[i%colorPalette.length];
 			pieData.push({value: item.users_count, color: color, highlight: color, label: item.name});
-			legend.append('<li><i class="fa fa-circle-o" style="color:'+ color +'"></i> '+ item.name +'</li>');
+			if(ok)
+				legend.append('<li><i class="fa fa-circle-o" style="color:'+ color +'"></i> '+ item.name +'</li>');
 			i++;
 		});
 
 		pieChart.Doughnut(pieData, pieOptions);
+
+		if(data.length <= 0 || !ok) {
+			$("#planNotEnoughData").show();
+		}
 
 	}
 

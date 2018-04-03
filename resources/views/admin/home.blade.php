@@ -1,6 +1,7 @@
 @extends('layouts.backoffice')
 
 @section('css')
+<link rel="stylesheet" href="{{ asset('css/dashboard.css') }} ">
 <!-- daterange picker -->
 <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-daterangepicker/daterangepicker.css') }} ">
 <!-- bootstrap datepicker -->
@@ -26,6 +27,7 @@
 
 		    <div class="box-body">
 		      <div class="row">
+		      	<span class="not-enough-data text-muted" id="planNotEnoughData">Données insuffisantes</span>
 		        <div class="col-md-8">
 		          <div class="chart-responsive">
 		            <canvas id="plansPie" height="155" data-url="{{ route('admin.metrics.plans') }}"></canvas>
@@ -56,7 +58,7 @@
 <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
 <!-- ChartJS -->
-<script src="{{ asset('bower_components/Chart.js/Chart.js') }}"></script>
+<script src="{{ asset('bower_components/chart.js/Chart.js') }}"></script>
 
 <script type="text/javascript" src="{{ asset('js/alertbuilder.js') }}"></script>
 <script src="{{ asset('js/dashboard.js') }}"></script>
