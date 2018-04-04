@@ -17,6 +17,7 @@ function init() {
 	camera.position.z = 487;
 
 	controls = new THREE.OrbitControls( camera );
+	controls.enabled = false;
 	
 	scene = new THREE.Scene();
 	geometry = new THREE.PlaneGeometry(2250, 900, 12, 12);
