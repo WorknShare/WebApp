@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\AjaxRequest;
 use App\Http\Requests\MetricsRequest;
+use App\MetricsBuilder;
 use DateTime;
 
 class AdminController extends Controller
@@ -53,11 +54,12 @@ class AdminController extends Controller
     public function metricsPlan(MetricsRequest $request)
     {
         
-        $plans = \App\Payment::with('plan')->whereDate('created_at', '>=', $request->date_start)->whereDate('created_at', '<=', $request->date_end)->get();
+        $metrics = new MetricsBuilder($request->date_start, $request->date_end, \App\Payment::class);
+        $plans = $metrics->with('plan')->getData();
+        $labels = $metrics->getLabels();
 
-        //$labels = $this->generateLabels($request->date_start, $request->date_end);
         return response()->json([
-            'labels' => ['label'],
+            'labels' => $labels,
             'plans' => $plans
         ]);
     }
