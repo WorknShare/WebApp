@@ -131,7 +131,7 @@ $(function() {
 		    datasetStrokeWidth      : 2,
 		    datasetFill             : false,
 		    legendTemplate          : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<datasets.length; i++){%><li><span style=\'background-color:<%=datasets[i].lineColor%>\'></span><%=datasets[i].label%></li><%}%></ul>',
-		    maintainAspectRatio     : true,
+		    maintainAspectRatio     : false,
 		    responsive              : true
 		};
 	var plansChart;
@@ -175,6 +175,7 @@ $(function() {
 		$.each(data.datasets, function(i, item) {
 			var color = colorPalette[i%colorPalette.length];
 			item.strokeColor = color;
+			item.pointColor = color;
 			legend.append('<li><i class="fa fa-circle-o" style="color:'+ color +'"></i> '+ item.label +'</li>');
 			i++;
 		});

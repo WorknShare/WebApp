@@ -54,8 +54,13 @@ class AdminController extends Controller
     public function metricsPlan(MetricsRequest $request)
     {
         
-        $metrics = new MetricsBuilder($request->date_start, $request->date_end, \App\Plan::class);
-        $plans = $metrics->with('payments')->getData();
+        $metrics = new MetricsBuilder($request->date_start, $request->date_end, 'plans');
+        $plans = $metrics->select('count(history.id_plan) as count, plans.name')
+                         ->with('history', 'plans.id_plan', 'history.id_plan')
+                         ->column('history.created_at')
+                         ->duration('history.limit_date')
+                         ->groupBy('plans.id_plan')
+                         ->getData();
         $labels = $metrics->getLabels();
 
         return response()->json([

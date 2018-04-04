@@ -12,27 +12,43 @@ class MetricsBuilder
 
 	private $dateStart;
 	private $dateEnd;
-	private $model;
+	private $table;
 	private $columns;
-	private $relations;
+	private $relation;
+	private $relationId;
+	private $relationRelatedId;
 	private $interval;
 	private $format;
 	private $labels;
 	private $dateColumn;
+	private $group;
+	private $duration;
 
 	/**
 	 * Create a new MetricsBuilder instance
 	 *
 	 * @return void
 	 */
-	public function __construct($dateStart, $dateEnd, $model)
+	public function __construct($dateStart, $dateEnd, $table)
 	{
 		$this->dateStart = new DateTime($dateStart);
 		$this->dateEnd = new DateTime($dateEnd);
-		$this->model = $model;
-		$this->relations = [];
+		$this->table = $table;
 		$this->labels = [];
-		$this->dateColumn = "history.created_at";
+		$this->dateColumn = "created_at";
+		$this->columns = '*';
+	}
+
+	/**
+	 * Set the column used for grouping
+	 *
+	 * @param string $group
+	 * @return MetricsBuilder
+	 */
+	public function groupBy($group)
+	{
+		$this->group = $group;
+		return $this;
 	}
 
 	/**
@@ -48,14 +64,26 @@ class MetricsBuilder
 	}
 
 	/**
-	 * Set the selected columns
+	 * Set the selected columns, passed to selectRaw()
 	 *
-	 * @param array $columns
+	 * @param $columns
 	 * @return MetricsBuilder
 	 */
-	public function select(array $columns)
+	public function select($columns)
 	{
 		$this->columns = $columns;
+		return $this;
+	}
+
+	/**
+	 * Set the selected columns, passed to selectRaw()
+	 *
+	 * @param $columns
+	 * @return MetricsBuilder
+	 */
+	public function duration($limitColumn)
+	{
+		$this->duration = $limitColumn;
 		return $this;
 	}
 
@@ -65,9 +93,11 @@ class MetricsBuilder
 	 * @param string $relation
 	 * @return MetricsBuilder
 	 */
-	public function with($relation)
+	public function with($relation, $id, $relatedId)
 	{
-		$this->relations[] = $relation;
+		$this->relation = $relation;
+		$this->relationId = $id;
+		$this->relationRelatedId = $relatedId;
 		return $this;
 	}
 
@@ -111,7 +141,6 @@ class MetricsBuilder
 	{
 		$this->calculateInterval();
 
-		$relationCount = count($this->relations);
 		$queries = [];
 		$datesStart = [];
 		$datesEnd = [];
@@ -130,16 +159,32 @@ class MetricsBuilder
 		while($datesEnd[$index] <= $this->dateEnd && $doneLast < 2)
 		{
 			$this->labels[] = $datesStart[$index]->format($this->format);
-			$queries[] = $this->model::join('history', 'plans.id_plan', '=', 'history.id_plan')
-				->selectRaw('`plans`.name, (select count(*)from `history` where `plans`.`id_plan` = `history`.`id_history` and date(`history`.`created_at`) >= ? and date(`history`.`created_at`) <= ?) as count', [$datesStart[$index]->format('Y-m-d'), $datesEnd[$index]->format('Y-m-d')]);
 
+			$queries[] = DB::table($this->table)->selectRaw($this->columns);
 			$last = $queries[$index];
 
-			/*if($relationCount > 0)
-				$last->with($this->relations);
+			if($this->relation != null)
+			{
+				$last->leftJoin($this->relation, function($join) use ($datesStart , $datesEnd, $index)
+                         {
+                             $join->on($this->relationId, '=', $this->relationRelatedId);
 
-			if($this->columns != null)
-				$last->select($this->columns);*/
+                             if($this->duration != null)
+                             {
+                             	$join->on($this->dateColumn, '<=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'"));
+                             	$join->on($this->duration, '>=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'"));
+                             	$join->on($this->duration, '>=', DB::raw("'".$datesEnd[$index]->format('Y-m-d H:i:s')."'"));
+                             }
+                             else
+                             {
+                             	$join->on($this->dateColumn, '>=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'"));
+                             	$join->on($this->dateColumn, '<=', DB::raw("'".$datesEnd[$index]->format('Y-m-d H:i:s')."'"));
+                             }
+                         });
+			}
+
+			if($this->group != null)
+				$last->groupBy('plans.id_plan');
 
 			$res = $last->get();
 
@@ -170,14 +215,6 @@ class MetricsBuilder
 				$doneLast++;
 			}
 			$doneFirst = true;
-		}
-
-		$first = $queries[count($queries)-1];
-
-		for ($i = count($queries)-2; $i >= 0 ; $i--) { 
-			$query = $queries[$i];
-			if($query != $first)
-				$first->union($query);
 		}
 
 		return $data;

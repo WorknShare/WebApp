@@ -10,14 +10,6 @@
 
 @section('content')
 
-<!--
-<div class="form-group">
-	<div class="input-group">
-		<input type="text" name="daterange" value="01/01/1900" class="form-control input-daterange" data-url="{{ route('admin.metrics.plans') }}"/>
-	</div>
-</div>
--->
-
 <div class="row">
 	<div class="col-md-4">
 		<div class="box box-default">
