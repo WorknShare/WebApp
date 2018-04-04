@@ -129,7 +129,7 @@ $(function() {
 		    pointHitDetectionRadius : 20,
 		    datasetStroke           : true,
 		    datasetStrokeWidth      : 2,
-		    datasetFill             : true,
+		    datasetFill             : false,
 		    legendTemplate          : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<datasets.length; i++){%><li><span style=\'background-color:<%=datasets[i].lineColor%>\'></span><%=datasets[i].label%></li><%}%></ul>',
 		    maintainAspectRatio     : true,
 		    responsive              : true
@@ -167,40 +167,34 @@ $(function() {
 
 		var planChartCanvas = $('#plans').get(0).getContext('2d');
 		
-		if(plansChart == undefined) {
-			var planData = {labels  : [], datasets: []};
-			plansChart = new Chart(planChartCanvas);
-			plansChart.Line(planData, plansOptions);
-		}
-
 		//Clear
 		var legend = $('#plansLegend');
 		legend.empty();
 
-		plansChart.data.labels.pop();
-	    plansChart.data.datasets.forEach((dataset) => {
-	        plansChart.data.pop();
-	    });
-
 		var i = 0;
-		var ok = false;
-		$.each(data.labels, function(i, item) {
-			plansChart.data.labels.push(label);
-		});
-		$.each(data.plans, function(i, item) {
-			if(item.users_count > 0) ok = true;
+		$.each(data.datasets, function(i, item) {
 			var color = colorPalette[i%colorPalette.length];
-			plansChart.data.datasets.push({label: item.name, fillColor: color, strokeColor: color, pointColor: color, data: item.values});
-			if(ok)
-				legend.append('<li><i class="fa fa-circle-o" style="color:'+ color +'"></i> '+ item.name +'</li>');
+			item.strokeColor = color;
+			legend.append('<li><i class="fa fa-circle-o" style="color:'+ color +'"></i> '+ item.label +'</li>');
 			i++;
 		});
 
-		if(data.plans.length <= 0 || !ok) {
+		if(plansChart != undefined) {
+			plansChart.destroy();
+			plansChart = undefined;
+		} 
+			
+			plansChart = new Chart(planChartCanvas, {
+				type: 'line',
+				data: data
+			});
+
+
+		if(data.datasets.length <= 0) {
 			$("#planNotEnoughData").show();
 		}
 
-		plansChart.update();
+		plansChart = plansChart.Line(data, plansOptions);
 
 	}
 

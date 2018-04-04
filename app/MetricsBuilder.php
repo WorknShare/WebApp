@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use DateTime;
 use DateInterval;
 
@@ -31,7 +32,7 @@ class MetricsBuilder
 		$this->model = $model;
 		$this->relations = [];
 		$this->labels = [];
-		$this->dateColumn = "created_at";
+		$this->dateColumn = "history.created_at";
 	}
 
 	/**
@@ -117,24 +118,44 @@ class MetricsBuilder
 		$datesStart[] = clone $this->dateStart;
 		$datesEnd[] = clone $this->dateStart;
 		$index = 0;
-		$doneLast = false;
+		$doneLast = 0;
+		$doneFirst = false;
+		$data = [];
 
 		if($this->dateStart == $this->dateEnd)
 			$this->dateEnd->add(new DateInterval('P1D'));
 
 		$datesEnd[$index]->add($this->interval);
 
-		while($datesEnd[$index] <= $this->dateEnd && !$doneLast)
+		while($datesEnd[$index] <= $this->dateEnd && $doneLast < 2)
 		{
 			$this->labels[] = $datesStart[$index]->format($this->format);
-			$queries[] = $this->model::whereDate($this->dateColumn, '>=', $datesStart[$index])->whereDate($this->dateColumn, '<=', $datesEnd[$index]);
+			$queries[] = $this->model::join('history', 'plans.id_plan', '=', 'history.id_plan')
+				->selectRaw('`plans`.name, (select count(*)from `history` where `plans`.`id_plan` = `history`.`id_history` and date(`history`.`created_at`) >= ? and date(`history`.`created_at`) <= ?) as count', [$datesStart[$index]->format('Y-m-d'), $datesEnd[$index]->format('Y-m-d')]);
+
 			$last = $queries[$index];
-			
-			if($relationCount > 0)
+
+			/*if($relationCount > 0)
 				$last->with($this->relations);
 
 			if($this->columns != null)
-				$last->select($this->columns);
+				$last->select($this->columns);*/
+
+			$res = $last->get();
+
+			if(!$doneFirst)
+			{
+				foreach ($res as $value) {
+					$data[] = ["label" => $value->name , "data" => [$value->count]];
+				}
+			}
+			else
+			{
+				$i = 0;
+				foreach ($res as $value) {
+					$data[$i++]['data'][] = $value->count;
+				}
+			}
 
 			$datesStart[] = clone $datesStart[$index];
 			$datesEnd[] = clone $datesEnd[$index];
@@ -146,8 +167,9 @@ class MetricsBuilder
 			if($datesEnd[$index] > $this->dateEnd)
 			{
 				$datesEnd[$index] = $this->dateEnd;
-				$doneLast = true;
+				$doneLast++;
 			}
+			$doneFirst = true;
 		}
 
 		$first = $queries[count($queries)-1];
@@ -158,7 +180,7 @@ class MetricsBuilder
 				$first->union($query);
 		}
 
-		return $last->get();
+		return $data;
 	}
 
 	/**

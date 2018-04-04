@@ -55,12 +55,12 @@
 		    <div class="box-body">
 		      <div class="row">
 		      	<span class="not-enough-data text-muted" id="planNotEnoughData">Données insuffisantes</span>
-		        <div class="col-md-8">
+		        <div class="col-md-10">
 		          <div class="chart-responsive">
 		            <canvas id="plans" height="251" data-url="{{ route('admin.metrics.plans') }}"></canvas>
 		          </div>
 		        </div>
-		        <div class="col-md-4">
+		        <div class="col-md-2">
 		          <ul class="chart-legend clearfix" id="plansLegend">
 		          </ul>
 		        </div>

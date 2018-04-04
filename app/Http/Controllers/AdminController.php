@@ -54,13 +54,13 @@ class AdminController extends Controller
     public function metricsPlan(MetricsRequest $request)
     {
         
-        $metrics = new MetricsBuilder($request->date_start, $request->date_end, \App\Payment::class);
-        $plans = $metrics->with('plan')->getData();
+        $metrics = new MetricsBuilder($request->date_start, $request->date_end, \App\Plan::class);
+        $plans = $metrics->with('payments')->getData();
         $labels = $metrics->getLabels();
 
         return response()->json([
             'labels' => $labels,
-            'plans' => $plans
+            'datasets' => $plans
         ]);
     }
 
