@@ -22,7 +22,7 @@
 		      	<span class="not-enough-data text-muted" id="planPieNotEnoughData">Données insuffisantes</span>
 		        <div class="col-md-8">
 		          <div class="chart-responsive">
-		            <canvas id="plansPie" height="155" data-url="{{ route('admin.metrics.planspie') }}"></canvas>
+		            <canvas id="plansPie" height="251" data-url="{{ route('admin.metrics.planspie') }}"></canvas>
 		          </div>
 		        </div>
 		        <div class="col-md-4">

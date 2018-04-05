@@ -84,10 +84,6 @@ $(function() {
 		var legend = $('#plansPieLegend');
 		legend.empty();
 
-		//Set pie size
-		pieChartCanvas.canvas.height = 150;
-		pieChartCanvas.canvas.style.height = "150px";
-
 		var i = 0;
 		var ok = false;
 		$.each(data, function(i, item) {
