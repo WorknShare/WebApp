@@ -37,4 +37,12 @@ class Employee extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($password);
     }
+
+    public function generateApiToken()
+    {
+        $this->api_token = str_random(60);
+        $this->save();
+
+        return $this->api_token;
+    }
 }

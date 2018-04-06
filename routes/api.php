@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('login', 'Auth\ApiAdminLoginController@login');
+Route::post('logout', 'Auth\ApiAdminLoginController@logout');
+
+Route::group(['middleware' => 'auth:admin-api'], function() {
+
 });
