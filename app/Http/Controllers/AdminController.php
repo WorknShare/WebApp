@@ -69,6 +69,29 @@ class AdminController extends Controller
         ]);
     }
 
+    /**
+     * Returns data for reservations count along requested time
+     *
+     * @param \App\Http\Requests\MetricsRequest
+     * @return \Illuminate\Http\Response
+     */
+    public function metricsReserve(MetricsRequest $request)
+    {
+        
+        $metrics = new MetricsBuilder($request->date_start, $request->date_end, 'reserve_room');
+        $plans = $metrics->select('count(*) as count')
+                         ->column('date_start')
+                         ->duration('date_end')
+                         ->groupBy('id_reserve_room')
+                         ->getData();
+        $labels = $metrics->getLabels();
+
+        return response()->json([
+            'labels' => $labels,
+            'datasets' => $plans
+        ]);
+    }
+
     private function generateLabels($date_start, $date_end)
     {
         $date_start = new DateTime($date_start);

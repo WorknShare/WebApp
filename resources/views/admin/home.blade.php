@@ -22,7 +22,7 @@
 		      	<span class="not-enough-data text-muted" id="planPieNotEnoughData">Données insuffisantes</span>
 		        <div class="col-md-8">
 		          <div class="chart-responsive">
-		            <canvas id="plansPie" height="251" data-url="{{ route('admin.metrics.planspie') }}"></canvas>
+		            <canvas id="plansPie" height="150" data-url="{{ route('admin.metrics.planspie') }}"></canvas>
 		          </div>
 		        </div>
 		        <div class="col-md-4">
@@ -62,7 +62,37 @@
 		    <div class="box-footer">
 		    	<div>
 					<div class="input-group pull-right">
-						<input type="text" name="daterange" value="01/01/1900" class="form-control input-daterange" id="daterangePlans" data-url="{{ route('admin.metrics.plans') }}"/>
+						<input type="text" name="daterange" value="01/01/1900" class="form-control input-daterange" id="daterangePlans"/>
+					</div>
+				</div>
+		    </div> 
+		</div>
+	</div>
+	<div class="col-md-8">
+		<div class="box box-default">
+		    <div class="box-header with-border">
+		      <h3 class="box-title">Nombre de réservations au cours du temps</h3>
+		    </div>
+
+		    <div class="box-body">
+		      <div class="row">
+		      	<span class="not-enough-data text-muted" id="reserveNotEnoughData">Données insuffisantes</span>
+		        <div class="col-md-10">
+		          <div class="chart-responsive">
+		            <canvas id="reserve" height="251" data-url="{{ route('admin.metrics.reserve') }}"></canvas>
+		          </div>
+		        </div>
+		        <div class="col-md-2">
+		          <ul class="chart-legend clearfix" id="reserveLegend">
+		          </ul>
+		        </div>
+		      </div>
+		    </div>
+
+		    <div class="box-footer">
+		    	<div>
+					<div class="input-group pull-right">
+						<input type="text" name="daterange" value="01/01/1900" class="form-control input-daterange" id="daterangeReserve"/>
 					</div>
 				</div>
 		    </div> 

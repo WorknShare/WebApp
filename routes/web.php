@@ -67,6 +67,7 @@ Route::prefix('admin')->group(function() {
 
     Route::get('/planspie', 'AdminController@metricsPlanPie')->name('admin.metrics.planspie');
     Route::get('/plans', 'AdminController@metricsPlan')->name('admin.metrics.plans');
+    Route::get('/reserve', 'AdminController@metricsReserve')->name('admin.metrics.reserve');
 
   });
 

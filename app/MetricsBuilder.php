@@ -181,10 +181,28 @@ class MetricsBuilder
                              	$join->on($this->dateColumn, '<=', DB::raw("'".$datesEnd[$index]->format('Y-m-d H:i:s')."'"));
                              }
                          });
+			} 
+			else
+			{
+				if($this->duration != null)
+                {
+                	$last->where([
+                		[$this->dateColumn, '<=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'")],
+                		[$this->duration, '>=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'")],
+                		[$this->duration, '>=', DB::raw("'".$datesEnd[$index]->format('Y-m-d H:i:s')."'")]
+                	]);
+                }
+                else
+                {
+                	$last->where([
+                		[$this->dateColumn, '>=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'")],
+                		[$this->dateColumn, '<=', DB::raw("'".$datesEnd[$index]->format('Y-m-d H:i:s')."'")]
+                	]);
+                }
 			}
 
 			if($this->group != null)
-				$last->groupBy('plans.id_plan');
+				$last->groupBy($this->group);
 
 			$res = $last->get();
 

@@ -7,6 +7,27 @@ $(function() {
 	var mm = today.getMonth()+1;
 	var yyyy = today.getFullYear(); 
 
+	var lineOptions = {
+		    showScale               : true,
+		    scaleShowGridLines      : false,
+		    scaleGridLineColor      : 'rgba(0,0,0,.05)',
+		    scaleGridLineWidth      : 1,
+		    scaleShowHorizontalLines: true,
+		    scaleShowVerticalLines  : true,
+		    bezierCurve             : true,
+		    bezierCurveTension      : 0.3,
+		    pointDot                : false,
+		    pointDotRadius          : 4,
+		    pointDotStrokeWidth     : 1,
+		    pointHitDetectionRadius : 20,
+		    datasetStroke           : true,
+		    datasetStrokeWidth      : 2,
+		    datasetFill             : false,
+		    legendTemplate          : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<datasets.length; i++){%><li><span style=\'background-color:<%=datasets[i].lineColor%>\'></span><%=datasets[i].label%></li><%}%></ul>',
+		    maintainAspectRatio     : false,
+		    responsive              : true
+		};
+
 	$('.input-daterange').daterangepicker({
 		locale: {
 			"daysOfWeek": ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."],
@@ -27,6 +48,7 @@ $(function() {
 	$( document ).ready(function() {
     	$.refreshPlansPie();
     	$.refreshPlans();
+    	$.refreshReservations();
 	});
 
 
@@ -44,7 +66,7 @@ $(function() {
 		animateRotate        : true,
 		animateScale         : false,
 		responsive           : true,
-		maintainAspectRatio  : false,
+		maintainAspectRatio  : true,
 		legendTemplate       : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<segments.length; i++){%><li><span style=\'background-color:<%=segments[i].fillColor%>\'></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>',
 		tooltipTemplate      : '<%=label%>: <%=value %> clients'
 	};
@@ -110,26 +132,6 @@ $(function() {
 	//PLANS
 	//-------------------------------
 
-	var plansOptions = {
-		    showScale               : true,
-		    scaleShowGridLines      : false,
-		    scaleGridLineColor      : 'rgba(0,0,0,.05)',
-		    scaleGridLineWidth      : 1,
-		    scaleShowHorizontalLines: true,
-		    scaleShowVerticalLines  : true,
-		    bezierCurve             : true,
-		    bezierCurveTension      : 0.3,
-		    pointDot                : false,
-		    pointDotRadius          : 4,
-		    pointDotStrokeWidth     : 1,
-		    pointHitDetectionRadius : 20,
-		    datasetStroke           : true,
-		    datasetStrokeWidth      : 2,
-		    datasetFill             : false,
-		    legendTemplate          : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<datasets.length; i++){%><li><span style=\'background-color:<%=datasets[i].lineColor%>\'></span><%=datasets[i].label%></li><%}%></ul>',
-		    maintainAspectRatio     : false,
-		    responsive              : true
-		};
 	var plansChart;
 
 	$("#refreshPlans").click(function() {
@@ -167,6 +169,7 @@ $(function() {
 		var legend = $('#plansLegend');
 		legend.empty();
 
+
 		var i = 0;
 		$.each(data.datasets, function(i, item) {
 			var color = colorPalette[i%colorPalette.length];
@@ -191,8 +194,83 @@ $(function() {
 			$("#planNotEnoughData").show();
 		}
 
-		plansChart = plansChart.Line(data, plansOptions);
+		plansChart = plansChart.Line(data, lineOptions);
 
+		//Set size
+		planChartCanvas.canvas.height = 261;
+		planChartCanvas.canvas.style.height = "261px";
+	}
+
+	//-------------------------------
+
+
+	//-------------------------------
+	//RESERVATIONS
+	//-------------------------------
+
+	var reserveChart;
+
+	$('#daterangeReserve').on('apply.daterangepicker', function(ev, picker) {
+		$.refreshReservations();
+	});
+
+	$.refreshReservations = function() {
+		var url = $("#reserve").data('url');
+		var picker = $("#daterangePlans").data('daterangepicker');
+		$.ajax({
+			method: 'GET',
+			url: url,
+				data: 'date_start=' + picker.startDate.format('YYYY-MM-DD') + "&date_end=" + picker.endDate.format('YYYY-MM-DD'),
+				dataType: "json"
+			})
+			.done(function(data) {
+				$.updateRe(data);
+			})
+			.fail(function(data) {
+				$.alert('error', 'Une erreur est survenue. Impossible de récupérer les statistiques demandées');
+			});
+	}
+
+	$.updateReservations = function(data) {
+
+		$("#reserveNotEnoughData").hide();
+
+		var reserveChartCanvas = $('#reseve').get(0).getContext('2d');
+		
+		//Clear
+		var legend = $('#reserveLegend');
+		legend.empty();
+
+
+		var i = 0;
+		$.each(data.datasets, function(i, item) {
+			var color = colorPalette[i%colorPalette.length];
+			item.strokeColor = color;
+			item.pointColor = color;
+			legend.append('<li><i class="fa fa-circle-o" style="color:'+ color +'"></i> '+ item.label +'</li>');
+			i++;
+		});
+
+		if(reserveChart != undefined) {
+			reserveChart.destroy();
+			reserveChart = undefined;
+		} 
+			
+			reserveChart = new Chart(reserveChartCanvas, {
+				type: 'line',
+				data: data
+			});
+
+
+		if(data.datasets.length <= 0) {
+			$("#reserveNotEnoughData").show();
+		}
+
+		reserveChart = reserveChart.Line(data, lineOptions);
+
+		//Set size
+		reserveChartCanvas.canvas.height = 261;
+		reserveChartCanvas.canvas.style.height = "261px";
 	}
 
 	//-------------------------------
