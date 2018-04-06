@@ -68,7 +68,7 @@
 		    </div> 
 		</div>
 	</div>
-	<div class="col-md-8">
+	<div class="col-md-12">
 		<div class="box box-default">
 		    <div class="box-header with-border">
 		      <h3 class="box-title">Nombre de réservations au cours du temps</h3>

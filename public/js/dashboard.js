@@ -169,6 +169,10 @@ $(function() {
 		var legend = $('#plansLegend');
 		legend.empty();
 
+		//Set size
+		planChartCanvas.canvas.height = 261;
+		planChartCanvas.canvas.style.height = "261px";
+
 		if(data.datasets.length <= 0) {
 			$("#planNotEnoughData").show();
 		} else {
@@ -193,15 +197,14 @@ $(function() {
 				});
 
 
-
+			//Set size
+			planChartCanvas.canvas.height = 261;
+			planChartCanvas.canvas.style.height = "261px";
+			
 			plansChart = plansChart.Line(data, lineOptions);
 			
 		}
 
-
-		//Set size
-		planChartCanvas.canvas.height = 261;
-		planChartCanvas.canvas.style.height = "261px";
 	}
 
 	//-------------------------------
@@ -219,7 +222,7 @@ $(function() {
 
 	$.refreshReservations = function() {
 		var url = $("#reserve").data('url');
-		var picker = $("#daterangePlans").data('daterangepicker');
+		var picker = $("#daterangeReserve").data('daterangepicker');
 		$.ajax({
 			method: 'GET',
 			url: url,
@@ -243,6 +246,10 @@ $(function() {
 		//Clear
 		var legend = $('#reserveLegend');
 		legend.empty();
+
+		//Set size
+		reserveChartCanvas.canvas.height = 261;
+		reserveChartCanvas.canvas.style.height = "261px";
 
 		if(data.datasets.length <= 0) {
 			$("#reserveNotEnoughData").show();
@@ -268,14 +275,12 @@ $(function() {
 			});
 
 
-
+			//Set size
+			reserveChartCanvas.canvas.height = 261;
+			reserveChartCanvas.canvas.style.height = "261px";
 			reserveChart = reserveChart.Line(data, lineOptions);
 
 		}
-
-		//Set size
-		reserveChartCanvas.canvas.height = 261;
-		reserveChartCanvas.canvas.style.height = "261px";
 
 	}
 
