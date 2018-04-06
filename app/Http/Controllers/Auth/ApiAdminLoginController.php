@@ -24,7 +24,7 @@ class ApiAdminLoginController extends Controller
         return Auth::guard('admin-api');
     }
 
-    public function login()
+    public function login(Request $request)
     {
       $this->validateLogin($request);
 
@@ -36,7 +36,7 @@ class ApiAdminLoginController extends Controller
 
       if ($this->attemptLogin($request)) {
           $employee = $this->guard()->user();
-          $employee->generateToken();
+          $employee->generateApiToken();
 
           return response()->json([
               'data' => $employee->toArray(),
@@ -60,4 +60,5 @@ class ApiAdminLoginController extends Controller
 
       return response()->json(['data' => 'User logged out.'], 200);
     }
+
 }

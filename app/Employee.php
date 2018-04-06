@@ -12,7 +12,6 @@ class Employee extends Authenticatable
     use Notifiable;
 
     protected $table = 'employees';
-    protected $guard = 'admin';
     protected $primaryKey = "id_employee";
 
     /**
