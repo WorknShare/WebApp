@@ -39,7 +39,7 @@ $(function() {
 	        "toLabel": "à",
 	        "customRangeLabel": "Personnalisé",
 			"format": "DD/MM/YYYY",
-			"firstDay":1
+			"firstDay":1,
 		},
 		startDate: dd + '/' + mm + '/' + yyyy,
 		endDate: dd + '/' + mm + '/' + yyyy,
@@ -169,32 +169,35 @@ $(function() {
 		var legend = $('#plansLegend');
 		legend.empty();
 
-
-		var i = 0;
-		$.each(data.datasets, function(i, item) {
-			var color = colorPalette[i%colorPalette.length];
-			item.strokeColor = color;
-			item.pointColor = color;
-			legend.append('<li><i class="fa fa-circle-o" style="color:'+ color +'"></i> '+ item.label +'</li>');
-			i++;
-		});
-
-		if(plansChart != undefined) {
-			plansChart.destroy();
-			plansChart = undefined;
-		} 
-			
-			plansChart = new Chart(planChartCanvas, {
-				type: 'line',
-				data: data
-			});
-
-
 		if(data.datasets.length <= 0) {
 			$("#planNotEnoughData").show();
+		} else {
+
+			var i = 0;
+			$.each(data.datasets, function(i, item) {
+				var color = colorPalette[i%colorPalette.length];
+				item.strokeColor = color;
+				item.pointColor = color;
+				legend.append('<li><i class="fa fa-circle-o" style="color:'+ color +'"></i> '+ item.label +'</li>');
+				i++;
+			});
+
+			if(plansChart != undefined) {
+				plansChart.destroy();
+				plansChart = undefined;
+			} 
+				
+				plansChart = new Chart(planChartCanvas, {
+					type: 'line',
+					data: data
+				});
+
+
+
+			plansChart = plansChart.Line(data, lineOptions);
+			
 		}
 
-		plansChart = plansChart.Line(data, lineOptions);
 
 		//Set size
 		planChartCanvas.canvas.height = 261;
@@ -224,7 +227,7 @@ $(function() {
 				dataType: "json"
 			})
 			.done(function(data) {
-				$.updateRe(data);
+				$.updateReservations(data);
 			})
 			.fail(function(data) {
 				$.alert('error', 'Une erreur est survenue. Impossible de récupérer les statistiques demandées');
@@ -235,42 +238,45 @@ $(function() {
 
 		$("#reserveNotEnoughData").hide();
 
-		var reserveChartCanvas = $('#reseve').get(0).getContext('2d');
+		var reserveChartCanvas = $('#reserve').get(0).getContext('2d');
 		
 		//Clear
 		var legend = $('#reserveLegend');
 		legend.empty();
 
+		if(data.datasets.length <= 0) {
+			$("#reserveNotEnoughData").show();
+		} else {
 
-		var i = 0;
-		$.each(data.datasets, function(i, item) {
-			var color = colorPalette[i%colorPalette.length];
-			item.strokeColor = color;
-			item.pointColor = color;
-			legend.append('<li><i class="fa fa-circle-o" style="color:'+ color +'"></i> '+ item.label +'</li>');
-			i++;
-		});
+			var i = 0;
+			$.each(data.datasets, function(i, item) {
+				var color = colorPalette[i%colorPalette.length];
+				item.strokeColor = color;
+				item.pointColor = color;
+				legend.append('<li><i class="fa fa-circle-o" style="color:'+ color +'"></i> '+ item.label +'</li>');
+				i++;
+			});
 
-		if(reserveChart != undefined) {
-			reserveChart.destroy();
-			reserveChart = undefined;
-		} 
-			
+			if(reserveChart != undefined) {
+				reserveChart.destroy();
+				reserveChart = undefined;
+			} 
+				
 			reserveChart = new Chart(reserveChartCanvas, {
 				type: 'line',
 				data: data
 			});
 
 
-		if(data.datasets.length <= 0) {
-			$("#reserveNotEnoughData").show();
-		}
 
-		reserveChart = reserveChart.Line(data, lineOptions);
+			reserveChart = reserveChart.Line(data, lineOptions);
+
+		}
 
 		//Set size
 		reserveChartCanvas.canvas.height = 261;
 		reserveChartCanvas.canvas.style.height = "261px";
+
 	}
 
 	//-------------------------------

@@ -79,10 +79,9 @@ class AdminController extends Controller
     {
         
         $metrics = new MetricsBuilder($request->date_start, $request->date_end, 'reserve_room');
-        $plans = $metrics->select('count(*) as count')
+        $plans = $metrics->select('count(*) as count, "Réservations" as name')
                          ->column('date_start')
                          ->duration('date_end')
-                         ->groupBy('id_reserve_room')
                          ->getData();
         $labels = $metrics->getLabels();
 

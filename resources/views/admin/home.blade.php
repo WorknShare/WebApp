@@ -61,7 +61,7 @@
 
 		    <div class="box-footer">
 		    	<div>
-					<div class="input-group pull-right">
+					<div class="input-group">
 						<input type="text" name="daterange" value="01/01/1900" class="form-control input-daterange" id="daterangePlans"/>
 					</div>
 				</div>
@@ -91,7 +91,7 @@
 
 		    <div class="box-footer">
 		    	<div>
-					<div class="input-group pull-right">
+					<div class="input-group">
 						<input type="text" name="daterange" value="01/01/1900" class="form-control input-daterange" id="daterangeReserve"/>
 					</div>
 				</div>
