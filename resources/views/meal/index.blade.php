@@ -1,13 +1,13 @@
 @extends('layouts.frontoffice')
 
 @section('title')
-Réservation
+Commande
 @endsection
 
 @section('page_title')
 	@component('components.header')
-	  @slot('title')Réservation @endslot
-	  @slot('description')Choix du site @endslot
+	  @slot('title')Commande @endslot
+	  @slot('description')Repas @endslot
 	@endcomponent
 @endsection
 
@@ -23,7 +23,7 @@ Réservation
       </tr>
       @foreach ($sites as $site)
       <tr>
-        <td style="max-width: 200px;" class="ellipsis" title="{{ $site->name }}"><b><a href="{{ route('meal.create', ["site" => $site->id_site]) }}">{{ $site->name }}</a></b></td>
+        <td style="max-width: 200px;" class="ellipsis" title="{{ $site->name }}"><b><a href="{{ route('mealorder.create', ["site" => $site->id_site]) }}">{{ $site->name }}</a></b></td>
         <td>{{ $site->address }}</td>
         <td>{!! Html::badge($site->wifi) !!}</td>
         <td>{!! Html::badge($site->drink) !!}</td>

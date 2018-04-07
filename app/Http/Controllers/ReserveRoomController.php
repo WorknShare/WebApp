@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Input;
+use View;
 use App\Site;
 use App\ReserveRoom;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ class ReserveRoomController extends Controller
     {
         $this->reserveRoomRepository = $reserveRoomRepository;
         $this->middleware('auth:web', ['except' => ['indexAdmin', 'showAdmin', 'destroyAdmin']]);
-        $this->middleware('password');
+        $this->middleware('password', ['only' => ['indexAdmin', 'showAdmin', 'destroyAdmin']]);
         $this->middleware('auth:admin', ['only' => ['indexAdmin', 'showAdmin', 'destroyAdmin']]);
     }
 
@@ -46,7 +47,7 @@ class ReserveRoomController extends Controller
         return view('order.index', compact('user', 'sites', 'links'));
     }
 
-    public function indexHistory()
+    public function indexHistory(Request $request)
     {
       $user = Auth::user();
       $orders = $user->getModel()->reserves()->join('rooms', 'reserve_room.id_room', '=', 'rooms.id_room')
@@ -55,9 +56,22 @@ class ReserveRoomController extends Controller
                                              ->orderBy('date_start', 'desc')
                                              ->paginate($this->amountPerPage);
 
+     $meals = $user->getModel()->orderMeals()->join('meals', 'client_meal_orders.id_meal', '=', 'meals.id_meal')
+                                              ->join('sites', 'sites.id_site', '=', 'client_meal_orders.id_site')
+                                              ->select('client_meal_orders.*', 'meals.name as meal_name', 'meals.price as meal_price','sites.name as site_name')
+                                              ->orderBy('hour', 'desc')
+                                              ->paginate($this->amountPerPage);
 
-      $links = $orders->render();
-      return view('order.history', compact('orders', 'links'));
+      if ($request->ajax()) {
+        if(Input::get('resource') == 'order'){
+          return response()->json(View::make('order.order_history', compact('orders'))->render());
+        }
+
+        if(Input::get('resource') == 'meal'){
+          return response()->json(View::make('order.meal_history', compact('meals'))->render());
+        }
+      }
+      return View::make('order.history', compact('meals', 'orders'))->render();
     }
 
     public function indexAdmin(SearchRequest $request)
@@ -190,6 +204,6 @@ class ReserveRoomController extends Controller
       $user = Auth::user();
       $orderNumber = $user->getModel()->reserves()->findOrFail($id)->command_number;
       $this->reserveRoomRepository->destroy($id);
-      return redirect('orderhistory')->withOk("La réservation n°" . $orderNumber . " a été supprimée.");
+      return response()->json("La réservation n°" . $orderNumber . " a été supprimée.");
     }
 }

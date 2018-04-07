@@ -15,7 +15,7 @@
       .done(function(data) {
         console.log(data);
         $('#equipment').html('');
-        $('.equipmentContainer').css('display', 'block'); 
+        $('.equipmentContainer').css('display', 'block');
         $.each(data.equipments,function(index, value){
           $('#equipment').append('<option value="'+ value.id_equipment+ '">' + value.serial_number + '</option>');
         });
@@ -27,6 +27,8 @@
 
     $('#datepicker').datepicker({
       format: 'yyyy-mm-dd',
+      startDate: 'd',
+      language:'fr',
     });
     //Timepicker
     $('#hour_start').timepicker({

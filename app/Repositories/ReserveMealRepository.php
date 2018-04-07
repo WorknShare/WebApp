@@ -8,7 +8,7 @@ use App\ReserveMeal;
 
 class ReserveMealRepository extends ResourceRepository
 {
-
+    protected $softDeleted = true;
 	/**
      * Create a new repository instance.
      *
@@ -34,13 +34,12 @@ class ReserveMealRepository extends ResourceRepository
     $model->command_number = $command_number;
     $model->id_client = $inputs['id_client'];
     $model->id_site = $inputs['id_site'];
-    $date = $inputs['date'] . ' ' .$inputs['hour_start'];
+    $date = $inputs['date'] . ' ' .$inputs['hour'];
     $model->hour = $date;
-    $model->id_meal = $inputs['meal'];
-
+    $model->id_meal = $inputs['id_meal'];
     $model->save();
 
-    return $model->id_reserve_room;
+    return $model->id_client;
 	}
 
 }

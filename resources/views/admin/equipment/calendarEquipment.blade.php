@@ -29,7 +29,7 @@ function calendarDisplay(data) {
   $.each(data.calendar,function(index, value){
     var jsDateStart = moment(value.date_start).format("");
     var jsDateEnd = moment(value.date_end).format("");
-    var url = '{{ route('reserveroom.show', ':id')}}';
+    var url = '{{ route('order.show', ':id')}}';
     url = url.replace(':id', value.id_reserve_room);
     array.push({'id' : value.id_reserve_room, 'title' : value.name, 'start' : jsDateStart, 'end' : jsDateEnd, 'allDay' : false, 'backgroundColor' : '#3c8dbc', 'borderColor' : '#3c8dbc', url :  url});
   });
@@ -82,7 +82,7 @@ function calendarDisplay(data) {
                                                     });
       }
     },
-    
+
     customButtons: {
       refresh: {
         text: 'Actualiser',

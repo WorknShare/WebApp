@@ -26,6 +26,7 @@ class OrderMealRequest extends FormRequest
         return [
           'id_client' => 'required|integer|min:1',
           'id_site' => 'required|integer|min:1',
+          'id_meal' => 'required|integer|min:1',
           'date' => 'required|date_format:Y-m-d|after_datetime:hour,now',
           'hour' => 'required|date_format:H:i',
         ];

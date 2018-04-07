@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Input;
+use View;
 use Illuminate\Http\Request;
 use App\Http\Requests\OrderMealRequest;
 use App\Repositories\ReserveMealRepository;
@@ -61,41 +62,18 @@ class ReserveMealController extends Controller
     public function store(OrderMealRequest $request)
     {
       $reserve = $this->reserveMealRepository->store($request->all());
-      return redirect('order')->withOk("La réservation n°" . $reserve->command_number . " a bien été enregistrée.");
+      return redirect('myaccount')->withOk("La réservation n°" . $reserve->command_number . " a bien été enregistrée.");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function getMeal($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+      $meal = \App\Meal::where('id_meal', '=', $id)->get()[0];
+      \Debugbar::info($meal);
+      return response()->json([
+          'name' => $meal->name,
+          'price' => $meal->price,
+          'content' => $meal->menu,
+      ]);
     }
 
     /**
@@ -106,6 +84,12 @@ class ReserveMealController extends Controller
      */
     public function destroy($id)
     {
-        //
+      if(!is_numeric($id)) abort(404);
+      $user = Auth::user();
+      $orderNumber = $user->getModel()->orderMeals()->findOrFail($id)->command_number;
+      $this->reserveMealRepository->destroy($id);
+      return response()->json("La commande n°" . $orderNumber . " a été supprimée.");
+
+
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddClientMealOrdersHourColumn extends Migration
+class AddClientMealOrdersHourColumn2 extends Migration
 {
     /**
      * Run the migrations.

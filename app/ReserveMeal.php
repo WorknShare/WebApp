@@ -4,11 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class reserveMeal extends Model
+class ReserveMeal extends Model
 {
-  protected $primaryKey = [
-    'id_client', 'id_site', 'id_meal'
-  ];
+  
+  protected $primaryKey = 'id_order_meal';
   protected $table = 'client_meal_orders';
   public $timestamps = false;
 
@@ -18,7 +17,7 @@ class reserveMeal extends Model
   * @var array
   */
   protected $fillable = [
-    'id_site', 'hour',
+    'hour', 'command_number', 'id_client', 'id_site', 'id_meal',
   ];
 
 

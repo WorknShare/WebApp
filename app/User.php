@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
       return $this->hasMany('App\ReserveRoom', 'id_client');
     }
+
+    public function orderMeals()
+    {
+      return $this->hasMany('App\ReserveMeal', 'id_client');
+    }
 }

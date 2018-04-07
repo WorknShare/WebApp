@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddClientMealOrdersHourColumn extends Migration
+class AddMealCommandNumberColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddClientMealOrdersHourColumn extends Migration
     public function up()
     {
         Schema::table('client_meal_orders', function (Blueprint $table) {
-            $table->datetime('hour');
+            $table->string('command_number');
         });
     }
 
@@ -26,7 +26,7 @@ class AddClientMealOrdersHourColumn extends Migration
     public function down()
     {
         Schema::table('client_meal_orders', function (Blueprint $table) {
-            $table->dropColumn('hour');
+            $table->dropColumn('command_number');
         });
     }
 }
