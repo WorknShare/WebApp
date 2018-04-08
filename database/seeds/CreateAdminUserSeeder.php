@@ -16,6 +16,7 @@ class CreateAdminUserSeeder extends Seeder
 
         if(!$adminExists)
         {
+            $date = Carbon\Carbon::now()->format('Y-m-d H:i:s');
         	DB::table('employees')->insert([
         		'name' => 'Admin',
         		'surname' => 'Admin',
@@ -23,7 +24,9 @@ class CreateAdminUserSeeder extends Seeder
         		'password' => bcrypt('admin'),
         		'address' => 'address',
         		'role' => 1,
-                'changed_password' => 1
+                'changed_password' => 1,
+                'created_at'=>$date,
+                'updated_at'=>$date
         	]);
         	$this->command->info('Admin user created!');
         } 
