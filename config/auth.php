@@ -52,7 +52,7 @@ return [
         ],
 
         'admin-api' => [
-            'driver' => 'passport',
+            'driver' => 'session',
             'provider' => 'admins',
         ],
     ],

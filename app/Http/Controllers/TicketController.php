@@ -40,8 +40,6 @@ class TicketController extends Controller
         }
         else
         {
-        	//$test = new \App\Repositories\EquipmentTypeRepository(new \App\EquipmentType());
-        	//$tickets = $test->getPaginateSelect($this->amountPerPage,['name AS description', 'id_equipment_type as id']);
             $tickets = $this->ticketRepository->getPaginate($this->amountPerPage);
             return response()->json([
             	"data" => [

@@ -38,15 +38,17 @@ class ApiAdminLoginController extends Controller
 
           $employee = $this->guard()->user();
 
-          if(!$employee->changed_password)
+          if(!$employee->changed_password) {
+            $this->guard()->logout();
             return response()->json([
               'errors' => [
                 "email" => "Veuillez vous connecter sur le site pour modifier votre mot de passe."
               ]
             ], 403);
+          }
 
-          $employee->generateApiToken();
-
+          $request->session()->regenerate();
+          $this->clearLoginAttempts($request);
           return response()->json([
               'data' => $employee->toArray(),
           ]);
@@ -60,12 +62,7 @@ class ApiAdminLoginController extends Controller
     public function logout()
     {
       
-      $employee = Auth::guard('admin-api')->user();
-
-      if ($employee) {
-          $employee->api_token = null;
-          $employee->save();
-      }
+      $employee = Auth::guard('admin-api')->logout();
 
       return response()->json(['data' => 'User logged out.'], 200);
     }
