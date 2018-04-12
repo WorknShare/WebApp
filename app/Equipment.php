@@ -33,4 +33,9 @@ class Equipment extends Model
     {
       return $this->belongsToMany('App\ReserveRoom', 'reserve_equipment', 'id_equipment', 'id_reserve_room');
     }
+
+    public function tickets()
+    {
+        return $this->hasMany('App\Tickets', 'id_equipment');
+    }
 }

@@ -32,6 +32,16 @@ class Employee extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function ticketsSource()
+    {
+        return $this->hasMany('App\Tickets', 'id_employee_src');
+    }
+
+    public function ticketsAssigned()
+    {
+        return $this->hasMany('App\Tickets', 'id_employee_assigned');
+    }
+
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);
