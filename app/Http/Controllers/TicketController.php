@@ -43,7 +43,7 @@ class TicketController extends Controller
             $tickets = $this->ticketRepository->getPaginate($this->amountPerPage);
             return response()->json([
             	"data" => [
-            		"tickets" => $tickets->items(),
+            		"items" => $tickets->items(),
             		"paginator" => [
             			"currentPage" => $tickets->currentPage(),
             			"perPage" => $tickets->perPage(),
