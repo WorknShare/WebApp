@@ -35,7 +35,16 @@ class ApiAdminLoginController extends Controller
       }
 
       if ($this->attemptLogin($request)) {
+
           $employee = $this->guard()->user();
+
+          if(!$employee->changed_password)
+            return response()->json([
+              'errors' => [
+                "email" => "Veuillez vous connecter sur le site pour modifier votre mot de passe."
+              ]
+            ], 403);
+
           $employee->generateApiToken();
 
           return response()->json([
