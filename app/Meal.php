@@ -22,4 +22,8 @@ class Meal extends Model
     return $this->belongsToMany('App\Site', 'site_meal', 'id_meal', 'id_site');
   }
 
+  public function orders()
+  {
+    return $this->hasMany('App\ReserveMeal', 'id_meal');
+  }
 }

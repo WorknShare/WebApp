@@ -127,8 +127,16 @@ class MealController extends Controller
     {
       if(!is_numeric($id)) abort(404);
       $meal = $this->mealRepository->getById($id)->name;
+      $orders = $this->mealRepository->getById($id)->reserve()->where('is_deleted', '=', 0)->get();
+
+      foreach ($orders as $key => $order) {
+        $model = \App\ReserveRoom::findOrFail($id);
+        $model->is_deleted = true;
+        $model->save();
+      }
+
       $this->mealRepository->destroy($id);
       return redirect('admin/meal')->withOk("Le repas " . $meal . " a été supprimé.");
     }
-    
+
 }

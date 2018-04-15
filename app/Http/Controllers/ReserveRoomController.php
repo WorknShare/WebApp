@@ -136,7 +136,9 @@ class ReserveRoomController extends Controller
      */
     public function store(ReserveRoomRequest $request)
     {
+
       $reserve = $this->reserveRoomRepository->store($request->all());
+      dd('test');
       return redirect('order')->withOk("La réservation n°" . $reserve->command_number . " a bien été enregistrée.");
     }
 

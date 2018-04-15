@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use Input;
 use View;
+use DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\OrderMealRequest;
 use App\Repositories\ReserveMealRepository;

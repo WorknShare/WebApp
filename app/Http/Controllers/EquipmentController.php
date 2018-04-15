@@ -159,6 +159,7 @@ class EquipmentController extends Controller
         if($request->site == 0)
         {
             $equipment->site()->dissociate();
+            $orders = $this->equipmentRepository->getById($id)->orders()->where('is_deleted', '=', 0)->get();
         }
         else
         {
