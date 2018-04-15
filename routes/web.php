@@ -75,7 +75,7 @@ Route::prefix('myaccount')->group(function(){
 });
 
 Route::resource('order', 'ReserveRoomController', ['except' => ['edit','update']]);
-Route::get('/{id}/order', 'ReserveRoomController@getEquipment')->name('order.getEquipment');
+Route::get('/{type}/{id_site}/order', 'ReserveRoomController@getEquipment')->name('order.getEquipment');
 Route::get('orderhistory', 'ReserveRoomController@indexHistory')->name('order.history');
 
 Route::resource('mealorder', 'ReserveMealController', ['except' => ['show', 'edit', 'update']]);

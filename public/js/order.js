@@ -39,7 +39,7 @@ function addEquipment(){
 function deleteEquipment(input, id) {
   var value, array, parent;
 
-  value = $( 'input[value="'+id+'"]' );
+  value = $( 'input[value="'+id+'"][name="equipments[]"]' );
 
   if(value.length != 1){
     alert("il y a eu une erreur!");

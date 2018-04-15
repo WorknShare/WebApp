@@ -130,7 +130,7 @@ class MealController extends Controller
       $orders = $this->mealRepository->getById($id)->reserve()->where('is_deleted', '=', 0)->get();
 
       foreach ($orders as $key => $order) {
-        $model = \App\ReserveRoom::findOrFail($id);
+        $model = \App\ReserveMeal::findOrFail($order->id_order_meal);
         $model->is_deleted = true;
         $model->save();
       }

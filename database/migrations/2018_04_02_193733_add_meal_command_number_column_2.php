@@ -26,7 +26,7 @@ class AddMealCommandNumberColumn2 extends Migration
     public function down()
     {
         Schema::table('client_meal_orders', function (Blueprint $table) {
-            $table->dropColumn('command_number');
+          $table->dropColumn('command_number');
         });
     }
 }

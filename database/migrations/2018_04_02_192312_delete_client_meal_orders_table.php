@@ -27,6 +27,9 @@ class DeleteClientMealOrdersTable extends Migration
           $table->integer('id_client')->unsigned();
           $table->integer('id_meal')->unsigned();
           $table->integer('id_site')->unsigned();
+          $table->string('command_number');
+          $table->datetime('hour');
+          $table->boolean('is_deleted')->default(0);
           $table->primary(['id_client','id_meal', 'id_site']);
           $table->foreign('id_client')
                 ->references('id_client')

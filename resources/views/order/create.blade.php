@@ -33,6 +33,14 @@
 
 
 @section('content')
+
+	@if(session()->has('exist_order'))
+		<div class="alert alert-warning"><i class="fa fa-warning"></i> {{session()->get('exist_order')}}</div>
+	@endif
+	@if(session()->has('schedules'))
+		<div class="alert alert-warning"><i class="fa fa-warning"></i> {{session()->get('schedules')}}</div>
+	@endif
+
 	@if (count($rooms))
 		<div class="row">
 			<div class="col-xs-12">
