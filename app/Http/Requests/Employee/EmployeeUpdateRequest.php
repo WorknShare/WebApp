@@ -34,7 +34,7 @@ class EmployeeUpdateRequest extends FormRequest
 
         if(Auth::user()->role == 1)
         {
-            $rules['role'] = 'required|integer|min:0|max:3|least:' . $this->employee . ',1';
+            $rules['role'] = 'required|integer|min:0|max:4|least:' . $this->employee . ',1';
         }
         return $rules;
     }

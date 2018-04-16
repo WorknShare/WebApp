@@ -168,10 +168,7 @@ class PlanController extends Controller
     public function create()
     {
         $advantages = $this->planAdvantageRepository->getAll();
-        if($advantages->count() <= 0)
-            return redirect('admin/planadvantage')->withInfo('Aucun avantage de forfait n\'a été créé. Vous devez <a href="' . route('planadvantage.index') . '">créer des avantages de forfait</a> avant de pouvoir créer un forfait.');
-        else
-            return view('admin.plans.create', compact('advantages'));
+        return view('admin.plans.create', compact('advantages'));
     }
 
     /**

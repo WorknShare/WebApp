@@ -12,15 +12,22 @@ class CreateAdminUserSeeder extends Seeder
      */
     public function run()
     {
-    	DB::table('employees')->insert([
-    		'name' => 'Admin',
-    		'surname' => 'Admin',
-    		'email' => 'admin@worknshare.fr',
-    		'password' => bcrypt('admin'),
-    		'address' => 'address',
-    		'role' => 1,
-            'changed_password' => 1
-    	]);
-    	$this->command->info('Admin user created!');
+        $adminExists = DB::table('employees')->where('email','=','admin@worknshare.fr')->exists();
+
+        if(!$adminExists)
+        {
+        	DB::table('employees')->insert([
+        		'name' => 'Admin',
+        		'surname' => 'Admin',
+        		'email' => 'admin@worknshare.fr',
+        		'password' => bcrypt('admin'),
+        		'address' => 'address',
+        		'role' => 1,
+                'changed_password' => 1
+        	]);
+        	$this->command->info('Admin user created!');
+        } 
+        else $this->command->info('Admin user already exists.');
+        
     }
 }

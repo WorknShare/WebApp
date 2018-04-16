@@ -185,8 +185,8 @@ class SiteTest extends TestCase
     	//Employee can see site details
     	$this->get('admin/site/'. $siteShow->id_site)
     		->assertStatus(200)
-    		->assertSeeText($siteShow->name)
-    		->assertSeeText($siteShow->address)
+    		->assertSeeText(e($siteShow->name))
+    		->assertSeeText(e($siteShow->address))
             ->assertSeeText('Supprimer')
             ->assertSeeText('Modifier')
             ->assertSeeText('Ajouter un horaire')
@@ -197,8 +197,8 @@ class SiteTest extends TestCase
         $this->be($this->employees[2], 'admin');
         $this->get('admin/site/'. $siteShow->id_site)
             ->assertStatus(200)
-            ->assertSeeText($siteShow->name)
-            ->assertSeeText($siteShow->address)
+            ->assertSeeText(e($siteShow->name))
+            ->assertSeeText(e($siteShow->address))
             ->assertSeeText('Supprimer')
             ->assertSeeText('Modifier')
             ->assertSeeText('Ajouter un horaire')
@@ -223,8 +223,8 @@ class SiteTest extends TestCase
             $this->be($this->employees[$i], 'admin');
             $this->get('admin/site/'. $siteShow->id_site)
                         ->assertStatus(200)
-                        ->assertSeeText($siteShow->name)
-                        ->assertSeeText($siteShow->address)
+                        ->assertSeeText(e($siteShow->name))
+                        ->assertSeeText(e($siteShow->address))
                         ->assertDontSeeText('Supprimer')
                         ->assertDontSeeText('Modifier')
                         ->assertDontSeeText('Ajouter un horaire')

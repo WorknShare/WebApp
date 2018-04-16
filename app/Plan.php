@@ -25,7 +25,7 @@ class Plan extends Model
 
     public function users()
     {
-        return $this->hasMany('App\User', 'id_client');
+        return $this->hasMany('App\User', 'id_plan');
     }
 
     public function payments()

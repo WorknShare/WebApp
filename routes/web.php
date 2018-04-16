@@ -62,6 +62,15 @@ Route::prefix('admin')->group(function() {
 
   Route::delete('/{id}', 'ReserveRoomController@destroyAdmin')->name('order.destroy_admin');
 
+  //Metrics
+  Route::prefix('metrics')->group(function() {
+
+    Route::get('/planspie', 'AdminController@metricsPlanPie')->name('admin.metrics.planspie');
+    Route::get('/plans', 'AdminController@metricsPlan')->name('admin.metrics.plans');
+    Route::get('/reserve', 'AdminController@metricsReserve')->name('admin.metrics.reserve');
+
+  });
+
 });
 Route::resource('schedule', 'ScheduleController', ['only' => ['store','destroy']]);
 
