@@ -14,11 +14,6 @@ class ApiAdminLoginController extends Controller
 
     use AuthenticatesUsers;
 
-    public function __construct()
-    {
-      $this->middleware('guest:admin-api')->except('logout');
-    }
-
     protected function guard()
     {
         return Auth::guard('admin-api');

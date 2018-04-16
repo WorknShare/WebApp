@@ -18,17 +18,17 @@ class Ticket extends Model
         'status', 'description', 'created_at', 'updated_at',
     ];
 
-    public function getSourceEmployee()
+    public function employeeSource()
 	{
 		return $this->belongsTo('App\Employee', 'id_employee_src');
 	}
 
-	public function getAssignedEmployee()
+	public function employeeAssigned()
 	{
 		return $this->belongsTo('App\Employee', 'id_employee_assigned');
 	}
 
-	public function getEquipment()
+	public function equipment()
 	{
 		return $this->belongsTo('App\Equipment', 'id_equipment');
 	}

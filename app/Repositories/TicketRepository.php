@@ -51,4 +51,29 @@ class TicketRepository extends ResourceRepository
             ->take($limit)->get();
     }
 
+    /**
+   * Get a paginate of the recordings.
+   *
+   * @param int $n the amount of recordings per page
+   * @return array
+   */
+  public function getPaginate($n)
+  {
+    return $this->model->with([
+            'equipment' => function($query) {
+                $query->select('id_equipment', 'serial_number', 'id_equipment_type');
+            }, 
+            'equipment.type' => function($query) {
+                $query->select('id_equipment_type', 'name');
+            },
+            'employeeSource' => function($query) {
+                $query->select('id_employee', 'name', 'surname');
+            },
+            'employeeAssigned' => function($query) {
+                $query->select('id_employee', 'name', 'surname');
+            }
+        ])
+        ->paginate($n);
+  }
+
 }
