@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\SearchRequest;
+use App\Http\Requests\TicketRequest;
 use App\Repositories\TicketRepository;
 
 class TicketController extends Controller
@@ -36,7 +37,11 @@ class TicketController extends Controller
         if(!empty($request->search))
         {
             $tickets = $this->ticketRepository->getWhereWithRelations($request->search, $this->amountPerPage);
-            //return request
+            return response()->json([
+                "data" => [
+                    "items" => $tickets
+                ]
+            ]);
         }
         else
         {
@@ -52,6 +57,21 @@ class TicketController extends Controller
 				]
             ]);
         }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param App\Http\Requests\TicketRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(TicketRequest $request)
+    {
+        $request->merge(['status' => 0]);
+        $ticket = $this->ticketRepository->store($request->all());
+        return response()->json([
+            "id" => $ticket->id_ticket
+        ], 201);
     }
 
 }
