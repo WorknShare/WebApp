@@ -26,8 +26,8 @@ class EmployeeController extends Controller
     public function __construct(EmployeeRepository $employeeRepository)
     {
         $this->employeeRepository = $employeeRepository;
-        $this->middleware('auth:admin'); //Requires admin permission
-        $this->middleware('password', ['except' => ['editPasswordPrompt', 'updatePassword']]);
+        $this->middleware('auth:admin', ['except' => ['tech']]); //Requires admin permission
+        $this->middleware('password', ['except' => ['editPasswordPrompt', 'updatePassword', 'tech']]);
         $this->middleware('access:1', ['only' => ['create', 'store', 'destroy']]);
     }
 
@@ -50,6 +50,23 @@ class EmployeeController extends Controller
             $links = $employees->render();
         }
         return view('admin.employee.index', compact('employees', 'links'));
+    }
+
+    /**
+     * Display a listing of the employee with role 4.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function tech()
+    {
+    
+        $employees = $this->employeeRepository->getModel()->where('role', '=', 4)->get();
+
+        return response()->json([
+            "data" => [
+                "items" => $employees
+            ]
+        ]);
     }
 
     /**
