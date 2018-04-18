@@ -55,7 +55,7 @@
 						@endif
 					</div>
 					<div class="col-xs-12 col-sm-3 col-md-3">
-						<span><b>État :</b></span> <span class="badge bg-green">OK</span> <!-- TODO not ok if has ticket -->
+						<span><b>État :</b></span> {!! $equipment->isAvailable() ? '<span class="badge bg-green">OK</span>' : '<span class="badge bg-red">Indisponible</span>' !!}
 					</div>
 				</div>
 			</div>

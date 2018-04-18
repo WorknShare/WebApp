@@ -36,6 +36,11 @@ class Equipment extends Model
 
     public function tickets()
     {
-        return $this->hasMany('App\Tickets', 'id_equipment');
+        return $this->hasMany('App\Ticket', 'id_equipment');
+    }
+
+    public function isAvailable()
+    {
+      return $this->tickets()->where([['status', '!=', '2'],['status', '!=', '4']])->count() == 0;
     }
 }
