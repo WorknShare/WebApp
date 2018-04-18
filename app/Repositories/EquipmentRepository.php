@@ -14,7 +14,7 @@ class EquipmentRepository extends ResourceRepository
 	/**
      * Create a new repository instance.
      *
-     * @param \App\Equipment $model 
+     * @param \App\Equipment $model
      * @return void
      */
   	public function __construct(Equipment $model)
@@ -24,7 +24,7 @@ class EquipmentRepository extends ResourceRepository
 
 	/**
      * Resource relative behavior for saving a record.
-     * 
+     *
      * @param Model $model
      * @param array $inputs
      * @return int id, the id of the saved resource
@@ -36,5 +36,20 @@ class EquipmentRepository extends ResourceRepository
         $model->save();
         return $model->id_equipment;
 	}
+
+
+  public function getPaginateApp($n)
+  {
+    return $this->model->with([
+            'type' => function($query) {
+                $query->select('id_equipment_type', 'name');
+            },
+            'site' => function($query) {
+                $query->select('id_site', 'name', 'address');
+            }
+        ])
+        ->orderBy('is_deleted')
+        ->paginate($n);
+  }
 
 }

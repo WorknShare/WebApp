@@ -53,6 +53,20 @@ class EquipmentController extends Controller
         ]);
     }
 
+    public function indexApp(SearchRequest $request)
+    {
+      $equipment = $this->$equipmentRepository->getPaginateApp($this->amountPerPage);
+      return response()->json([
+        "data" => [
+          "items" => $equipment->items(),
+          "paginator" => [
+            "currentPage" => $equipment->currentPage(),
+            "perPage" => $equipment->perPage(),
+            "lastPage" => $equipment->lastPage()
+          ]
+        ]
+      ]);
+    }
     /**
      * Display the specified resource.
      *
