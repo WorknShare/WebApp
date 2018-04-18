@@ -19,4 +19,5 @@ Route::post('logout', 'Auth\ApiAdminLoginController@logout');
 Route::group(['middleware' => 'auth:admin-api'], function() {
 	Route::get('ticket', 'TicketController@index');
 	Route::post('ticket', 'TicketController@store');
+	Route::put('ticket/{ticket}', 'TicketController@updateStatus');
 });

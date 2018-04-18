@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\SearchRequest;
 use App\Http\Requests\TicketRequest;
+use App\Http\Requests\TicketStatusRequest;
 use App\Repositories\TicketRepository;
+use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -22,7 +24,7 @@ class TicketController extends Controller
     public function __construct(TicketRepository $ticketRepository)
     {
         $this->ticketRepository = $ticketRepository;
-        //$this->middleware('access:2', ['except' => ['index','show']]);
+        $this->middleware('access:3', ['only' => ['store']]);
     }
 
     /**
@@ -72,6 +74,24 @@ class TicketController extends Controller
         return response()->json([
             "id" => $ticket->id_ticket
         ], 201);
+    }
+
+    /**
+     * Update the status
+     *
+     * @param App\Http\Requests\TicketStatusRequest $request
+     * @param int $id_ticket
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(TicketStatusRequest $request, $id_ticket)
+    {
+        
+        if(!is_numeric($id_ticket)) abort(404);
+        if(Auth::user()->role != 1 && Auth::user()->role != 4) abort(403); 
+
+        $ticket = $this->ticketRepository->getById($id_ticket);
+        $ticket->update($request->only("status"));
+        return response()->json([], 204);
     }
 
 }
