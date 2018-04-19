@@ -51,7 +51,8 @@ class TicketRepository extends ResourceRepository
     public function getWhereWithRelations($value,$limit=100)
     {
         $search = '%'.strtolower($value).'%';
-        return $this->model
+
+        $query = $this->model
             ->with([
                 'equipment' => function($query) {
                     $query->select('id_equipment', 'serial_number', 'id_equipment_type');
@@ -65,16 +66,26 @@ class TicketRepository extends ResourceRepository
                 'employeeAssigned' => function($query) {
                     $query->select('id_employee', 'name', 'surname');
                 }
-            ])
-            ->whereRaw('LOWER(description) LIKE ?', array($search))
-            ->orWhereHas('equipment', function($query) use ($search) {
-                    $query->whereRaw('LOWER(serial_number) LIKE ?', array($search));
-                })
+            ]);
+
+        if(Auth::user()->role == 4) //If technician, show only assigned tickets
+            $query->where('id_employee_assigned', '=', Auth::user()->id_employee);
+
+        $query->whereRaw('LOWER(description) LIKE ?', array($search))
             ->orWhereHas('equipment.type', function($query) use ($search) {
                     $query->whereRaw('LOWER(name) LIKE ?', array($search));
+                });
+
+        if(Auth::user()->role == 4) //Second time to cover subqueries too
+            $query->where('id_employee_assigned', '=', Auth::user()->id_employee);
+            
+        $query->orWhereHas('equipment', function($query) use ($search) {
+                    $query->whereRaw('LOWER(serial_number) LIKE ?', array($search));
                 })
-            ->orderBy('created_at','desc')
-            ->take($limit)->get();
+            ->orderBy('created_at','desc');
+
+
+        return $query->take($limit)->get();
     }
 
     /**
@@ -85,7 +96,7 @@ class TicketRepository extends ResourceRepository
    */
   public function getPaginate($n)
   {
-    return $this->model->with([
+    $query = $this->model->with([
             'equipment' => function($query) {
                 $query->select('id_equipment', 'serial_number', 'id_equipment_type');
             }, 
@@ -99,8 +110,12 @@ class TicketRepository extends ResourceRepository
                 $query->select('id_employee', 'name', 'surname');
             }
         ])
-        ->orderBy('created_at','desc')
-        ->paginate($n);
+        ->orderBy('created_at','desc');
+
+    if(Auth::user()->role == 4) //If technician, show only assigned tickets
+        $query->where('id_employee_assigned', '=', Auth::user()->id_employee);
+
+    return $query->paginate($n);
   }
 
 }
