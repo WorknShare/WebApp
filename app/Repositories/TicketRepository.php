@@ -48,7 +48,7 @@ class TicketRepository extends ResourceRepository
      * @param int $limit
      * @return array
      */
-    public function getWhereWithRelations($value,$limit=100)
+    public function getWhereWithRelations($value,$limit=100, $filter=null)
     {
         $search = '%'.strtolower($value).'%';
 
@@ -68,6 +68,9 @@ class TicketRepository extends ResourceRepository
                 }
             ]);
 
+        if($filter != null)
+            $query->where('status', '=', $filter);
+
         if(Auth::user()->role == 4) //If technician, show only assigned tickets
             $query->where('id_employee_assigned', '=', Auth::user()->id_employee);
 
@@ -84,38 +87,40 @@ class TicketRepository extends ResourceRepository
                 })
             ->orderBy('created_at','desc');
 
-
         return $query->take($limit)->get();
     }
 
     /**
-   * Get a paginate of the recordings.
-   *
-   * @param int $n the amount of recordings per page
-   * @return array
-   */
-  public function getPaginate($n)
-  {
-    $query = $this->model->with([
-            'equipment' => function($query) {
-                $query->select('id_equipment', 'serial_number', 'id_equipment_type');
-            }, 
-            'equipment.type' => function($query) {
-                $query->select('id_equipment_type', 'name');
-            },
-            'employeeSource' => function($query) {
-                $query->select('id_employee', 'name', 'surname');
-            },
-            'employeeAssigned' => function($query) {
-                $query->select('id_employee', 'name', 'surname');
-            }
-        ])
-        ->orderBy('created_at','desc');
+     * Get a paginate of the recordings.
+     *
+     * @param int $n the amount of recordings per page
+     * @return array
+     */
+    public function getPaginate($n,$filter=null)
+    {
+      $query = $this->model->with([
+                'equipment' => function($query) {
+                    $query->select('id_equipment', 'serial_number', 'id_equipment_type');
+                }, 
+                'equipment.type' => function($query) {
+                    $query->select('id_equipment_type', 'name');
+                },
+                'employeeSource' => function($query) {
+                    $query->select('id_employee', 'name', 'surname');
+                },
+                'employeeAssigned' => function($query) {
+                    $query->select('id_employee', 'name', 'surname');
+                }
+            ])
+            ->orderBy('created_at','desc');
 
-    if(Auth::user()->role == 4) //If technician, show only assigned tickets
-        $query->where('id_employee_assigned', '=', Auth::user()->id_employee);
+        if(Auth::user()->role == 4) //If technician, show only assigned tickets
+            $query->where('id_employee_assigned', '=', Auth::user()->id_employee);
 
-    return $query->paginate($n);
-  }
+        if($filter != null)
+            $query->where('status', '=', $filter);
+
+        return $query->paginate($n);
+    }
 
 }

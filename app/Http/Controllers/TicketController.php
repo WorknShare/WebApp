@@ -40,7 +40,7 @@ class TicketController extends Controller
 
         if(!empty($request->search))
         {
-            $tickets = $this->ticketRepository->getWhereWithRelations($request->search, $this->amountPerPage);
+            $tickets = $this->ticketRepository->getWhereWithRelations($request->search, $this->amountPerPage, $request->filter);
             return response()->json([
                 "data" => [
                     "items" => $tickets
@@ -49,7 +49,7 @@ class TicketController extends Controller
         }
         else
         {
-            $tickets = $this->ticketRepository->getPaginate($this->amountPerPage);
+            $tickets = $this->ticketRepository->getPaginate($this->amountPerPage, $request->filter);
             return response()->json([
             	"data" => [
             		"items" => $tickets->items(),
