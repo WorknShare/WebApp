@@ -130,7 +130,7 @@ class TicketController extends Controller
                 return response()->json(["error" => "L'employé sélectionné n'existe pas."], 400);
         }
 
-        $equipment->save();
+        $ticket->save();
 
         return response()->json([], 204);
     }
