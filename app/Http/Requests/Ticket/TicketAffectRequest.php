@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Ticket;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TicketStatusRequest extends FormRequest
+class TicketAffectRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class TicketStatusRequest extends FormRequest
     public function rules()
     {
         return [
-            "status" => "required|integer|min:0|max:4"
+            "employee" => "required|integer|min:0"
         ];
     }
 }
