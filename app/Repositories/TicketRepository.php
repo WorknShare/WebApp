@@ -68,26 +68,31 @@ class TicketRepository extends ResourceRepository
                 }
             ]);
 
-        if($filter != null)
-            $query->where('status', '=', $filter);
-
-        if(Auth::user()->role == 4) //If technician, show only assigned tickets
-            $query->where('id_employee_assigned', '=', Auth::user()->id_employee);
+        $this->checkRoleAndFilter($query, $filter);
 
         $query->whereRaw('LOWER(description) LIKE ?', array($search))
             ->orWhereHas('equipment.type', function($query) use ($search) {
                     $query->whereRaw('LOWER(name) LIKE ?', array($search));
                 });
 
-        if(Auth::user()->role == 4) //Second time to cover subqueries too
-            $query->where('id_employee_assigned', '=', Auth::user()->id_employee);
+        $this->checkRoleAndFilter($query, $filter); //Called multiple times in order to cover the subqueries too
             
         $query->orWhereHas('equipment', function($query) use ($search) {
                     $query->whereRaw('LOWER(serial_number) LIKE ?', array($search));
-                })
-            ->orderBy('created_at','desc');
+                });
 
-        return $query->take($limit)->get();
+        $this->checkRoleAndFilter($query, $filter);
+
+        return $query->orderBy('created_at','desc')->take($limit)->get();
+    }
+
+    private function checkRoleAndFilter($query, $filter)
+    {
+        if($filter != null)
+            $query->where('status', '=', $filter);
+
+        if(Auth::user()->role == 4) //If technician, show only assigned tickets
+            $query->where('id_employee_assigned', '=', Auth::user()->id_employee);
     }
 
     /**
