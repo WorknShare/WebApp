@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\SearchRequest;
-use App\Http\Requests\TicketRequest;
-use App\Http\Requests\TicketStatusRequest;
+use App\Http\Requests\Ticket\TicketRequest;
+use App\Http\Requests\Ticket\TicketStatusRequest;
+use App\Http\Requests\Ticket\TicketAffectRequest;
 use App\Repositories\TicketRepository;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,6 +26,7 @@ class TicketController extends Controller
     {
         $this->ticketRepository = $ticketRepository;
         $this->middleware('access:3', ['only' => ['store']]);
+        $this->middleware('access:2', ['only' => ['affect']]);
     }
 
     /**
@@ -64,7 +66,7 @@ class TicketController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param App\Http\Requests\TicketRequest $request
+     * @param App\Http\Requests\Ticket\TicketRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(TicketRequest $request)
@@ -79,7 +81,7 @@ class TicketController extends Controller
     /**
      * Update the status
      *
-     * @param App\Http\Requests\TicketStatusRequest $request
+     * @param App\Http\Requests\Ticket\TicketStatusRequest $request
      * @param int $id_ticket
      * @return \Illuminate\Http\Response
      */
@@ -87,10 +89,49 @@ class TicketController extends Controller
     {
         
         if(!is_numeric($id_ticket)) abort(404);
+
+        //Specific access levels
         if(Auth::user()->role != 1 && Auth::user()->role != 4) abort(403); 
 
         $ticket = $this->ticketRepository->getById($id_ticket);
         $ticket->update($request->only("status"));
+        return response()->json([], 204);
+    }
+
+    /**
+     * Affects the specified employee to a ticket.
+     *
+     * @param  \App\Http\Requests\Ticket\TicketAffectRequest $request
+     * @param  int  $id_ticket
+     * @return \Illuminate\Http\Response
+     */
+    public function affect(TicketAffectRequest $request, $id_ticket)
+    {
+        if(!is_numeric($id_ticket)) abort(404);
+
+        $ticket = $this->ticketRepository->getById($id_ticket);
+
+        if($request->employee == 0)
+        {
+            $ticket->employeeAssigned()->dissociate();
+        }
+        else
+        {
+            $employee = \App\Employee::find($request->employee);
+
+            if(!is_null($employee)) 
+            {
+                if($employee->role == 4)
+                    $ticket->employeeAssigned()->associate($request->employee);
+                else
+                    return response()->json(["error" => "L'employé sélectionné n'est pas un technicien."], 400);
+            }
+            else
+                return response()->json(["error" => "L'employé sélectionné n'existe pas."], 400);
+        }
+
+        $equipment->save();
+
         return response()->json([], 204);
     }
 

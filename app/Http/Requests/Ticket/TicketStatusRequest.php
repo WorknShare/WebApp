@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Ticket;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TicketRequest extends FormRequest
+class TicketStatusRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class TicketRequest extends FormRequest
     public function rules()
     {
         return [
-            "description" => "required|string",
-            "id_equipment" => "required|exists:equipment,id_equipment"
+            "status" => "required|integer|min:0|max:4"
         ];
     }
 }

@@ -36,6 +36,7 @@ Employés
       <th>Email</th>
       <th>Nom</th>
       <th>Prénom</th>
+      <th>Rôle</th>
     </tr>
     @foreach ($employees as $employee)
     <tr>
@@ -43,6 +44,7 @@ Employés
       <td><b><a href="{{ route('employee.show', $employee->id_employee) }}">{{ $employee->email }}</a></b></td>
       <td>{{ $employee->name }}</td>
       <td>{{ $employee->surname }}</td>
+      <td>{{ backoffice_role($employee->role) }}</td>
     </tr>
 	@endforeach
   </table>
