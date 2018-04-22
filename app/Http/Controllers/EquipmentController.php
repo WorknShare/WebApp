@@ -173,6 +173,13 @@ class EquipmentController extends Controller
         if($request->site == 0)
         {
             $equipment->site()->dissociate();
+            $orders = $this->equipmentRepository->getById($id_equipment)->reserve()->get();
+            \Debugbar::info($orders);
+            foreach ($orders as $key => $order) {
+              $model = \App\ReserveRoom::findOrFail($order->id_reserve_room);
+              $model->is_deleted = true;
+              $model->save();
+            }
         }
         else
         {
@@ -182,6 +189,14 @@ class EquipmentController extends Controller
                 $equipment->site()->associate($request->site);
             else
                 abort(400);
+
+            $orders = $this->equipmentRepository->getById($id_equipment)->reserve()->where('is_deleted', '=', 0)->get();
+            \Debugbar::info($orders);
+            foreach ($orders as $key => $order) {
+              $model = \App\ReserveRoom::findOrFail($order->id_reserve_room);
+              $model->is_deleted = true;
+              $model->save();
+            }
         }
 
         $equipment->save();

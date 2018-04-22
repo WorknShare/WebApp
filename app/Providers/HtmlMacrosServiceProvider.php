@@ -23,6 +23,7 @@ class HtmlMacrosServiceProvider extends ServiceProvider
         $this->registerFormCheckbox();
         $this->registerNavControl();
         $this->registerBadges();
+        $this->registerFormRadiobox();
     }
 
     private function registerFormControl()
@@ -99,6 +100,26 @@ class HtmlMacrosServiceProvider extends ServiceProvider
         });
     }
 
+    private function registerFormRadiobox(){
+
+      FormBuilder::macro('radiobox' , function($name, $text, $errors, $value = '1', $attributes = '', $customClass = '', $checked = false) {
+          return sprintf('
+                      <div class="form-group has-feedback checkbox icheck %s">
+                          <label>
+                            <input type="radio" name="%s" value="%s" %s %s> %s
+                          </label>
+                      </div>',
+
+              $errors->has($name) ? 'has-error' : '',
+              $name,
+              $value,
+              $attributes,
+              $checked ? 'checked' : '',
+              $text);
+      });
+    }
+
+
     private function registerNavControl()
     {
         HtmlBuilder::macro('adminNavMenu' , function($route, $prefix, $text, $icon='') {
@@ -118,10 +139,10 @@ class HtmlMacrosServiceProvider extends ServiceProvider
                             $yes ? 'Oui' : 'Non');
         });
 
-        HtmlBuilder::macro('badge_reserve' , function($status=true, $date) {
-          $now = new DateTime('now');
-          $date = new DateTime($date);
-          if(!$status){
+        HtmlBuilder::macro('badge_reserve' , function($status=true, $date=null) {
+          if(!$status && $date != null){
+            $now = new DateTime('now');
+            $date = new DateTime($date);
             if($now > $date){
               $class = 'badge bg-blue';
               $value = 'Fini';

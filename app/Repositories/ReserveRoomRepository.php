@@ -44,6 +44,7 @@ class ReserveRoomRepository extends ResourceRepository
        $model->save();
 
        $model->equipments()->detach();
+       
        if(!empty($inputs['equipments']))
        {
            foreach($inputs['equipments'] as $id_equipment)

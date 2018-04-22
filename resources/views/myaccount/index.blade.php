@@ -42,6 +42,10 @@
 		<div class="alert alert-warning"><i class="fa fa-warning"></i> Votre forfait expire <b>{{ $planWarning }}</b>. <a href="{{ route('plan.payment', $userPlan->id_plan) }}">Renouveler mon forfait</a>.</div>
 	@endif
 
+	@if(session()->has('ok'))
+	<div id="successMeal" class="alert alert-success alert-dismissible"><i class="fa fa-check"></i><b class="overflow-break-word">{!! session('ok') !!}</b></div>
+	@endif
+
 	<div class="row">
 		<div class="col-xs-12">
 			<h1 style="text-align : center; padding : 4%">Votre compte</h1>
@@ -122,7 +126,6 @@
 							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
 								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.editpwd') }}'> Changer mon mot de passe</a>
 								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.qrcode') }}'> Votre QrCode</a>
-								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.qrcode') }}'> Votre historique</a>
 							</div>
 						</div>
 					</div>
@@ -137,7 +140,7 @@
 						<div class="row">
 							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
 								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('order.index') }}'>Réserver une salle</a>
-								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.qrcode') }}'>Commander un repas</a>
+								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('mealorder.index') }}'>Commander un repas</a>
 								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('order.history') }}'>votre historique</a>
 							</div>
 						</div>
@@ -146,4 +149,13 @@
 			</div>
 		</div>
 	</div>
+@endsection
+
+@section('scripts')
+	<script type="text/javascript" src="{{ asset('js/alertbuilder.js') }}"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('#successMeal').delay(4000).hide('slow');
+		});
+	</script>
 @endsection

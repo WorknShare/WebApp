@@ -66,9 +66,8 @@ class RegisterController extends Controller
     {
         $maxId = User::max('id_client') + 1;
         $token = sha1('$w$n$s$2'. $maxId . time());
-        $qrcode_maker = 'cd /bin && qrcode-maker ' . $data['email'] . ' ' . $token;
-        shell_exec($qrcode_maker);
-
+      /*  $qrcode_maker = 'cd ../storage && sudo ./qrcode-maker ' . $data['email'] . ' ' . $token . ' app/public/images/qrcode/';
+        shell_exec($qrcode_maker . ' && pwd');*/
         return User::create([
             'name' => $data['name'],
             'surname' => $data['surname'],

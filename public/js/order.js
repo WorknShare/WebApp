@@ -2,7 +2,8 @@ function addEquipment(){
   var value, array, newRow, newCell, text, length, id, content;
   id = $('#equipment').val();
   content = $('#equipment option:selected').text();
-  value = $( 'input[value="'+id+'"]' );
+  value = $( 'input[value="'+id+'"][name="equipments[]"]' );
+  console.log(value);
   if(value.length > 0){
     alert("vous avez déja ajouté cet équipement !");
     return;
@@ -38,7 +39,7 @@ function addEquipment(){
 function deleteEquipment(input, id) {
   var value, array, parent;
 
-  value = $( 'input[value="'+id+'"]' );
+  value = $( 'input[value="'+id+'"][name="equipments[]"]' );
 
   if(value.length != 1){
     alert("il y a eu une erreur!");

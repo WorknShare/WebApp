@@ -23,8 +23,8 @@ chmod -R 777 /vagrant/storage/
 chmod -R 777 /vagrant/bootstrap/
 cp /vagrant/apache2.conf /etc/apache2/apache2.conf
 cp /vagrant/000-default.conf /etc/apache2/sites-available/000-default.conf
-cp /vagrant/qrcode-maker /bin/qrcode-maker
-chmod +x /bin/qrcode-maker
+cp /vagrant/qrcode-maker /vagrant/storage/qrcode-maker
+chmod +x /vagrant/storage/qrcode-maker
 mkdir /vagrant/storage/app/public/images
 mkdir /vagrant/storage/app/public/images/qrCode
 
@@ -36,8 +36,6 @@ mysql -u root --password="root" --execute="GRANT ALL PRIVILEGES ON worknshare_te
 
 a2enmod rewrite
 service apache2 restart
-
-printf ../vagrant/storage/app/public/images/qrcode/ > /bin/config.cf
 
 cat <<EOF > /vagrant/.env
 APP_NAME=WorknShare

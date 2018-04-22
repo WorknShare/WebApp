@@ -33,6 +33,14 @@
 
 
 @section('content')
+
+	@if(session()->has('exist_order'))
+		<div class="alert alert-warning"><i class="fa fa-warning"></i> {{session()->get('exist_order')}}</div>
+	@endif
+	@if(session()->has('schedules'))
+		<div class="alert alert-warning"><i class="fa fa-warning"></i> {{session()->get('schedules')}}</div>
+	@endif
+
 	@if (count($rooms))
 		<div class="row">
 			<div class="col-xs-12">
@@ -94,7 +102,7 @@
 												<label for="type">équipement</label>
 												<div class="row">
 													<div class="col-xs-12 col-sm-5">
-														<select  id='type' name="id_room_type" class="form-control" required>
+														<select  id='type' name="id_room_type" class="form-control">
 															<option value="" disabled selected>choisir</option>
 															@foreach(App\EquipmentType::where("is_deleted", "=", 0)->get() as $roomEquipment)
 																<option value="{{ $roomEquipment->id_equipment_type }}" {{$roomEquipment->id_equipment_type == old('id_room_type') ? 'selected' : ''}}>{{ $roomEquipment->name }}</option>
@@ -102,15 +110,13 @@
 														</select>
 													</div>
 													<div class="col-xs-12 col-sm-5 equipmentContainer" style="display : none">
-														<select  id='equipment' name="id_equipment" class="form-control" required>
+														<select  id='equipment' name="id_equipment" class="form-control">
 														</select>
 													</div>
 													<div class=" col-xs-6 col-sm-2 equipmentContainer" style="display : none">
 														<button type="button" style="margin-top : 7px" onclick="addEquipment()" class="btn btn-sm btn-dark pull-right">Ajouter</button>
 													</div>
 												</div>
-
-
 											</div>
 											<div style="margin-top : 10px" class="box-footer">
 												<button type="submit" class="btn btn-gradient btn--alien pull-right"><i class="fa fa-check"></i> Créer</button>
@@ -208,13 +214,9 @@
 	<script type="text/javascript" src="{{ asset('bower_components/fullcalendar/dist/fullcalendar.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('bower_components/fullcalendar/dist/locale-all.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('bower_components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/order.js') }}"></script>
-	<script src="../../plugins/timepicker/bootstrap-timepicker.min.js"></script>
+	<script src="{{ asset('plugins/timepicker/bootstrap-timepicker.min.js') }}"></script>
 	@include('order.js')
-
-
-
-
-
 
 @endsection

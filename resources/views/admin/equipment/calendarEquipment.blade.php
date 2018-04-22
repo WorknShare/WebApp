@@ -82,7 +82,7 @@ function calendarDisplay(data) {
                                                     });
       }
     },
-    
+
     customButtons: {
       refresh: {
         text: 'Actualiser',

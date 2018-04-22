@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Input;
+use View;
+use DateTime;
 use App\Site;
 use App\ReserveRoom;
 use Illuminate\Http\Request;
@@ -28,6 +30,7 @@ class ReserveRoomController extends Controller
     {
         $this->reserveRoomRepository = $reserveRoomRepository;
         $this->middleware('auth:web', ['except' => ['indexAdmin', 'showAdmin', 'destroyAdmin']]);
+        $this->middleware('password', ['only' => ['indexAdmin', 'showAdmin', 'destroyAdmin']]);
         $this->middleware('auth:admin', ['only' => ['indexAdmin', 'showAdmin', 'destroyAdmin']]);
     }
 
@@ -45,7 +48,7 @@ class ReserveRoomController extends Controller
         return view('order.index', compact('user', 'sites', 'links'));
     }
 
-    public function indexHistory()
+    public function indexHistory(Request $request)
     {
       $user = Auth::user();
       $orders = $user->getModel()->reserves()->join('rooms', 'reserve_room.id_room', '=', 'rooms.id_room')
@@ -54,9 +57,22 @@ class ReserveRoomController extends Controller
                                              ->orderBy('date_start', 'desc')
                                              ->paginate($this->amountPerPage);
 
+     $meals = $user->getModel()->orderMeals()->join('meals', 'client_meal_orders.id_meal', '=', 'meals.id_meal')
+                                              ->join('sites', 'sites.id_site', '=', 'client_meal_orders.id_site')
+                                              ->select('client_meal_orders.*', 'meals.name as meal_name', 'meals.price as meal_price','sites.name as site_name')
+                                              ->orderBy('hour', 'desc')
+                                              ->paginate($this->amountPerPage);
 
-      $links = $orders->render();
-      return view('order.history', compact('orders', 'links'));
+      if ($request->ajax()) {
+        if(Input::get('resource') == 'order'){
+          return response()->json(View::make('order.order_history', compact('orders'))->render());
+        }
+
+        if(Input::get('resource') == 'meal'){
+          return response()->json(View::make('order.meal_history', compact('meals'))->render());
+        }
+      }
+      return View::make('order.history', compact('meals', 'orders'))->render();
     }
 
     public function indexAdmin(SearchRequest $request)
@@ -103,11 +119,14 @@ class ReserveRoomController extends Controller
       return view('order.create', compact('user','site', 'rooms'));
     }
 
-    public function getEquipment($id)
+    public function getEquipment($type, $id_site)
     {
-      if(!is_numeric($id)) abort(404);
-      $type = \App\EquipmentType::findOrFail($id);
-      $equipments = $type->equipment()->where('is_deleted','=',0)->get();
+      if(!is_numeric($type) || !is_numeric($id_site)) abort(404);
+      \Debugbar::info($type, $id_site);
+      $type = \App\EquipmentType::findOrFail($type);
+      \Debugbar::info('test'.$type);
+      $equipments = $type->equipment()->join('sites', 'sites.id_site', '=', 'equipment.id_site')->where([['equipment.is_deleted','=',0], ['sites.id_site','=',$id_site]])->get();
+
       return response()->json([
           'equipments' => $equipments,
       ]);
@@ -121,8 +140,29 @@ class ReserveRoomController extends Controller
      */
     public function store(ReserveRoomRequest $request)
     {
+      $ok = false;
+      $exist_orders = $this->reserveRoomRepository->getModel()->whereBetween('date_start', [$request->date.' '.$request->hour_start, $request->date.' '.$request->hour_end])
+                                                      ->whereBetween('date_end', [$request->date.' '.$request->hour_start, $request->date.' '.$request->hour_end])
+                                                      ->where('is_deleted', 0)->get();
+      if(count($exist_orders)) return back()->with('exist_order', 'Il y a déja une réservation pendant les horaires choisis ! Regardez le calendrier en dessous pour connaître les disponiblités de la salle');
+
+      $date_start = new DateTime($request->date.' '.$request->hour_start);
+      $date_end = new DateTime($request->date.' '.$request->hour_end);
+      $day = $date_start->format('w');
+      $day = $day == 0? 6: $day - 1;
+      $schedules = \App\Schedule::where('day', $day)->get();
+
+      foreach ($schedules as $key => $schedule) {
+        $check_opening = ($schedule->hour_opening <= $request->hour_start && $schedule->hour_closing >= $request->hour_start);
+        $check_closing = ($schedule->hour_opening <= $request->hour_end && $schedule->hour_closing >= $request->hour_end);
+        if($check_opening && $check_closing){
+          $ok = true;
+          break;
+        }
+      }
+      if(!$ok) return back()->with('schedules', 'Les heures selectionnées ne sont pas comprises dans les horaires du site');
       $reserve = $this->reserveRoomRepository->store($request->all());
-      return redirect('order')->withOk("La réservation n°" . $reserve->command_number . " a bien été enregistrée.");
+      return redirect('myaccount')->withOk("La réservation n°" . $reserve->command_number . " a bien été enregistrée.");
     }
 
     /**
@@ -133,18 +173,22 @@ class ReserveRoomController extends Controller
      */
     public function show($id)
     {
+
         if(!is_numeric($id)) abort(404);
+
         $user = Auth::user();
+
         $order = Auth::user()->reserves()->getModel()->join('rooms', 'reserve_room.id_room', '=', 'rooms.id_room')
                                                           ->join('sites', 'sites.id_site', '=', 'rooms.id_site')
                                                           ->select('reserve_room.*', 'rooms.name as room_name', 'sites.name as site_name')
                                                           ->orderBy('date_start', 'desc')
                                                           ->findOrFail($id);
 
-        $equipments = $this->reserveRoomRepository->getbyId($id)->equipments()
+        $equipments = $this->reserveRoomRepository->getModel()->findOrFail($id)->equipments()
                                                                 ->join('equipment_types', 'equipment.id_equipment_type', '=', 'equipment_types.id_equipment_type')
                                                                 ->select('equipment.*', 'equipment_types.name')
                                                                 ->get();
+
 
         return view('order.show', compact('order', 'equipments'));
     }
@@ -189,6 +233,6 @@ class ReserveRoomController extends Controller
       $user = Auth::user();
       $orderNumber = $user->getModel()->reserves()->findOrFail($id)->command_number;
       $this->reserveRoomRepository->destroy($id);
-      return redirect('orderhistory')->withOk("La réservation n°" . $orderNumber . " a été supprimée.");
+      return response()->json("La réservation n°" . $orderNumber . " a été supprimée.");
     }
 }
