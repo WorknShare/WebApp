@@ -25,8 +25,8 @@ class EquipmentController extends Controller
     {
         $this->equipmentRepository = $equipmentRepository;
         $this->equipmentTypeRepository = $equipmentTypeRepository;
-        $this->middleware('auth:admin'); //Requires admin permission
-        $this->middleware('password');
+        $this->middleware('auth:admin', ['except' => ['indexApp']]); //Requires admin permission
+        $this->middleware('password', ['except' => ['indexApp']]);
         $this->middleware('access:2', ['except' => ['show']]);
     }
 
@@ -53,6 +53,20 @@ class EquipmentController extends Controller
         ]);
     }
 
+    public function indexApp()
+    {
+      $equipment = $this->equipmentRepository->getPaginateApp($this->amountPerPage);
+      return response()->json([
+        "data" => [
+          "items" => $equipment->items(),
+          "paginator" => [
+            "currentPage" => $equipment->currentPage(),
+            "perPage" => $equipment->perPage(),
+            "lastPage" => $equipment->lastPage()
+          ]
+        ]
+      ]);
+    }
     /**
      * Display the specified resource.
      *
