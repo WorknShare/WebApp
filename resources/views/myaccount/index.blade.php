@@ -13,24 +13,24 @@
 
 @section('css')
 	<style>
-	tr {
-		font-size : 19px;
-		color: #3C8DBC;
-	}
-	td {
-		padding-right : 3em;
-		padding-bottom : 1.5em;
-	}
-	a.btn.btn-block.btn-primary.btn-lg {
-		margin-bottom: 1em;
+	.account-section {
+		font-size: 19px;
 	}
 
-	h3 {
+	.account-section-h {
 		margin-top : 50px;
 		text-align : center;
 		border-bottom : 2px solid gray;
 		padding : 10px;
 		margin-bottom : 50px;
+	}
+
+	.account-info {
+		color: #3C8DBC;
+	}
+
+	.btn-row .btn {
+		margin-top: 15px;
 	}
 	</style>
 	<link rel="stylesheet" href="{{ asset('landing/css/responsive_buttons.css') }}">
@@ -48,103 +48,66 @@
 
 	<div class="row">
 		<div class="col-xs-12">
-			<h1 style="text-align : center; padding : 4%">Votre compte</h1>
+			<h3 class="account-section-h">Informations personnelles</h3>
+			<div class="row account-section">
+				<div class="col-xs-12 col-sm-6 col-md-4">
+					Nom: <span class="account-info">{{ $user->name }}</span>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-4">
+					Prénom: <span class="account-info">{{ $user->surname }}</span>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-4">
+					Email: <span class="account-info">{{ $user->email }}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row btn-row">
+		<div class="col-xs-12 col-sm-6">
+			<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.editpwd') }}'> Changer mon mot de passe</a>
+		</div>
+		<div class="col-xs-12 col-sm-6">
+			<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.qrcode') }}'> Votre QR code</a>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12">
+			<h3 class="account-section-h">Forfait</h3>
+			<div class="row account-section">
+				<div class="col-xs-12 col-sm-6 col-md-4">
+					Forfait: <span class="account-info">{{ !empty($plan) ? $plan->name : 'Aucun forfait' }}</span>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-4">
+					Description: <span class="account-info">{{ !empty($plan) ? $plan->description : '' }}</span>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-4">
+					Fin de validité: <span class="account-info">{{ !empty($limitDate) ? $limitDate : 'N/A' }}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row btn-row">
+		<div class="col-xs-12 col-sm-6">
+			<a class="btn btn-block btn-primary btn-responsive" href='{{ route('plan.choose') }}'> Changer de forfait</a>
+		</div>
+		<div class="col-xs-12 col-sm-6">
+			<a class="btn btn-block btn-primary btn-responsive" href='{{ route('plan.history') }}'> Historique</a>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12">
+			<h3 class="account-section-h">Réservations</h3>
 			<div class="row">
-				<div class="col-lg-6">
-					<div class="box box-solid">
-						<div class="row">
-							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
-								<h3>Vos informations personnelles</h3>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-offset-2 col-lg-offset-4">
-								<table>
-									<tr>
-										<td class="fixe">Nom</td>
-										<td>{{$user->name}}</td>
-									</tr>
-									<tr>
-										<td>Prénom</td>
-										<td>{{$user->surname}}</td>
-									</tr>
-									<tr>
-										<td>Email</td>
-										<td>{{$user->email}}</td>
-									</tr>
-								</table>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
-								<a class="btn btn-block btn-primary btn-lg" href='{{ route('myaccount.edit', $user->id_client) }}'> Modifier</a>
-							</div>
-						</div>
-					</div>
+				<div class="col-xs-12 col-sm-4">
+					<a class="btn btn-block btn-primary btn-responsive" href='{{ route('order.index') }}'>Réserver une salle</a>
 				</div>
-				<div class="col-lg-6">
-					<div class="box box-solid">
-						<div class="row">
-							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
-								<h3>&nbsp;<br>Forfait</h3>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-offset-1 col-lg-offset-3">
-								<table>
-									<tr>
-										<td class="fixe">Forfait</td>
-										<td>{{ !empty($plan) ? $plan->name : 'Aucun forfait' }}</td>
-									</tr>
-									<tr>
-										<td>Description</td>
-										<td>{{ !empty($plan) ? $plan->description : '' }}</td>
-									</tr>
-									<tr>
-										<td>Fin de validité</td>
-										<td>{{ !empty($limitDate) ? $limitDate : 'N/A' }}</td>
-									</tr>
-								</table>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-offset-3 col-xs-6">
-								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('plan.choose') }}'> Changer de forfait</a>
-								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('plan.history') }}'> Historique</a>
-							</div>
-						</div>
-					</div>
+				<div class="col-xs-12 col-sm-4">
+					<a class="btn btn-block btn-primary btn-responsive" href='{{ route('mealorder.index') }}'>Commander un repas</a>
 				</div>
-				<div class="col-lg-6">
-					<div class="box box-solid">
-						<div class="row">
-							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
-								<h3>Vos Actions</h3>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
-								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.editpwd') }}'> Changer mon mot de passe</a>
-								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.qrcode') }}'> Votre QrCode</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="box box-solid">
-						<div class="row">
-							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
-								<h3>Réservation</h3>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-offset-3 col-lg-7 col-xs-12">
-								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('order.index') }}'>Réserver une salle</a>
-								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('mealorder.index') }}'>Commander un repas</a>
-								<a class="btn btn-block btn-primary btn-responsive" href='{{ route('order.history') }}'>votre historique</a>
-							</div>
-						</div>
-					</div>
+				<div class="col-xs-12 col-sm-4">
+					<a class="btn btn-block btn-primary btn-responsive" href='{{ route('order.history') }}'>Votre historique</a>
 				</div>
 			</div>
 		</div>

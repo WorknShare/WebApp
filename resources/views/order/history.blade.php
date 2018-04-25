@@ -7,44 +7,45 @@ Historique
 @section('page_title')
 	@component('components.header')
 	  @slot('title')Historique @endslot
-	  @slot('description')les réservations @endslot
+	  @slot('description')Réservations @endslot
 	@endcomponent
 @endsection
 
 @section('content')
-	<div class="content">
-
-	</div>
-	<div class="col-md-12 u-MarginBottom95">
-	  <ul class="nav nav-tabs u-BoxShadow100" role="tablist">
-	    <li role="presentation" class="active"><a href="#rooms" aria-controls="philosophy" role="tab" data-toggle="tab" aria-expanded="true">Salles</a></li>
-	    <li role="presentation" class=""><a href="#meals" aria-controls="mission" role="tab" data-toggle="tab" aria-expanded="false">Repas</a></li>
-	    <li role="presentation" class=""><a href="#devices" aria-controls="goal" role="tab" data-toggle="tab" aria-expanded="false">Equipement</a></li>
-	  </ul>
-	  <div class="tab-content u-BoxShadow100">
-	    <div role="tabpanel" class="tab-pane fade active in" id="rooms">
-	      <div class="u-LineHeight2">
-					<div id="order_content">
-						@include('order.order_history')
+	<div class="row">
+		<div class="col-md-12">
+		  <ul class="nav nav-tabs u-BoxShadow100" role="tablist">
+		    <li role="presentation" class="active"><a href="#rooms" aria-controls="philosophy" role="tab" data-toggle="tab" aria-expanded="true">Salles</a></li>
+		    <li role="presentation" class=""><a href="#meals" aria-controls="mission" role="tab" data-toggle="tab" aria-expanded="false">Repas</a></li>
+		    <li role="presentation" class=""><a href="#devices" aria-controls="goal" role="tab" data-toggle="tab" aria-expanded="false">Equipement</a></li>
+		  </ul>
+		  <div class="tab-content u-BoxShadow100">
+		    <div role="tabpanel" class="tab-pane fade active in" id="rooms">
+		      <div class="u-LineHeight2">
+						<div id="order_content">
+							@include('order.order_history')
+						</div>
 					</div>
-				</div>
-	    </div>
-	    <div role="tabpanel" class="tab-pane fade" id="meals">
-	      <div class="u-LineHeight2">
-					<div id="meal_content">
-						@include('order.meal_history')
+		    </div>
+		    <div role="tabpanel" class="tab-pane fade" id="meals">
+		      <div class="u-LineHeight2">
+						<div id="meal_content">
+							@include('order.meal_history')
+						</div>
 					</div>
-				</div>
-	    </div>
-	    <div role="tabpanel" class="tab-pane fade" id="devices">
-	      <div class="u-LineHeight2">
-	      </div>
-	    </div>
-	  </div>
+		    </div>
+		    <div role="tabpanel" class="tab-pane fade" id="devices">
+		      <div class="u-LineHeight2">
+		      </div>
+		    </div>
+		  </div>
+		</div>
 	</div>
 
-	<div class="box-footer">
-		<a class="btn btn-default pull-left" href='{{ route('myaccount.index') }}'> <i class="fa fa-chevron-left"></i> Retour</a>
+	<div class="row">
+	    <div class="col-xs-12 u-MarginBottom15 u-MarginTop15">
+	      <a class="btn btn-default btn-responsive pull-left" href='{{ route('myaccount.index') }}' type="button"><i class="fa fa-chevron-left u-MarginRight10"></i> Retour</a>
+	    </div>
 	</div>
 
 @endsection

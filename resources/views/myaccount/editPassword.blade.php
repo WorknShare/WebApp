@@ -6,8 +6,8 @@ Modifier
 
 @section('page_title')
 	@component('components.header')
-	  @slot('title'){{ $user->name }} @endslot
-	  @slot('description')Modifer vos informations personnelles @endslot
+	  @slot('title')Profil @endslot
+	  @slot('description')Modifer le mot de passe @endslot
 	@endcomponent
 @endsection
 
@@ -17,9 +17,9 @@ Modifier
 		<div class="box box-solid">
 			{!! Form::model($user, ['route' => ['myaccount.updatepwd'], 'method' => 'put']) !!}
 	        	<div class="box-body">
-		            {!! Form::controlWithIcon('password', 'oldPwd', $errors, '', 'Ancien mot de passe', 'glyphicon-font', 'Ancien mot de passe', ["maxlength" => '60', "required" => "required"]) !!}
-		            {!! Form::controlWithIcon('password', 'password', $errors, '', 'Nouveau mot de passe', 'glyphicon-font', 'Nouveau mot de passe', ["maxlength" => '60', "required" => "required"]) !!}
-                {!! Form::controlWithIcon('password', 'password_confirmation', $errors, '', 'Confirmer mot de passe', 'glyphicon-font', 'Confirmer mot de passe', ["maxlength" => '60', "required" => "required"]) !!}
+		            {!! Form::control('password', 'oldPwd', $errors, '', 'Ancien mot de passe', 'Ancien mot de passe', ["maxlength" => '60', "required" => "required"]) !!}
+		            {!! Form::control('password', 'password', $errors, '', 'Nouveau mot de passe', 'Nouveau mot de passe', ["maxlength" => '60', "required" => "required"]) !!}
+                {!! Form::control('password', 'password_confirmation', $errors, '', 'Confirmer mot de passe', 'Confirmer mot de passe', ["maxlength" => '60', "required" => "required"]) !!}
 	          	</div>
 
 		        <div class="box-footer">
