@@ -24,7 +24,8 @@ class SearchRequest extends FormRequest
     public function rules()
     {
         return [
-            "search" => "string|nullable"
+            "search" => "string|nullable",
+            "filter" => "nullable"
         ];
     }
 }

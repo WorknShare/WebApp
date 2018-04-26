@@ -48,10 +48,11 @@ class TicketRepository extends ResourceRepository
      * @param int $limit
      * @return array
      */
-    public function getWhereWithRelations($value,$limit=100)
+    public function getWhereWithRelations($value,$limit=100, $filter=null)
     {
         $search = '%'.strtolower($value).'%';
-        return $this->model
+
+        $query = $this->model
             ->with([
                 'equipment' => function($query) {
                     $query->select('id_equipment', 'serial_number', 'id_equipment_type');
@@ -65,42 +66,66 @@ class TicketRepository extends ResourceRepository
                 'employeeAssigned' => function($query) {
                     $query->select('id_employee', 'name', 'surname');
                 }
-            ])
-            ->whereRaw('LOWER(description) LIKE ?', array($search))
-            ->orWhereHas('equipment', function($query) use ($search) {
-                    $query->whereRaw('LOWER(serial_number) LIKE ?', array($search));
-                })
+            ]);
+
+        $this->checkRoleAndFilter($query, $filter);
+
+        $query->whereRaw('LOWER(description) LIKE ?', array($search))
             ->orWhereHas('equipment.type', function($query) use ($search) {
                     $query->whereRaw('LOWER(name) LIKE ?', array($search));
-                })
-            ->orderBy('created_at','desc')
-            ->take($limit)->get();
+                });
+
+        $this->checkRoleAndFilter($query, $filter); //Called multiple times in order to cover the subqueries too
+            
+        $query->orWhereHas('equipment', function($query) use ($search) {
+                    $query->whereRaw('LOWER(serial_number) LIKE ?', array($search));
+                });
+
+        $this->checkRoleAndFilter($query, $filter);
+
+        return $query->orderBy('created_at','desc')->take($limit)->get();
+    }
+
+    private function checkRoleAndFilter($query, $filter)
+    {
+        if($filter != null)
+            $query->where('status', '=', $filter);
+
+        if(Auth::user()->role == 4) //If technician, show only assigned tickets
+            $query->where('id_employee_assigned', '=', Auth::user()->id_employee);
     }
 
     /**
-   * Get a paginate of the recordings.
-   *
-   * @param int $n the amount of recordings per page
-   * @return array
-   */
-  public function getPaginate($n)
-  {
-    return $this->model->with([
-            'equipment' => function($query) {
-                $query->select('id_equipment', 'serial_number', 'id_equipment_type');
-            }, 
-            'equipment.type' => function($query) {
-                $query->select('id_equipment_type', 'name');
-            },
-            'employeeSource' => function($query) {
-                $query->select('id_employee', 'name', 'surname');
-            },
-            'employeeAssigned' => function($query) {
-                $query->select('id_employee', 'name', 'surname');
-            }
-        ])
-        ->orderBy('created_at','desc')
-        ->paginate($n);
-  }
+     * Get a paginate of the recordings.
+     *
+     * @param int $n the amount of recordings per page
+     * @return array
+     */
+    public function getPaginate($n,$filter=null)
+    {
+      $query = $this->model->with([
+                'equipment' => function($query) {
+                    $query->select('id_equipment', 'serial_number', 'id_equipment_type');
+                }, 
+                'equipment.type' => function($query) {
+                    $query->select('id_equipment_type', 'name');
+                },
+                'employeeSource' => function($query) {
+                    $query->select('id_employee', 'name', 'surname');
+                },
+                'employeeAssigned' => function($query) {
+                    $query->select('id_employee', 'name', 'surname');
+                }
+            ])
+            ->orderBy('created_at','desc');
+
+        if(Auth::user()->role == 4) //If technician, show only assigned tickets
+            $query->where('id_employee_assigned', '=', Auth::user()->id_employee);
+
+        if($filter != null)
+            $query->where('status', '=', $filter);
+
+        return $query->paginate($n);
+    }
 
 }
