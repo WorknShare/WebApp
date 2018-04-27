@@ -96,10 +96,12 @@ $(function() {
 
 		$("#planPieNotEnoughData").hide();
 
-		var pieChartCanvas = $('#plansPie').get(0).getContext('2d');
-		if(pieChart == undefined) {
-			pieChart = new Chart(pieChartCanvas);
-		}
+		var canvas = $('#plansPie').get(0);
+		var pieChartCanvas = canvas.getContext('2d');
+		if(pieChart != undefined) {
+			pieChart.destroy();
+			pieChart = undefined;
+		} 
 		var pieData = [];
 
 		//Clear legend
@@ -117,7 +119,9 @@ $(function() {
 			i++;
 		});
 
-		pieChart.Doughnut(pieData, pieOptions);
+		pieChartCanvas.clearRect(0, 0, canvas.width, canvas.height);
+		pieChart = new Chart(pieChartCanvas);
+		pieChart = pieChart.Doughnut(pieData, pieOptions);
 
 		if(data.length <= 0 || !ok) {
 			$("#planPieNotEnoughData").show();
