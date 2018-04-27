@@ -8,6 +8,7 @@ class Meal extends Model
 {
   protected $primaryKey = "id_meal";
   public $timestamps = false;
+  
   /**
   * The attributes that are mass assignable.
   *
