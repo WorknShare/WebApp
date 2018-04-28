@@ -38,18 +38,49 @@ class EquipmentRepository extends ResourceRepository
 	}
 
 
-  public function getPaginateApp($n)
+  public function getPaginateApp($n, $filter=null)
   {
-    return $this->model->with([
-            'type' => function($query) {
-                $query->select('id_equipment_type', 'name');
-            },
-            'site' => function($query) {
-                $query->select('id_site', 'name', 'address');
-            }
-        ])
-        ->orderBy('is_deleted')
-        ->paginate($n);
+      $query = $this->model->with([
+        'type' => function($query) {
+          $query->select('id_equipment_type', 'name');
+        },
+        'site' => function($query) {
+          $query->select('id_site', 'name', 'address');
+        }
+      ])
+      ->orderBy('serial_number');
+
+      if($filter != null)
+        $query->where('id_equipment_type', '=', $filter);
+
+      return $query->paginate($n);
+  }
+
+  public function getWhereWithRelations($value,$limit=100, $filter=null)
+  {
+    $search = '%'.strtolower($value).'%';
+
+    $query = $this->model->with([
+      'type' => function($query) {
+        $query->select('id_equipment_type', 'name');
+      },
+      'site' => function($query) {
+        $query->select('id_site', 'name', 'address');
+      }
+    ]);
+
+    if($filter != null)
+    $query->where('id_equipment_type', '=', $filter);
+
+    $query->whereRaw('LOWER(serial_number) LIKE ?', array($search))
+    ->orWhereHas('site', function($query) use ($search) {
+      $query->whereRaw('LOWER(name) LIKE ?', array($search));
+    });
+
+    if($filter != null)
+    $query->where('id_equipment_type', '=', $filter);
+
+    return $query->orderBy('serial_number')->take($limit)->get();
   }
 
 }

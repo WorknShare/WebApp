@@ -13,16 +13,16 @@ class EquipmentTypeController extends Controller
 
     /**
      * Create a new PlanAdvantageController instance
-     * 
+     *
      * @param \App\Repositories\EquipmentTypeRepository $equipmentTypeRepository
      * @return void
      */
     public function __construct(EquipmentTypeRepository $equipmentTypeRepository)
     {
         $this->equipmentTypeRepository = $equipmentTypeRepository;
-        $this->middleware('auth:admin'); //Requires admin permission
-        $this->middleware('password');
-        $this->middleware('access:2', ['except' => ['index', 'show']]);
+        $this->middleware('auth:admin', ['except' => ['getEquipmentType']]); //Requires admin permission
+        $this->middleware('password', ['except' => ['getEquipmentType']]);
+        $this->middleware('access:2', ['except' => ['index', 'show', 'getEquipmentType']]);
     }
 
     /**
@@ -112,6 +112,18 @@ class EquipmentTypeController extends Controller
             'links'      => $links->toHtml(),
             'token'      => csrf_token(),
             'resources' => $types->items()
+        ]);
+    }
+
+    public function getEquipmentType()
+    {
+
+        $equipmentType = $this->equipmentTypeRepository->getModel()->where('is_deleted', '=', 0)->get();
+
+        return response()->json([
+            "data" => [
+                "equipmentType" => $equipmentType
+            ]
         ]);
     }
 }

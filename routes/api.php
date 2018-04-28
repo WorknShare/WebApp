@@ -23,4 +23,5 @@ Route::group(['middleware' => 'auth:admin-api'], function() {
 	Route::put('ticket/{ticket}', 'TicketController@updateStatus');
 	Route::put('ticket/{ticket}/affect', 'TicketController@affect');
 	Route::get('equipmenttype/equipment', 'EquipmentController@indexApp');
+	Route::get('equipmenttype/getequipmenttype', 'EquipmentTypeController@getEquipmentType');
 });
