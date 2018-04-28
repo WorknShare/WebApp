@@ -14,7 +14,7 @@ class TicketController extends Controller
 {
     
 	private $ticketRepository;
-    private $amountPerPage = 10;
+    private $amountPerPage = 20;
 
     /**
      * Create a new SiteController instance
