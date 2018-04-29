@@ -83,6 +83,7 @@ class AdminController extends Controller
         $plans = $metrics->select('count(*) as count, "Réservations" as name')
                          ->column('date_start')
                          ->duration('date_end')
+                         ->restrictive(false)
                          ->getData();
         $labels = $metrics->getLabels();
 
