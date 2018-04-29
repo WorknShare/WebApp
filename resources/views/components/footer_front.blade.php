@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-offset-3 col-md-3 u-xs-MarginBottom30">
                 <div class="logo u-MarginBottom25">
-                    <img src="{{ asset('img/banner64_2.png') }}" alt="">
+                    <img src="{{ asset('img/banner64_2.png') }}" style="width: 100%;" alt="">
                 </div>
                 <p>Work'n Share, ce sont des espaces de coworking au coeur de Paris, proposant de nombreux services à des prix compétitifs.</p>
                 <h5 class="u-Weight700">Work'n Share SAS</h5>

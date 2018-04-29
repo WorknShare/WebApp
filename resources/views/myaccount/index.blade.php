@@ -96,7 +96,7 @@
 		</div>
 	</div>
 
-	<div class="row">
+	<div class="row u-xs-PaddingBottom50">
 		<div class="col-xs-12">
 			<h3 class="account-section-h">Réservations</h3>
 			<div class="row">
