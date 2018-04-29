@@ -27,7 +27,7 @@
 @section('page_title')
 	@component('components.header')
 		@slot('title')Réservation @endslot
-			@slot('description') choisissez une salle @endslot
+			@slot('description') Choisissez une salle @endslot
 		@endcomponent
 @endsection
 
@@ -87,23 +87,27 @@
 											<input type="hidden" name="id_room" id="id_room"></input>
 											{{ csrf_field() }}
 											<div class="box-body">
-												<div class='input-group date' id='datepicker'>
-													<input id="date" type='text' class="form-control" name="date"/>
-													<span class="input-group-addon">
-														<span class="glyphicon glyphicon-calendar"></span>
-													</span>
+												<div class="row">
+													<div class="col-xs-12 form-group">
+														<div class='input-group date' id='datepicker'>
+															<input id="date" type='text' class="form-control" name="date"/>
+															<span class="input-group-addon">
+																<span class="glyphicon glyphicon-calendar"></span>
+															</span>
+														</div>
+													</div>
+													<div class="col-xs-12 col-sm-6">
+														{!! Form::timePicker('hour_start', $errors, 'Début :') !!}
+													</div>
+													<div class="col-xs-12 col-sm-6">
+														{!! Form::timePicker('hour_end', $errors, 'Fin :') !!}
+													</div>
 												</div>
-												<div class="col-xs-12 col-sm-6">
-													{!! Form::timePicker('hour_start', $errors, 'Début :') !!}
-												</div>
-												<div class="col-xs-12 col-sm-6">
-													{!! Form::timePicker('hour_end', $errors, 'Fin :') !!}
-												</div>
-												<label for="type">équipement</label>
+												<label for="type">Équipement</label>
 												<div class="row">
 													<div class="col-xs-12 col-sm-5">
 														<select  id='type' name="id_room_type" class="form-control">
-															<option value="" disabled selected>choisir</option>
+															<option value="" disabled selected>Choisir</option>
 															@foreach(App\EquipmentType::where("is_deleted", "=", 0)->get() as $roomEquipment)
 																<option value="{{ $roomEquipment->id_equipment_type }}" {{$roomEquipment->id_equipment_type == old('id_room_type') ? 'selected' : ''}}>{{ $roomEquipment->name }}</option>
 															@endforeach
@@ -119,7 +123,7 @@
 												</div>
 											</div>
 											<div style="margin-top : 10px" class="box-footer">
-												<button type="submit" class="btn btn-gradient btn--alien pull-right"><i class="fa fa-check"></i> Créer</button>
+												<button type="submit" class="btn btn-gradient btn--alien"><i class="fa fa-check"></i> Créer</button>
 											</div>
 										</form>
 									</div>
@@ -150,8 +154,8 @@
 										<div class="box-body no-padding table-container-responsive">
 											<table class="table table-striped" id="arrayEquipment">
 												<tr>
-											    <th>équipement</th>
-											    <th>type</th>
+											    <th>Équipement</th>
+											    <th>Type</th>
 													<th></th>
 										  </tr>
 											</table>

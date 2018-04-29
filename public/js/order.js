@@ -5,7 +5,7 @@ function addEquipment(){
   value = $( 'input[value="'+id+'"][name="equipments[]"]' );
   console.log(value);
   if(value.length > 0){
-    alert("vous avez déja ajouté cet équipement !");
+    alert("Vous avez déja ajouté cet équipement à votre réservation.");
     return;
   }
 

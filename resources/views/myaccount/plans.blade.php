@@ -28,5 +28,11 @@ Work'n Share - Forfaits
                 @endcomponent
             </div>
         </div>
+
+        <div class="row">
+          <div class="col-xs-12 u-MarginBottom15">
+            <a class="btn btn-default btn-responsive pull-left" href='{{ route('myaccount.index') }}' type="button"><i class="fa fa-chevron-left u-MarginRight10"></i> Retour</a>
+          </div>
+        </div>
     </section>
 @endsection

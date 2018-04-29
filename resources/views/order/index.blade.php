@@ -13,6 +13,7 @@ Réservation
 
 @section('content')
   @if(count($sites))
+  <h4>Sélectionnez un site</h4>
   <div class="box-body no-padding table-container-responsive">
     <table class="table table-striped">
       <tr>
@@ -39,10 +40,13 @@ Réservation
   </div>
   @endif
 
-  <div class="row bottom-controls">
-  	<div class="col-xs-12">
-  		{{ $links }}
-  	</div>
+  <div class="row">
+    <div class="col-xs-12">
+        {{ $links }}
+    </div>
+    <div class="col-xs-12 u-MarginBottom15">
+        <a class="btn btn-default btn-responsive pull-left" href='{{ route('myaccount.index') }}' type="button"><i class="fa fa-chevron-left u-MarginRight10"></i> Retour</a>
+    </div>
   </div>
 
 @endsection

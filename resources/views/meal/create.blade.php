@@ -31,7 +31,9 @@ Repas
             <input type="hidden" value="{{$site->id_site }}" name="id_site">
             <div class="box-body">
               <div class="form-group row">
-                <label>Les Repas</label><br>
+                <div class="col-xs-12">
+                  <label>Choix du menu</label><br>
+                </div>
                 @foreach($meals as $meal)
                   <div class="col-xs-6 col-sm-3 col-md-2" onclick="displayMore({{$meal->id_meal}})" title="{{ $meal->name }}">
                     {!! Form::radiobox('id_meal', $meal->name, $errors, $meal->id_meal, 'onclick="displayMore('.$meal->id_meal.')"') !!}
@@ -66,7 +68,7 @@ Repas
               <div class="row">
                 <div class="date col-xs-12 col-sm-6" id='datepicker'>
                   <div class="form-group ">
-                    <label>date :</label>
+                    <label>Date :</label>
                     <div class="input-group">
                       <input type="text" class="form-control timepicker" name="date" id="date">
                       <div class="input-group-addon">
@@ -76,7 +78,7 @@ Repas
                   </div>
                 </div>
                 <div class="col-xs-12 col-sm-6">
-                  {!! Form::timePicker('hour', $errors, 'heure :') !!}
+                  {!! Form::timePicker('hour', $errors, 'Heure :') !!}
                 </div>
                 @if($errors->first('date') != null)
                   <span class="help-block" style="color : #D33724"><strong> La date doit être postérieure au {{date('j/m/Y à  H:i !')}}</strong></span>
