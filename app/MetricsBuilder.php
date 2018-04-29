@@ -23,6 +23,7 @@ class MetricsBuilder
 	private $dateColumn;
 	private $group;
 	private $duration;
+	private $restrictive;
 
 	/**
 	 * Create a new MetricsBuilder instance
@@ -37,6 +38,7 @@ class MetricsBuilder
 		$this->labels = [];
 		$this->dateColumn = "created_at";
 		$this->columns = '*';
+		$this->restrictive = true;
 	}
 
 	/**
@@ -98,6 +100,18 @@ class MetricsBuilder
 		$this->relation = $relation;
 		$this->relationId = $id;
 		$this->relationRelatedId = $relatedId;
+		return $this;
+	}
+
+	/**
+	 * Set if the metrics must be restrictive or not. Restrictive metrics will not count records fully between two units.
+	 *
+	 * @param boolean $restrictive
+	 * @return MetricsBuilder
+	 */
+	public function restrictive($restrictive)
+	{
+		$this->restrictive = $restrictive;
 		return $this;
 	}
 
@@ -171,9 +185,21 @@ class MetricsBuilder
 
                              if($this->duration != null)
                              {
-                             	$join->on($this->dateColumn, '<=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'"));
-                             	$join->on($this->duration, '>=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'"));
-                             	$join->on($this->duration, '>=', DB::raw("'".$datesEnd[$index]->format('Y-m-d H:i:s')."'"));
+
+                             	if($this->restrictive)
+                             	{
+	                             	$join->on($this->dateColumn, '<=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'"));
+	                             	$join->on($this->duration, '>=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'"));
+	                             	$join->on($this->duration, '>=', DB::raw("'".$datesEnd[$index]->format('Y-m-d H:i:s')."'"));	
+                             	}
+                             	else 
+                             	{
+                             		$join->on($this->dateColumn, '<=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'"));
+                             		$join->on($this->dateColumn, '<=', DB::raw("'".$datesEnd[$index]->format('Y-m-d H:i:s')."'"));
+
+	                             	$join->on($this->duration, '>=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'"));	
+                             	}
+
                              }
                              else
                              {
@@ -186,11 +212,23 @@ class MetricsBuilder
 			{
 				if($this->duration != null)
                 {
-                	$last->where([
-                		[$this->dateColumn, '<=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'")],
-                		[$this->duration, '>=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'")],
-                		[$this->duration, '>=', DB::raw("'".$datesEnd[$index]->format('Y-m-d H:i:s')."'")]
-                	]);
+                	if($this->restrictive)
+                	{
+	                	$last->where([
+	                		[$this->dateColumn, '<=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'")],
+	                		[$this->duration, '>=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'")],
+	                		[$this->duration, '>=', DB::raw("'".$datesEnd[$index]->format('Y-m-d H:i:s')."'")]
+	                	]);
+                	}
+                	else
+                	{
+                		$last->where([
+	                		[$this->dateColumn, '<=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'")],
+	                		[$this->dateColumn, '<=', DB::raw("'".$datesEnd[$index]->format('Y-m-d H:i:s')."'")],
+	                		[$this->duration, '>=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'")]
+	                	]);
+                	}
+
                 }
                 else
                 {

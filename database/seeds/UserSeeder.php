@@ -15,8 +15,9 @@ class UserSeeder extends Seeder
     	$faker = \Faker\Factory::create();
 
         factory(App\User::class, 500)->create()->each(function($user) use ($faker) {
-        	$date = Carbon::createFromTimeStamp($faker->dateTimeBetween('-1 year', '+1 year')->getTimestamp());
-        	for($i = 0 ; $i < 25 ; $i++) {
+            $now = date('Y-m-d H:i:s');
+        	$date = Carbon::createFromTimeStamp($faker->dateTimeBetween('-4 year', '-2 month')->getTimestamp());
+        	while($date < $now) {
 				$limit = Carbon::createFromFormat('Y-m-d H:i:s', $date)->addMonth();
 
 				$payment = factory(App\Payment::class)->make([
@@ -30,10 +31,8 @@ class UserSeeder extends Seeder
 				$date = $limit;
         	}
 
-        	if(date($date) < date('now')) {
-        		$user->id_plan = $user->lastPayment()->id_plan;
-        		$user->save();
-        	}
+        	$user->id_plan = $user->lastPayment()->id_plan;
+        	$user->save();
 
         });
     }

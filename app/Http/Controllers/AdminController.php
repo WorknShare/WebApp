@@ -60,6 +60,7 @@ class AdminController extends Controller
                          ->column('history.created_at')
                          ->duration('history.limit_date')
                          ->groupBy('plans.id_plan')
+                         ->restrictive(false)
                          ->getData();
         $labels = $metrics->getLabels();
 
