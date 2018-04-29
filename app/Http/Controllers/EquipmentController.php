@@ -28,7 +28,7 @@ class EquipmentController extends Controller
         $this->equipmentTypeRepository = $equipmentTypeRepository;
         $this->middleware('auth:admin', ['except' => ['indexApp']]); //Requires admin permission
         $this->middleware('password', ['except' => ['indexApp']]);
-        $this->middleware('access:2', ['except' => ['show']]);
+        $this->middleware('access:2', ['except' => ['show', 'indexApp']]);
     }
 
     /**
