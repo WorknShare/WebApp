@@ -35,6 +35,7 @@ Work'n Share - Paiement accepté
           <h3 class="text-muted u-MarginTop0">Merci !</h3>
 
           <p>Votre commande numéro <b>{{ session('commandNumber') }}</b> a bien été enregistrée.</p>
+          <p>Un email de confirmation vous a été envoyé.</p>
         </div>
     </div>
 

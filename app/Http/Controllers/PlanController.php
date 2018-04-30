@@ -12,6 +12,8 @@ use App\Repositories\PaymentRepository;
 use App\Http\Requests\Plan\PlanRequest;
 use App\Plan;
 use App\PlanAdvantage;
+use App\Jobs\SendPaymentMailJob;
+use Carbon\Carbon;
 
 use DateTime;
 use DateInterval;
@@ -144,6 +146,11 @@ class PlanController extends Controller
 
         $user->id_plan = $id;
         $user->save();
+
+        $paymentFull = \App\Payment::with(['client','plan','plan.advantages'])->find($payment->id_history);
+        $emailJob = (new SendPaymentMailJob($paymentFull))->delay(Carbon::now()->addSeconds(3));
+        dispatch($emailJob);
+
         return redirect('paymentaccepted')->with('commandNumber', $payment->command_number);
     }
 

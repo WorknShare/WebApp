@@ -8,22 +8,24 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Mail;
-use App\User;
 
-class SendWelcomeEmailJob implements ShouldQueue
+use App\Payment;
+
+class SendPaymentMailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $user;
+    private $payment;
 
     /**
      * Create a new job instance.
      *
+     * @param Payment $payment
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(Payment $payment)
     {
-        $this->user = $user;
+        $this->payment = $payment;
     }
 
     /**
@@ -33,7 +35,7 @@ class SendWelcomeEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        $mail = new \App\Mail\WelcomeMail($this->user);
-        Mail::to($this->user->email)->send($mail);
+        $mail = new \App\Mail\PaymentMail($this->payment);
+        Mail::to($this->payment->client->email)->send($mail);
     }
 }
