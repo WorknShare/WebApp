@@ -35,8 +35,9 @@ class PlanExpireMail extends Mailable
     {
         $username = $this->user->surname;
         $plan = $this->user->plan()->first();
+        $payment = $this->user->lastPayment();
         return $this
             ->subject('Votre forfait arrive à expiration bientôt')
-            ->view('email.expire', compact('username', 'plan'));
+            ->view('email.expire', compact('username', 'plan', 'payment'));
     }
 }
