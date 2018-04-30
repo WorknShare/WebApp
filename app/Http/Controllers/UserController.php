@@ -138,7 +138,7 @@ class UserController extends Controller
   {
     if(strcmp($request->email, Auth::user()->email)){
       Storage::delete('public/images/qrcode/'. Auth::user()->tokenQrCode .'.png');
-      $qrcode_maker = 'cd /bin && qrcode-maker ' . $request->email . ' ' . Auth::user()->tokenQrCode;
+      $qrcode_maker = 'cd '.storage_path().' && qrcode-maker ' . $request->email . ' ' . Auth::user()->tokenQrCode.' '. storage_path() . '/app/public/images/qrCode/';
       $a = shell_exec($qrcode_maker);
     }
 
