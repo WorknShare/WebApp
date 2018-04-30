@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
+use App\Jobs\SendWelcomeEmailJob;
+use Carbon\Carbon;
+
 class RegisterController extends Controller
 {
     /*
@@ -68,12 +71,18 @@ class RegisterController extends Controller
         $token = sha1('$w$n$s$2'. $maxId . time());
       /*  $qrcode_maker = 'cd ../storage && sudo ./qrcode-maker ' . $data['email'] . ' ' . $token . ' app/public/images/qrcode/';
         shell_exec($qrcode_maker . ' && pwd');*/
-        return User::create([
+
+        $user = User::create([
             'name' => $data['name'],
             'surname' => $data['surname'],
             'email' => $data['email'],
             'password' => $data['password'],
             'tokenQrCode' => $token,
         ]);
+
+        $emailJob = (new SendWelcomeEmailJob($user))->delay(Carbon::now()->addSeconds(3));
+        dispatch($emailJob);
+
+        return $user;
     }
 }

@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 use App\User;
 
-class PlanExpireMail extends Mailable
+class WelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -34,10 +34,8 @@ class PlanExpireMail extends Mailable
     public function build()
     {
         $username = $this->user->surname;
-        $plan = $this->user->plan()->first();
-        $payment = $this->user->lastPayment();
         return $this
-            ->subject('Votre forfait arrive bientôt à expiration')
-            ->view('email.expire', compact('username', 'plan', 'payment'));
+            ->subject('Bienvenue chez Work\'n Share !')
+            ->view('email.welcome', compact('username'));
     }
 }
