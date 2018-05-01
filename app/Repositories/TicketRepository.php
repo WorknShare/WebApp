@@ -52,21 +52,7 @@ class TicketRepository extends ResourceRepository
     {
         $search = '%'.strtolower($value).'%';
 
-        $query = $this->model
-            ->with([
-                'equipment' => function($query) {
-                    $query->select('id_equipment', 'serial_number', 'id_equipment_type');
-                }, 
-                'equipment.type' => function($query) {
-                    $query->select('id_equipment_type', 'name');
-                },
-                'employeeSource' => function($query) {
-                    $query->select('id_employee', 'name', 'surname');
-                },
-                'employeeAssigned' => function($query) {
-                    $query->select('id_employee', 'name', 'surname');
-                }
-            ]);
+        $query = $this->withRelations();
 
         $this->checkRoleAndFilter($query, $filter);
 
@@ -103,7 +89,22 @@ class TicketRepository extends ResourceRepository
      */
     public function getPaginate($n,$filter=null)
     {
-      $query = $this->model->with([
+      $query = $this->withRelations()
+            ->orderBy('created_at','desc');
+
+        if(Auth::user()->role == 4) //If technician, show only assigned tickets
+            $query->where('id_employee_assigned', '=', Auth::user()->id_employee);
+
+        if($filter != null)
+            $query->where('status', '=', $filter);
+
+        return $query->paginate($n);
+    }
+
+    private function withRelations()
+    {
+        return $this->model
+            ->with([
                 'equipment' => function($query) {
                     $query->select('id_equipment', 'serial_number', 'id_equipment_type');
                 }, 
@@ -116,16 +117,17 @@ class TicketRepository extends ResourceRepository
                 'employeeAssigned' => function($query) {
                     $query->select('id_employee', 'name', 'surname');
                 }
-            ])
-            ->orderBy('created_at','desc');
+            ]);
+    }
 
-        if(Auth::user()->role == 4) //If technician, show only assigned tickets
-            $query->where('id_employee_assigned', '=', Auth::user()->id_employee);
-
-        if($filter != null)
-            $query->where('status', '=', $filter);
-
-        return $query->paginate($n);
+    /**
+     * Get all the recordings with their relations
+     *
+     * @return array
+     */
+    public function allWithRelations()
+    {
+        return $this->withRelations()->get();
     }
 
 }

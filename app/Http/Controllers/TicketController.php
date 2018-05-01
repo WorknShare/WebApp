@@ -27,6 +27,7 @@ class TicketController extends Controller
         $this->ticketRepository = $ticketRepository;
         $this->middleware('access:3', ['only' => ['store']]);
         $this->middleware('access:2', ['only' => ['affect']]);
+        $this->middleware('access:1', ['only' => ['all']]);
     }
 
     /**
@@ -133,6 +134,20 @@ class TicketController extends Controller
         $ticket->save();
 
         return response()->json([], 204);
+    }
+
+    /**
+     * Get all the tickets records with their relations. Used for excel exports for example.
+     * @return \Illuminate\Http\Response
+     */
+    public function all()
+    {
+        $tickets = $this->ticketRepository->allWithRelations();
+        return response()->json([
+            "data" => [
+                "items" => $tickets
+            ]
+        ]);
     }
 
 }

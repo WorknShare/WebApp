@@ -19,6 +19,7 @@ Route::post('logout', 'Auth\ApiAdminLoginController@logout');
 Route::group(['middleware' => 'auth:admin-api'], function() {
 	Route::get('employee/tech', 'EmployeeController@tech');
 	Route::get('ticket', 'TicketController@index');
+	Route::get('ticket/all', 'TicketController@all');
 	Route::post('ticket', 'TicketController@store');
 	Route::put('ticket/{ticket}', 'TicketController@updateStatus');
 	Route::put('ticket/{ticket}/affect', 'TicketController@affect');
