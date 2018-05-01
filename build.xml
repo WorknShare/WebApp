@@ -78,10 +78,14 @@
 
     	<exec command="composer update" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
     	<exec command="php artisan migrate --force" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
-    	<exec command="screen -dmS worknshare_worker php artisan queue:work" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
+
 
     	<echo>Disabling maintenance mode...</echo>
     	<exec command="php artisan up" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
+
+    	<echo>Running queue worker...</echo>
+    	<exec command="screen -dmS worknshare_worker php artisan queue:work" checkreturn="true" dir="/var/www/html/worknshare"/>
+    	
     	<echo>Deploy successful.</echo>
     </target>
 </project>
