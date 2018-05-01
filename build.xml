@@ -59,7 +59,6 @@
     <target name="deploy" description="Deploy the application">
     	<echo>Setting app in maintenance mode...</echo>
     	<exec command="php artisan down" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
-    	<exec command="screen -S worknshare_worker -X quit" passthru="true"/>
     	<echo>App is now in maintenance mode.</echo>
 
     	<echo>Copying files...</echo>
@@ -83,8 +82,8 @@
     	<echo>Disabling maintenance mode...</echo>
     	<exec command="php artisan up" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
 
-    	<echo>Running queue worker...</echo>
-    	<exec command="screen -dmS worknshare_worker php artisan queue:work" checkreturn="true" dir="/var/www/html/worknshare"/>
+    	<echo>Restarting queue worker...</echo>
+    	<exec command="php artisan queue:restart" checkreturn="true" dir="/var/www/html/worknshare"/>
     	
     	<echo>Deploy successful.</echo>
     </target>

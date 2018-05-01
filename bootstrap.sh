@@ -13,6 +13,7 @@ apt-get install -y php7.0 libapache2-mod-php7.0 php7.0-curl php7.0-mysql php7.0-
 apt-get install -y mysql-server-5.7
 apt-get install -y composer
 apt-get install -y git
+apt-get install -y supervisor
 
 apt-get -y autoremove
 
@@ -22,6 +23,7 @@ composer install
 chmod -R 777 /vagrant/storage/
 chmod -R 777 /vagrant/bootstrap/
 cp /vagrant/apache2.conf /etc/apache2/apache2.conf
+cp /vagrant/laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
 cp /vagrant/000-default.conf /etc/apache2/sites-available/000-default.conf
 cp /vagrant/qrcode-maker /vagrant/storage/qrcode-maker
 chmod +x /vagrant/storage/qrcode-maker
@@ -79,3 +81,8 @@ php artisan key:generate
 php artisan migrate:install
 php artisan migrate
 php artisan db:seed
+
+
+supervisorctl reread
+supervisorctl update
+supervisorctl start laravel-worker:*
