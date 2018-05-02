@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Equipment\EquipmentRequest;
+use App\Http\Requests\SearchRequest;
 use App\Http\Requests\Equipment\EquipmentAffectRequest;
 use App\Repositories\EquipmentRepository;
 use App\Repositories\EquipmentTypeRepository;
@@ -27,7 +28,7 @@ class EquipmentController extends Controller
         $this->equipmentTypeRepository = $equipmentTypeRepository;
         $this->middleware('auth:admin', ['except' => ['indexApp']]); //Requires admin permission
         $this->middleware('password', ['except' => ['indexApp']]);
-        $this->middleware('access:2', ['except' => ['show']]);
+        $this->middleware('access:2', ['except' => ['show', 'indexApp']]);
     }
 
     /**
@@ -53,19 +54,32 @@ class EquipmentController extends Controller
         ]);
     }
 
-    public function indexApp()
+    public function indexApp(SearchRequest $request)
     {
-      $equipment = $this->equipmentRepository->getPaginateApp($this->amountPerPage);
-      return response()->json([
-        "data" => [
-          "items" => $equipment->items(),
-          "paginator" => [
-            "currentPage" => $equipment->currentPage(),
-            "perPage" => $equipment->perPage(),
-            "lastPage" => $equipment->lastPage()
+
+      if(!empty($request->search))
+      {
+        $equipment = $this->equipmentRepository->getWhereWithRelations($request->search, $this->amountPerPage, $request->filter);
+        return response()->json([
+          "data" => [
+            "items" => $equipment
           ]
-        ]
-      ]);
+        ]);
+      }
+      else{
+
+        $equipment = $this->equipmentRepository->getPaginateApp($this->amountPerPage, $request->filter);
+        return response()->json([
+          "data" => [
+            "items" => $equipment->items(),
+            "paginator" => [
+              "currentPage" => $equipment->currentPage(),
+              "perPage" => $equipment->perPage(),
+              "lastPage" => $equipment->lastPage()
+            ]
+          ]
+        ]);
+      }
     }
     /**
      * Display the specified resource.

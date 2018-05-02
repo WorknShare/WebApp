@@ -65,14 +65,14 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
-    {
-        $maxId = User::max('id_client') + 1;
-        $token = sha1('$w$n$s$2'. $maxId . time());
-      /*  $qrcode_maker = 'cd ../storage && sudo ./qrcode-maker ' . $data['email'] . ' ' . $token . ' app/public/images/qrcode/';
-        shell_exec($qrcode_maker . ' && pwd');*/
+     protected function create(array $data)
+     {
+       $faker = \Faker\Factory::create();
+       $token = $faker->uuid;
+       $qrcode_maker = 'cd '.storage_path().' && qrcode-maker ' . $data['email'] . ' ' . $token.' '. storage_path() . '/app/public/images/qrCode/';
+       shell_exec($qrcode_maker);
 
-        $user = User::create([
+       $user = User::create([
             'name' => $data['name'],
             'surname' => $data['surname'],
             'email' => $data['email'],
@@ -84,5 +84,5 @@ class RegisterController extends Controller
         dispatch($emailJob);
 
         return $user;
-    }
+     }
 }
