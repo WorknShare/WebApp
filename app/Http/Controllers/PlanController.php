@@ -145,6 +145,7 @@ class PlanController extends Controller
         $payment = $this->paymentRepository->store($request->all());
 
         $user->id_plan = $id;
+        $user->sent_expired_email = false;
         $user->save();
 
         $paymentFull = \App\Payment::with(['client','plan','plan.advantages'])->find($payment->id_history);

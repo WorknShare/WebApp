@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 use App\User;
 
-class PlanExpireMail extends Mailable
+class PlanExpiredMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -37,7 +37,7 @@ class PlanExpireMail extends Mailable
         $payment = $this->user->lastPayment();
         $plan = $payment->plan()->first();
         return $this
-            ->subject('Votre forfait arrive bientôt à expiration')
-            ->view('email.expire', compact('username', 'plan', 'payment'));
+            ->subject('Votre forfait est arrivé à expiration')
+            ->view('email.expired', compact('username', 'plan', 'payment'));
     }
 }

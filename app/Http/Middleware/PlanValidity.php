@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\View;
 use DateTime;
 use DateInterval;
 
+use Carbon\Carbon;
+use App\Jobs\SendPlanExpiredMail;
+
 //Should only be used after 'auth:web' middleware and before the plan access middleware
 class PlanValidity
 {
@@ -31,7 +34,12 @@ class PlanValidity
                 if($limitDate < $now) //Plan expired
                 {
                     $user->id_plan = null;
+                    $user->sent_expired_email = false;
                     $user->save();
+
+                    //Send email
+                    $emailJob = (new SendPlanExpiredMail($user))->delay(Carbon::now()->addSeconds(3));
+                    dispatch($emailJob);
                 }
                 else
                 {
