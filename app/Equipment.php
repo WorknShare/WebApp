@@ -16,13 +16,13 @@ class Equipment extends Model
      * @var array
      */
     protected $fillable = [
-        'serial_number', 'id_equipment_type','is_deleted'
+        'serial_number', 'id_equipment_type','is_deleted','id_site'
     ];
 
     public function type()
-	{
-		return $this->belongsTo('App\EquipmentType', 'id_equipment_type');
-	}
+	  { 
+		    return $this->belongsTo('App\EquipmentType', 'id_equipment_type');
+	  }
 
     public function site()
     {

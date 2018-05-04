@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth:admin-api'], function() {
 	Route::post('ticket', 'TicketController@store');
 	Route::put('ticket/{ticket}', 'TicketController@updateStatus');
 	Route::put('ticket/{ticket}/affect', 'TicketController@affect');
+	Route::get('ticket/equipment/{equipment}', 'TicketController@forEquipment');
 	Route::get('equipmenttype/equipment', 'EquipmentController@indexApp');
 	Route::get('equipmenttype/getequipmenttype', 'EquipmentTypeController@getEquipmentType');
 });

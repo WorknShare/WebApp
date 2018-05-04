@@ -101,13 +101,32 @@ class TicketRepository extends ResourceRepository
         return $query->paginate($n);
     }
 
+    /**
+     * Get a paginate of the recordings.
+     *
+     * @param int $n the amount of recordings per page
+     * @param int $id_equipment the id of the equipment in relation
+     * @return array
+     */
+    public function getPaginateEquipment($n,$id_equipment)
+    {
+      $query = $this->withRelations()
+            ->where('id_equipment', '=', $id_equipment)
+            ->orderBy('created_at','desc');
+
+        return $query->paginate($n);
+    }
+
     private function withRelations()
     {
         return $this->model
             ->with([
                 'equipment' => function($query) {
-                    $query->select('id_equipment', 'serial_number', 'id_equipment_type');
+                    $query->select('id_equipment', 'serial_number', 'id_equipment_type', 'id_site');
                 }, 
+                'equipment.site' => function($query) {
+                    $query->select('id_site', 'name', 'address');
+                },
                 'equipment.type' => function($query) {
                     $query->select('id_equipment_type', 'name');
                 },

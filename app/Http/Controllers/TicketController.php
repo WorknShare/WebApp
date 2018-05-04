@@ -65,6 +65,29 @@ class TicketController extends Controller
     }
 
     /**
+     * Get a listing of the records in relation with the given equipment
+     *
+     * @param int $id_equipment
+     * @return \Illuminate\Http\Response
+     */
+    public function forEquipment($id_equipment)
+    {
+        if(!is_numeric($id_equipment)) abort(404);
+
+        $tickets = $this->ticketRepository->getPaginateEquipment($this->amountPerPage, $id_equipment);
+        return response()->json([
+            "data" => [
+                "items" => $tickets->items(),
+                "paginator" => [
+                    "currentPage" => $tickets->currentPage(),
+                    "perPage" => $tickets->perPage(),
+                    "lastPage" => $tickets->lastPage()
+                ]
+            ]
+        ]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param App\Http\Requests\Ticket\TicketRequest $request

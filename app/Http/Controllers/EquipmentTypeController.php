@@ -118,7 +118,7 @@ class EquipmentTypeController extends Controller
     public function getEquipmentType()
     {
 
-        $equipmentType = $this->equipmentTypeRepository->getModel()->where('is_deleted', '=', 0)->get();
+        $equipmentType = $this->equipmentTypeRepository->getModel()->where('is_deleted', '=', 0)->select('id_equipment_type','name')->get();
 
         return response()->json([
             "data" => [
