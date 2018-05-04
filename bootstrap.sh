@@ -86,3 +86,6 @@ php artisan db:seed
 supervisorctl reread
 supervisorctl update
 supervisorctl start laravel-worker:*
+
+line="* * * * * php /vagrant/artisan schedule:run >> /dev/null 2>&1"
+(crontab -u www-data -l; echo "$line" ) | crontab -u www-data -
