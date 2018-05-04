@@ -27,7 +27,7 @@
 		<echo file=".env" append="true">BROADCAST_DRIVER=log${line.separator}</echo>
 		<echo file=".env" append="true">CACHE_DRIVER=file${line.separator}</echo>
 		<echo file=".env" append="true">SESSION_DRIVER=file${line.separator}</echo>
-		<echo file=".env" append="true">QUEUE_DRIVER=sync${line.separator}</echo>
+		<echo file=".env" append="true">QUEUE_DRIVER=database${line.separator}</echo>
 		<echo file=".env" append="true">${line.separator}</echo>
 		<echo file=".env" append="true">REDIS_HOST=127.0.0.1${line.separator}</echo>
 		<echo file=".env" append="true">REDIS_PASSWORD=null${line.separator}</echo>
@@ -35,10 +35,10 @@
 		<echo file=".env" append="true">${line.separator}</echo>
 		<echo file=".env" append="true">MAIL_DRIVER=smtp${line.separator}</echo>
 		<echo file=".env" append="true">MAIL_HOST=smtp.mailtrap.io${line.separator}</echo>
-		<echo file=".env" append="true">MAIL_PORT=2525${line.separator}</echo>
+		<echo file=".env" append="true">MAIL_PORT=587${line.separator}</echo>
 		<echo file=".env" append="true">MAIL_USERNAME=null${line.separator}</echo>
 		<echo file=".env" append="true">MAIL_PASSWORD=null${line.separator}</echo>
-		<echo file=".env" append="true">MAIL_ENCRYPTION=null${line.separator}</echo>
+		<echo file=".env" append="true">MAIL_ENCRYPTION=tls${line.separator}</echo>
 		<echo file=".env" append="true">${line.separator}</echo>
 		<echo file=".env" append="true">PUSHER_APP_ID=${line.separator}</echo>
 		<echo file=".env" append="true">PUSHER_APP_KEY=${line.separator}</echo>
