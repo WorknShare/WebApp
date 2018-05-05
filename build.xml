@@ -73,6 +73,7 @@
     	<exec command="cp -f ./package.json /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
     	<exec command="cp -f ./server.php /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
     	<exec command="cp -f ./webpack.mix.js /var/www/html/worknshare" passthru="true" checkreturn="true" dir="."/>
+    	<exec command="cp -f ./storage/qrcode-maker /var/www/html/worknshare/storage" passthru="true" checkreturn="true" dir="."/>
     	<echo>Files copied.</echo>
 
     	<exec command="composer update" passthru="true" checkreturn="true" dir="/var/www/html/worknshare"/>
