@@ -25,7 +25,6 @@ chmod -R 777 /vagrant/bootstrap/
 cp /vagrant/apache2.conf /etc/apache2/apache2.conf
 cp /vagrant/laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
 cp /vagrant/000-default.conf /etc/apache2/sites-available/000-default.conf
-cp /vagrant/qrcode-maker /vagrant/storage/qrcode-maker
 chmod +x /vagrant/storage/qrcode-maker
 mkdir /vagrant/storage/app/public/images
 mkdir /vagrant/storage/app/public/images/qrCode
@@ -45,7 +44,7 @@ APP_ENV=local
 APP_KEY=
 APP_DEBUG=true
 APP_LOG_LEVEL=debug
-APP_URL=http://localhost
+APP_URL=http://localhost:4567
 
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1

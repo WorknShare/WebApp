@@ -69,7 +69,7 @@ class RegisterController extends Controller
      {
        $faker = \Faker\Factory::create();
        $token = $faker->uuid;
-       $qrcode_maker = 'cd '.storage_path().' && qrcode-maker ' . $data['email'] . ' ' . $token.' '. storage_path() . '/app/public/images/qrCode/';
+       $qrcode_maker = storage_path().'/qrcode-maker ' . $data['email'] . ' ' . $token.' '. storage_path() . '/app/public/images/qrCode/';
        shell_exec($qrcode_maker);
 
        $user = User::create([
