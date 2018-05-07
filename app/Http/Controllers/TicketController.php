@@ -118,6 +118,8 @@ class TicketController extends Controller
         if(Auth::user()->role != 1 && Auth::user()->role != 4) abort(403); 
 
         $ticket = $this->ticketRepository->getById($id_ticket);
+        if(Auth::user()->role != 1 && Auth::user()->id_employee != $ticket->id_employee_assigned)
+            abort(403);
         $ticket->update($request->only("status"));
         return response()->json([], 204);
     }
