@@ -60,7 +60,7 @@ class EmployeeController extends Controller
     public function tech()
     {
     
-        $employees = $this->employeeRepository->getModel()->where('role', '=', 4)->select('id_employee','name')->get();
+        $employees = $this->employeeRepository->getModel()->where([['role', '=', 4], ['is_deleted','=',0]])->select('id_employee','name')->get();
 
         return response()->json([
             "data" => [

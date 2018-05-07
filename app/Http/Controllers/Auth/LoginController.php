@@ -68,7 +68,7 @@ class LoginController extends Controller
             if(Auth::user()->is_deleted)
             {
                 Auth::logout();
-                return redirect('login')->withErrors([$this->username() => "Votre compte est banni"]);
+                return redirect('login')->withErrors([$this->username() => "Votre compte est désactivé"]);
             } else return $this->sendLoginResponse($request);
         }
 

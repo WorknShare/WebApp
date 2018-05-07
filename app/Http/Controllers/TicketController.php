@@ -141,7 +141,7 @@ class TicketController extends Controller
         }
         else
         {
-            $employee = \App\Employee::find($request->employee);
+            $employee = \App\Employee::where("is_deleted",'=',0)->find($request->employee);
 
             if(!is_null($employee)) 
             {
