@@ -40,6 +40,13 @@ class ApiAdminLoginController extends Controller
                 "email" => "Veuillez vous connecter sur le site pour modifier votre mot de passe."
               ]
             ], 403);
+          } else if($this->guard()->user()->is_deleted) {
+              $this->guard()->logout();
+              return response()->json([
+              'errors' => [
+                "email" => "Votre compte est désactivé."
+              ]
+            ], 403);
           }
 
           $request->session()->regenerate();
