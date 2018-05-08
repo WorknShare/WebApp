@@ -20,14 +20,14 @@ apt-get -y autoremove
 cd /var/www
 composer install
 
-chmod -R 777 /vagrant/storage/
-chmod -R 777 /vagrant/bootstrap/
 cp /vagrant/apache2.conf /etc/apache2/apache2.conf
 cp /vagrant/laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
 cp /vagrant/000-default.conf /etc/apache2/sites-available/000-default.conf
 chmod +x /vagrant/storage/qrcode-maker
 mkdir /vagrant/storage/app/public/images
 mkdir /vagrant/storage/app/public/images/qrCode
+chmod -R 777 /vagrant/storage/
+chmod -R 777 /vagrant/bootstrap/
 
 mysql -u root --password="root" --execute="CREATE USER 'laravel'@'localhost' IDENTIFIED BY 'secret'";
 mysql -u root --password="root" --execute="CREATE DATABASE worknshare DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci";
