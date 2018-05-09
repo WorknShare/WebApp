@@ -11,6 +11,8 @@ use App\Repositories\EmployeeRepository;
 
 use Illuminate\Support\Facades\Auth;
 
+use App\Ticket;
+
 class EmployeeController extends Controller
 {
 
@@ -60,7 +62,7 @@ class EmployeeController extends Controller
     public function tech()
     {
     
-        $employees = $this->employeeRepository->getModel()->where('role', '=', 4)->select('id_employee','name')->get();
+        $employees = $this->employeeRepository->getModel()->where([['role', '=', 4], ['is_deleted','=',0]])->select('id_employee','name')->get();
 
         return response()->json([
             "data" => [
@@ -150,9 +152,15 @@ class EmployeeController extends Controller
         if(!is_numeric($id)) abort(404);
         if($id == Auth::user()->id_employee) abort(403);
         $employee = $this->employeeRepository->getById($id);
-        $name = $employee->surname . ' ' . $employee->name;
-        $this->employeeRepository->destroy($id);
-        return redirect('admin/employee')->withOk("L'employé " . $name . " a été supprimé.");
+
+        if(!is_null($employee))
+        {
+            $name = $employee->surname . ' ' . $employee->name;
+            $this->employeeRepository->destroy($id);
+            Ticket::where('id_employee_assigned', $id)->update(['id_employee_assigned' => null]);
+            return redirect('admin/employee')->withOk("L'employé " . $name . " a été supprimé.");
+        }
+        else abort(400);
     }
 
     /**

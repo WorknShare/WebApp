@@ -56,7 +56,11 @@ class AdminLoginController extends Controller
 
       if ($this->attemptLogin($request))
       {
-          return $this->sendLoginResponse($request);
+          if($this->guard()->user()->is_deleted)
+          {
+              $this->guard()->logout();
+              return redirect('admin/login')->withErrors([$this->username() => "Votre compte est désactivé"]);
+          } else return $this->sendLoginResponse($request);
       }
 
       $this->incrementLoginAttempts($request);

@@ -9,6 +9,8 @@ use App\Employee;
 class EmployeeRepository extends ResourceRepository
 {
 
+    protected $softDeleted = true;
+    
 	/**
      * Create a new repository instance.
      *

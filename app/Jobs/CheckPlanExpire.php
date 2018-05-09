@@ -52,8 +52,11 @@ class CheckPlanExpire implements ShouldQueue
                     $user->save();
 
                     //Send plan expired mail
-                    $emailJob = (new SendPlanExpiredMail($user))->delay(Carbon::now()->addSeconds(10*$count));
-                    dispatch($emailJob);
+                    if(!$user->is_deleted) 
+                    {
+                        $emailJob = (new SendPlanExpiredMail($user))->delay(Carbon::now()->addSeconds(10*$count));
+                        dispatch($emailJob);
+                    }
 
                     $count++;
                 }
@@ -69,8 +72,11 @@ class CheckPlanExpire implements ShouldQueue
                         $user->sent_expired_email = true;
                         $user->save();
 
-                        $emailJob = (new SendPlanExpireMail($user))->delay(Carbon::now()->addSeconds(10*$count));
-                        dispatch($emailJob);
+                        if(!$user->is_deleted) 
+                        {
+                            $emailJob = (new SendPlanExpireMail($user))->delay(Carbon::now()->addSeconds(10*$count));
+                            dispatch($emailJob);
+                        }
 
                         $count++;
                     }

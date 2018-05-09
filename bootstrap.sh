@@ -20,15 +20,14 @@ apt-get -y autoremove
 cd /var/www
 composer install
 
-chmod -R 777 /vagrant/storage/
-chmod -R 777 /vagrant/bootstrap/
 cp /vagrant/apache2.conf /etc/apache2/apache2.conf
 cp /vagrant/laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
 cp /vagrant/000-default.conf /etc/apache2/sites-available/000-default.conf
-cp /vagrant/qrcode-maker /vagrant/storage/qrcode-maker
 chmod +x /vagrant/storage/qrcode-maker
 mkdir /vagrant/storage/app/public/images
 mkdir /vagrant/storage/app/public/images/qrCode
+chmod -R 777 /vagrant/storage/
+chmod -R 777 /vagrant/bootstrap/
 
 mysql -u root --password="root" --execute="CREATE USER 'laravel'@'localhost' IDENTIFIED BY 'secret'";
 mysql -u root --password="root" --execute="CREATE DATABASE worknshare DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci";
@@ -45,7 +44,7 @@ APP_ENV=local
 APP_KEY=
 APP_DEBUG=true
 APP_LOG_LEVEL=debug
-APP_URL=http://localhost
+APP_URL=http://localhost:4567
 
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -57,7 +56,7 @@ DB_PASSWORD=secret
 BROADCAST_DRIVER=log
 CACHE_DRIVER=file
 SESSION_DRIVER=file
-QUEUE_DRIVER=sync
+QUEUE_DRIVER=database
 
 REDIS_HOST=127.0.0.1
 REDIS_PASSWORD=null
@@ -65,10 +64,10 @@ REDIS_PORT=6379
 
 MAIL_DRIVER=smtp
 MAIL_HOST=smtp.mailtrap.io
-MAIL_PORT=2525
+MAIL_PORT=587
 MAIL_USERNAME=null
 MAIL_PASSWORD=null
-MAIL_ENCRYPTION=null
+MAIL_ENCRYPTION=tls
 
 PUSHER_APP_ID=
 PUSHER_APP_KEY=
@@ -86,3 +85,6 @@ php artisan db:seed
 supervisorctl reread
 supervisorctl update
 supervisorctl start laravel-worker:*
+
+line="* * * * * php /vagrant/artisan schedule:run >> /dev/null 2>&1"
+(crontab -u www-data -l; echo "$line" ) | crontab -u www-data -
