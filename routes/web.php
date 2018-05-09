@@ -26,7 +26,7 @@ Route::prefix('admin')->group(function() {
   Route::post('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
   Route::get('/', 'AdminController@index')->name('admin.home');
   Route::resource('site', 'SiteController');
-  Route::resource('typeOfRooms', 'TypeOfRoomController');
+  Route::resource('typeOfRooms', 'TypeOfRoomController', ['except' => ['create', 'edit']]);
   Route::resource('meal', 'MealController');
   Route::put('site/{site}/affectmeal', 'SiteController@affectMeal')->name('site.affectmeal');
   Route::put('site/{site}/removemeal', 'SiteController@removeMeal')->name('site.removemeal');

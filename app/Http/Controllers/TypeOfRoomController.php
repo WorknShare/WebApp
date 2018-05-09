@@ -36,7 +36,7 @@ class TypeOfRoomController extends Controller
     */
     public function index()
     {
-      $typeOfRooms = $this->typeOfRoomRepository->getPaginate($this->amountPerPage);
+      $typeOfRooms = $this->typeOfRoomRepository->getPaginateSelect($this->amountPerPage, ["name as description", "id_room_type as id"]);
 
       if ($typeOfRooms->isEmpty() && $typeOfRooms->currentPage() != 1)
       {
@@ -58,7 +58,14 @@ class TypeOfRoomController extends Controller
     public function store(TypeOfRoomRequest $request)
     {
       $typeOfRoom = $this->typeOfRoomRepository->store($request->all());
-      return Redirect::route('typeOfRooms.index')->withOk("Le type de salle " . $typeOfRoom->name . " a été créé.");
+      $links = $this->typeOfRoomRepository->getPaginate($this->amountPerPage)->render();
+
+      return response()->json([
+          'id' => $typeOfRoom->id_room_type,
+          'description' => $typeOfRoom->name,
+          'token' => csrf_token(),
+          'links' => $links->toHtml()
+      ]);
     }
 
 
@@ -74,7 +81,10 @@ class TypeOfRoomController extends Controller
       if(!is_numeric($id)) abort(404);
 
       $this->typeOfRoomRepository->update($id, $request->all());
-      return Redirect::route('typeOfRooms.index')->withOk("Le type de salle " . $request->input('name') . " a été modifié.");
+
+      return response()->json([
+          'text' => $request->name
+      ]);
     }
 
     /**
@@ -86,8 +96,17 @@ class TypeOfRoomController extends Controller
     public function destroy($id)
     {
       if(!is_numeric($id)) abort(404);
-      $typeOfRoom = $this->typeOfRoomRepository->getById($id)->name;
       $this->typeOfRoomRepository->destroy($id);
-      return Redirect::route('typeOfRooms.index')->withOk("Le site " . $typeOfRoom . " a été supprimé.");
+
+      $typeOfRoom = $this->typeOfRoomRepository->getPaginateSelect($this->amountPerPage, ['id_room_type as id','name as description']);
+      $typeOfRoom->setPath(route('typeOfRooms.index'));
+      $links = $typeOfRoom->render();
+
+      return response()->json([
+          'url'        => route('typeOfRooms.index'),
+          'links'      => $links->toHtml(),
+          'token'      => csrf_token(),
+          'resources' => $typeOfRoom->items()
+      ]);
     }
 }

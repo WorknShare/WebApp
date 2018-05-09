@@ -21,6 +21,11 @@ Repas
 @endsection
 
 @section('content')
+  
+  @if(session()->has('schedules'))
+		<div class="alert alert-warning"><i class="fa fa-warning"></i> {{session()->get('schedules')}}</div>
+	@endif
+
   @if(count($meals))
     <div class="row">
       <div class="col-xs-12">

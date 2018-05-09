@@ -6,6 +6,7 @@ use Auth;
 use Input;
 use View;
 use DB;
+use DateTime;
 use Illuminate\Http\Request;
 use App\Http\Requests\OrderMealRequest;
 use App\Repositories\ReserveMealRepository;
@@ -26,6 +27,7 @@ class ReserveMealController extends Controller
     {
       $this->reserveMealRepository = $reserveMealRepository;
       $this->middleware('auth:web');
+      $this->middleware('plan.access:order_meal');
     }
     /**
      * Display a listing of the resource.
@@ -62,6 +64,20 @@ class ReserveMealController extends Controller
      */
     public function store(OrderMealRequest $request)
     {
+      $ok = false;
+      $date = new DateTime($request->date.' '.$request->hour);
+      $day = $date->format('w');
+      $day = $day == 0? 6: $day - 1;
+      $schedules = \App\Schedule::where('day', $day)->get();
+
+      foreach ($schedules as $key => $schedule) {
+        if($schedule->hour_opening <= $request->hour && $schedule->hour_closing >= $request->hour){
+          $ok = true;
+          break;
+        }
+      }
+      if(!$ok) return back()->with('schedules', 'Les heures selectionnées ne sont pas comprises dans les horaires du site');
+
       $reserve = $this->reserveMealRepository->store($request->all());
       return redirect('myaccount')->withOk("La réservation n°" . $reserve->command_number . " a bien été enregistrée.");
     }
