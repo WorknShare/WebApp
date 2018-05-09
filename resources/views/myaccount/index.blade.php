@@ -101,10 +101,16 @@
 			<h3 class="account-section-h">Réservations</h3>
 			<div class="row">
 				<div class="col-xs-12 col-sm-4">
-					<a class="btn btn-block btn-primary btn-responsive" href='{{ route('order.index') }}'>Réserver une salle</a>
+					@php
+						$reserve = $user->plan()->first()->reserve;
+						$mealOrder = $user->plan()->first()->order_meal;
+						$link_reserve = $reserve ? route('order.index') : "";
+						$link_meal = $mealOrder ? route('mealorder.index') : "";
+					@endphp
+					<a class="btn btn-block btn-primary btn-responsive" href='{{ $link_reserve }}' <?php echo $reserve ? "" : "style='pointer-events: none;' disabled"?>>Réserver une salle</a>
 				</div>
 				<div class="col-xs-12 col-sm-4">
-					<a class="btn btn-block btn-primary btn-responsive" href='{{ route('mealorder.index') }}'>Commander un repas</a>
+					<a class="btn btn-block btn-primary btn-responsive" href='{{ $link_meal }}' <?php echo $mealOrder ? "" : "style='pointer-events: none;' disabled"?>>Commander un repas</a>
 				</div>
 				<div class="col-xs-12 col-sm-4">
 					<a class="btn btn-block btn-primary btn-responsive" href='{{ route('order.history') }}'>Votre historique</a>

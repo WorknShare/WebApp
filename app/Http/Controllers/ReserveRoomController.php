@@ -126,8 +126,14 @@ class ReserveRoomController extends Controller
       \Debugbar::info($type, $id_site);
       $type = \App\EquipmentType::findOrFail($type);
       \Debugbar::info('test'.$type);
-      $equipments = $type->equipment()->join('sites', 'sites.id_site', '=', 'equipment.id_site')->where([['equipment.is_deleted','=',0], ['sites.id_site','=',$id_site]])->get();
-
+      $equipments = $type->equipment()->join('sites', 'sites.id_site', '=', 'equipment.id_site')
+                                      ->where([['equipment.is_deleted','=',0], ['sites.id_site','=',$id_site]])
+                                      ->get();
+      foreach ($equipments as $key => $equipment) {
+        if(!$equipment->isAvailable()){
+          unset($equipments[$key]);
+        }
+      }
       return response()->json([
           'equipments' => $equipments,
       ]);
@@ -141,10 +147,33 @@ class ReserveRoomController extends Controller
      */
     public function store(ReserveRoomRequest $request)
     {
-      $ok = false;
+
+      $checkSchedules = false;
+      $checkAvailableItems = true;
+      if(isset($request->equipments)){
+        $reserveEquipments = array();
+        foreach ($request->equipments as $key => $equipment) {
+          $reserveEquipments[] = \App\equipment::findOrFail($equipment)->reserve()->get();
+        }
+        $start = new DateTime($request->date.' '.$request->hour_start);
+        $end = new DateTime($request->date.' '.$request->hour_end);
+
+        foreach ($reserveEquipments as $key => $reserveEquipment) {
+          foreach ($reserveEquipment as $key => $reserve) {
+            $reserveStart = new DateTime($reserve->date_start);
+            $reserveEnd = new DateTime($reserve->date_end);
+            if( $start >= $reserveStart && $start <= $reserveEnd || $end >= $reserveStart && $end <= $reserveEnd){
+              $checkAvailableItems = false;
+              break;
+            }
+          }
+        }
+        if(!$checkAvailableItems) return back()->with('schedules', 'un ou plusieurs des appreils demandés ne sont pas disponible !');
+      }
+
       $exist_orders = $this->reserveRoomRepository->getModel()->whereBetween('date_start', [$request->date.' '.$request->hour_start, $request->date.' '.$request->hour_end])
                                                       ->whereBetween('date_end', [$request->date.' '.$request->hour_start, $request->date.' '.$request->hour_end])
-                                                      ->where('is_deleted', 0)->get();
+                                                      ->where([['is_deleted', 0], ['id_room', $request->id_room]])->get();
       if(count($exist_orders)) return back()->with('exist_order', 'Il y a déja une réservation pendant les horaires choisis ! Regardez le calendrier en dessous pour connaître les disponiblités de la salle');
 
       $date_start = new DateTime($request->date.' '.$request->hour_start);
@@ -157,11 +186,13 @@ class ReserveRoomController extends Controller
         $check_opening = ($schedule->hour_opening <= $request->hour_start && $schedule->hour_closing >= $request->hour_start);
         $check_closing = ($schedule->hour_opening <= $request->hour_end && $schedule->hour_closing >= $request->hour_end);
         if($check_opening && $check_closing){
-          $ok = true;
+          $checkSchedules = true;
           break;
         }
       }
-      if(!$ok) return back()->with('schedules', 'Les heures selectionnées ne sont pas comprises dans les horaires du site');
+      if(!$checkSchedules) return back()->with('schedules', 'Les heures selectionnées ne sont pas comprises dans les horaires du site');
+
+
       $reserve = $this->reserveRoomRepository->store($request->all());
       return redirect('myaccount')->withOk("La réservation n°" . $reserve->command_number . " a bien été enregistrée.");
     }

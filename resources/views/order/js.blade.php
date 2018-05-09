@@ -6,7 +6,6 @@
     $('#type').on('change', function() {
       var url = "{{ route('order.getEquipment',['type'=> ':id', 'id_site' => $site->id_site ])}}";
       url = url.replace(':id', $('#type').val());
-      console.log($('#type').val());
       $.ajax({
         type : 'GET',
         url : url,
