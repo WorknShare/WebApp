@@ -222,9 +222,11 @@ class MetricsBuilder
                 	}
                 	else
                 	{
-	                	$last->where($this->dateColumn, '<=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'"))
-	                		->orWhere($this->dateColumn, '<=', DB::raw("'".$datesEnd[$index]->format('Y-m-d H:i:s')."'"))
-	                		->where($this->duration, '>=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'"));
+
+                		$last->where(function ($query) use ($datesStart, $datesEnd, $index) {
+						    $query->where($this->dateColumn, '<=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'"))
+						        ->orWhere($this->dateColumn, '<=', DB::raw("'".$datesEnd[$index]->format('Y-m-d H:i:s')."'"));
+						})->where($this->duration, '>=', DB::raw("'".$datesStart[$index]->format('Y-m-d H:i:s')."'"));
                 	}
 
                 }
