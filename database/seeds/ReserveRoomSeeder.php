@@ -12,11 +12,15 @@ class ReserveRoomSeeder extends Seeder
     public function run()
     {
         $faker = \Faker\Factory::create();
-        factory(App\ReserveRoom::class, 10)->create()->each(function($reserve) use ($faker) {
-            $equipments = \App\Equipment::where('id_site', $reserve->id_site)->get();
+        factory(App\ReserveRoom::class, 500)->create()->each(function($reserve) use ($faker) {
+            $site = \App\Room::where('id_room', $reserve->id_room)->first()->site()->first()->id_site;
+            $count = \App\Equipment::where('id_site', $site)->count();
+            $equipments = \App\Equipment::where('id_site', $site)->get();
+
+
 
             $reserve->equipments()->attach(
-    		        $equipments->random($faker->numberBetween(0, $equipments->count()))->pluck('id_equipment')->toArray()
+    		        $equipments->random(rand(0, 5))->pluck('id_equipment')->toArray()
     		    );
 
         });
