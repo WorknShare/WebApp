@@ -164,6 +164,7 @@ class UserController extends Controller
   */
   public function updatePwd(PasswordRequest $request)
   {
+    $id = Auth::user()->id_client;
     $this->userRepository->update($id, ["password"=>$request->password]);
     return redirect('myaccount')->withOk("Votre mot de passe a été modifié avec succès !");
   }
