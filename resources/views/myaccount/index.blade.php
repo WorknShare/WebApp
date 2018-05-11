@@ -102,8 +102,12 @@
 			<div class="row">
 				<div class="col-xs-12 col-sm-4">
 					@php
-						$reserve = $user->plan()->first()->reserve;
-						$mealOrder = $user->plan()->first()->order_meal;
+						$reserve = false;
+						$mealOrder = false;
+						if($user->plan()->first() !== null){
+							$reserve = $user->plan()->first()->reserve;
+							$mealOrder = $user->plan()->first()->order_meal;
+						}
 						$link_reserve = $reserve ? route('order.index') : "";
 						$link_meal = $mealOrder ? route('mealorder.index') : "";
 					@endphp

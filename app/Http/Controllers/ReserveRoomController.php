@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ReserveRoomRequest;
 use App\Http\Requests\SearchRequest;
 use App\Repositories\ReserveRoomRepository;
+use Carbon\Carbon;
+use App\Jobs\SendReserveRoomCanceledMail;
 
 class ReserveRoomController extends Controller
 {
@@ -254,17 +256,27 @@ class ReserveRoomController extends Controller
     public function destroyAdmin($id)
     {
       if(!is_numeric($id)) abort(404);
-      $orderNumber = $this->reserveRoomRepository->getById($id)->command_number;
+
+      $order = $this->reserveRoomRepository->getById($id);
+      $user = \App\User::findOrFail($order->id_client);
       $this->reserveRoomRepository->destroy($id);
-      return redirect('admin/order')->withOk("La réservation n°" . $orderNumber . " a été supprimée.");
+
+      $emailJob = (new SendPaymentMailJob($user, $order, "La résevation a été suprimé par un administrateur veuillez nous contacter pour plus d'informations."))->delay(Carbon::now()->addSeconds(3));
+      dispatch($emailJob);
+
+      return redirect('admin/order')->withOk("La réservation n°" . $order->command_number . " a été supprimée.");
     }
 
     public function destroy($id)
     {
       if(!is_numeric($id)) abort(404);
       $user = Auth::user();
-      $orderNumber = $user->getModel()->reserves()->findOrFail($id)->command_number;
+      $reserve = $user->getModel()->reserves()->findOrFail($id);
       $this->reserveRoomRepository->destroy($id);
-      return response()->json("La réservation n°" . $orderNumber . " a été supprimée.");
+
+      $emailJob = (new SendReserveRoomCanceledMail($user, $reserve, "Vous avez annulé la réservation. Si ce n'est pas vous veuillez nous contacter et changer votre mot de passe."))->delay(Carbon::now()->addSeconds(3));
+      dispatch($emailJob);
+
+      return response()->json("La réservation n°" . $reserve->orderNumber . " a été supprimée.");
     }
 }

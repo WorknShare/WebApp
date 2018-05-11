@@ -8,6 +8,9 @@ use App\Http\Requests\ScheduleRequest;
 use App\Repositories\ScheduleRepository;
 use App\Repositories\ReserveMealRepository;
 use App\Repositories\ReserveRoomRepository;
+use Carbon\Carbon;
+use App\Jobs\SendReserveRoomCanceledMail;
+use App\Jobs\SendReserveMealCanceledMail;
 
 class ScheduleController extends Controller
 {
@@ -64,6 +67,10 @@ class ScheduleController extends Controller
           $day = $day == 0? 6: $day - 1;
           if($day == $schedule->day && $schedule->hour_opening <= $date->format('H:i') && $schedule->hour_closing >= $date->format('H:i')){
               \Debugbar::info($reserve);
+              $user = $reserve->user()->get();
+              $site_name = \App\Room::where('id_room', $reserve->id_room)->first()->site()->first()->name;
+              $emailJob = (new SendReserveRoomCanceledMail($user, $reserve, "Les horaires du site ".$site_name." ont été modifié pour le jour durant le lequel vous aviez réservé !"))->delay(Carbon::now()->addSeconds(12));
+              dispatch($emailJob);
               $this->reserveRoomRepository->destroy($reserve->id_reserve_room);
           }
         }
@@ -74,7 +81,11 @@ class ScheduleController extends Controller
           $day = $day == 0? 6: $day - 1;
           if($day == $schedule->day && $schedule->hour_opening <= $date->format('H:i') && $schedule->hour_closing >= $date->format('H:i')){
             \Debugbar::info($meal);
-              $this->reserveMealRepository->destroy($meal->id_order_meal);
+            $user = $meal->user()->get();
+            $site_name = \App\Site::where('id_site', $meal->id_site)->first()->name;
+            $emailJob = (new SendReserveMealCanceledMail($user, $meal, "Les horaires du site ".$site_name." ont été modifié pour le jour durant le lequel vous aviez commandé un repas !"))->delay(Carbon::now()->addSeconds(12));
+            dispatch($emailJob);
+            $this->reserveMealRepository->destroy($meal->id_order_meal);
           }
         }
         $this->scheduleRepository->destroy($id);

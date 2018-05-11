@@ -10,6 +10,8 @@ use DateTime;
 use Illuminate\Http\Request;
 use App\Http\Requests\OrderMealRequest;
 use App\Repositories\ReserveMealRepository;
+use Carbon\Carbon;
+use App\Jobs\SendReserveMealCanceledMail;
 
 class ReserveMealController extends Controller
 {
@@ -102,9 +104,11 @@ class ReserveMealController extends Controller
     {
       if(!is_numeric($id)) abort(404);
       $user = Auth::user();
-      $orderNumber = $user->getModel()->orderMeals()->findOrFail($id)->command_number;
+      $order = $user->getModel()->orderMeals()->findOrFail($id);
       $this->reserveMealRepository->destroy($id);
-      return response()->json("La commande n°" . $orderNumber . " a été supprimée.");
+      $emailJob = (new SendReserveMealCanceledMail($user, $order, "Vous avez annulé la commande. Si ce n'est pas vous veuillez nous contacter et changer votre mot de passe."))->delay(Carbon::now()->addSeconds(3));
+      dispatch($emailJob);
+      return response()->json("La commande n°" . $order->command_number . " a été supprimée.");
 
 
     }
