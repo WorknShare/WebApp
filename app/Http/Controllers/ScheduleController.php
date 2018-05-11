@@ -55,17 +55,16 @@ class ScheduleController extends Controller
         if(!is_numeric($id)) abort(404);
         $schedule = $this->scheduleRepository->getById($id);
 
-        $reserves = \App\ReserveRoom::where('is_deleted', 0)->get();
-        $meals = \App\ReserveMeal::where('is_deleted', 0)->get();
+        $reserves = \App\ReserveRoom::where([['is_deleted', 0], ['date_start', '>', date('Y-m-d H:i:s')]])->get();
+        $meals = \App\ReserveMeal::where([['is_deleted', 0], ['hour', '>', date('Y-m-d H:i:s')]])->get();
 
         foreach ($reserves as $key => $reserve) {
           $date = new DateTime($reserve->date_start);
           $day = $date->format('w');
           $day = $day == 0? 6: $day - 1;
-          if($day == $schedule->day && $schedule->hour_opening <= $date->format('H:i:s') && $schedule->hour_closing >= $date->format('H:i:s')){
-            if((new DateTime())->format('Y-m-d H:i:s') < $date){
+          if($day == $schedule->day && $schedule->hour_opening <= $date->format('H:i') && $schedule->hour_closing >= $date->format('H:i')){
+              \Debugbar::info($reserve);
               $this->reserveRoomRepository->destroy($reserve->id_reserve_room);
-            }
           }
         }
 
@@ -73,10 +72,9 @@ class ScheduleController extends Controller
           $date = new DateTime($meal->hour);
           $day = $date->format('w');
           $day = $day == 0? 6: $day - 1;
-          if($day == $schedule->day && $schedule->hour_opening <= $date->format('H:i:s') && $schedule->hour_closing >= $date->format('H:i:s')){
-            if((new DateTime())->format('Y-m-d H:i:s') < $date){
+          if($day == $schedule->day && $schedule->hour_opening <= $date->format('H:i') && $schedule->hour_closing >= $date->format('H:i')){
+            \Debugbar::info($meal);
               $this->reserveMealRepository->destroy($meal->id_order_meal);
-            }
           }
         }
         $this->scheduleRepository->destroy($id);

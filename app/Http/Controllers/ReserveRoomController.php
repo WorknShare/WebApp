@@ -172,8 +172,8 @@ class ReserveRoomController extends Controller
       }
 
       $exist_orders = $this->reserveRoomRepository->getModel()->whereBetween('date_start', [$request->date.' '.$request->hour_start, $request->date.' '.$request->hour_end])
-                                                      ->whereBetween('date_end', [$request->date.' '.$request->hour_start, $request->date.' '.$request->hour_end])
-                                                      ->where([['is_deleted', 0], ['id_room', $request->id_room]])->get();
+                                                              ->whereBetween('date_end', [$request->date.' '.$request->hour_start, $request->date.' '.$request->hour_end])
+                                                              ->where([['is_deleted', 0], ['id_room', $request->id_room]])->get();
       if(count($exist_orders)) return back()->with('exist_order', 'Il y a déja une réservation pendant les horaires choisis ! Regardez le calendrier en dessous pour connaître les disponiblités de la salle');
 
       $date_start = new DateTime($request->date.' '.$request->hour_start);

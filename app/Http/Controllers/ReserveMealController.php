@@ -85,7 +85,6 @@ class ReserveMealController extends Controller
     public function getMeal($id)
     {
       $meal = \App\Meal::where('id_meal', '=', $id)->get()[0];
-      \Debugbar::info($meal);
       return response()->json([
           'name' => $meal->name,
           'price' => $meal->price,
