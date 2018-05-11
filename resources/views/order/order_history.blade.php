@@ -3,12 +3,12 @@
     <table class="table" id="orders_table">
       <tr>
         <th>n°</th>
-        <th>site</th>
-        <th>salle</th>
-        <th>date</th>
-        <th>heure de début</th>
+        <th>Site</th>
+        <th>Salle</th>
+        <th>Date</th>
+        <th>Heure de début</th>
         <th>Heure de fin</th>
-        <th>status</th>
+        <th>Statut</th>
         <th style="width: 40px"></th>
       </tr>
         @foreach ($orders as $order)

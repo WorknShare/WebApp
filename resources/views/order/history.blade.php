@@ -17,7 +17,6 @@ Historique
 		  <ul class="nav nav-tabs u-BoxShadow100" role="tablist">
 		    <li role="presentation" class="active"><a href="#rooms" aria-controls="philosophy" role="tab" data-toggle="tab" aria-expanded="true">Salles</a></li>
 		    <li role="presentation" class=""><a href="#meals" aria-controls="mission" role="tab" data-toggle="tab" aria-expanded="false">Repas</a></li>
-		    <li role="presentation" class=""><a href="#devices" aria-controls="goal" role="tab" data-toggle="tab" aria-expanded="false">Equipement</a></li>
 		  </ul>
 		  <div class="tab-content u-BoxShadow100">
 		    <div role="tabpanel" class="tab-pane fade active in" id="rooms">
@@ -33,10 +32,6 @@ Historique
 							@include('order.meal_history')
 						</div>
 					</div>
-		    </div>
-		    <div role="tabpanel" class="tab-pane fade" id="devices">
-		      <div class="u-LineHeight2">
-		      </div>
 		    </div>
 		  </div>
 		</div>

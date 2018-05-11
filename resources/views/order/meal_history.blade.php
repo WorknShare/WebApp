@@ -3,12 +3,12 @@
     <table class="table" id="meals_table">
       <tr>
         <th>n°</th>
-        <th>site</th>
+        <th>Site</th>
         <th>Menu</th>
-        <th>prix</th>
-        <th>date</th>
-        <th>heure</th>
-        <th>status</th>
+        <th>Prix</th>
+        <th>Date</th>
+        <th>Heure</th>
+        <th>Statut</th>
         <th style="width: 40px"></th>
       </tr>
       @foreach ($meals as $meal)

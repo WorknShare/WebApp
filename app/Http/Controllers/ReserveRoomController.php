@@ -29,10 +29,10 @@ class ReserveRoomController extends Controller
     public function __construct(ReserveRoomRepository $reserveRoomRepository)
     {
         $this->reserveRoomRepository = $reserveRoomRepository;
-        $this->middleware('plan.access:reserve', ['except' => ['indexAdmin', 'showAdmin', 'destroyAdmin']]);
         $this->middleware('auth:web', ['except' => ['indexAdmin', 'showAdmin', 'destroyAdmin']]);
         $this->middleware('password', ['only' => ['indexAdmin', 'showAdmin', 'destroyAdmin']]);
         $this->middleware('auth:admin', ['only' => ['indexAdmin', 'showAdmin', 'destroyAdmin']]);
+        $this->middleware('plan.access:reserve', ['except' => ['indexAdmin', 'showAdmin', 'destroyAdmin', 'indexHistory']]);
     }
 
 
