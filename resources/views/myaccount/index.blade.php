@@ -63,10 +63,13 @@
 		</div>
 	</div>
 	<div class="row btn-row">
-		<div class="col-xs-12 col-sm-6">
+		<div class="col-xs-12 col-sm-4">
+			<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.edit') }}'> Modifier le profil</a>
+		</div>
+		<div class="col-xs-12 col-sm-4">
 			<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.editpwd') }}'> Changer mon mot de passe</a>
 		</div>
-		<div class="col-xs-12 col-sm-6">
+		<div class="col-xs-12 col-sm-4">
 			<a class="btn btn-block btn-primary btn-responsive" href='{{ route('myaccount.qrcode') }}'> Votre QR code</a>
 		</div>
 	</div>

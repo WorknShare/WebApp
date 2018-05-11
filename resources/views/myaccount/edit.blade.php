@@ -17,9 +17,9 @@ Modifier
 		<div class="box box-solid">
 			{!! Form::model($user, ['route' => ['myaccount.update', $user->id_client], 'method' => 'put']) !!}
 	        	<div class="box-body">
-		            {!! Form::controlWithIcon('text', 'name', $errors, $user->name, 'Nom', 'glyphicon-font', 'Nom', ["maxlength" => '25', "required" => "required"]) !!}
-		            {!! Form::controlWithIcon('text', 'surname', $errors, $user->surname, 'Pseudo', 'glyphicon-font', 'Pseudo', ["maxlength" => '25', "required" => "required"]) !!}
-                {!! Form::controlWithIcon('email', 'email', $errors, $user->email, 'Email', 'glyphicon-font', 'Email', ["maxlength" => '255', "required" => "required"]) !!}
+		            {!! Form::control('text', 'name', $errors, $user->name, 'Nom', 'Nom', ["maxlength" => '25', "required" => "required"]) !!}
+		            {!! Form::control('text', 'surname', $errors, $user->surname, 'Pseudo', 'Pseudo', ["maxlength" => '25', "required" => "required"]) !!}
+                {!! Form::control('email', 'email', $errors, $user->email, 'Email', 'Email', ["maxlength" => '255', "required" => "required"]) !!}
 	          	</div>
 
 		        <div class="box-footer">

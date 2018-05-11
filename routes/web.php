@@ -81,6 +81,7 @@ Route::prefix('myaccount')->group(function(){
   Route::get('/QrCodeImage', 'UserController@qrcodeAccess')->name('myaccount.qrcodedisplay');
   Route::get('/QrCodeDownload', 'UserController@qrcodedownload')->name('myaccount.qrcodedownload');
   Route::get('planhistory', 'PlanController@planHistory')->name('plan.history');
+  Route::get('edit', 'UserController@edit')->name('myaccount.edit');
 });
 
 Route::resource('order', 'ReserveRoomController', ['except' => ['edit','update']]);
@@ -101,6 +102,6 @@ Route::get('paymentaccepted', function() {
   return view('payment_accepted');
 })->name('payment_accepted');
 
-Route::resource('myaccount', 'UserController', ['except' => ['destroy']]);
+Route::resource('myaccount', 'UserController', ['except' => ['destroy','show','edit']]);
 Route::resource('room', 'RoomController', ['except' => ['index', 'create']]);
 Route::get('room/calendar/{id}', 'RoomController@calendar')->name('room.calendar');
