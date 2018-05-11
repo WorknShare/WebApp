@@ -7,6 +7,8 @@ use App\Http\Requests\SearchRequest;
 use App\Http\Requests\Equipment\EquipmentAffectRequest;
 use App\Repositories\EquipmentRepository;
 use App\Repositories\EquipmentTypeRepository;
+use Carbon\Carbon;
+use App\Jobs\DeletedItemMailJob;
 
 class EquipmentController extends Controller
 {
@@ -155,6 +157,16 @@ class EquipmentController extends Controller
         $type = $equipment->type()->first();
         if($type->id_equipment_type != $id_equipment_type) abort(400);
 
+        $reserves = $equipment->reserve()->where([['is_deleted', 0], ['date_start', '>', date('Y-m-d H:i:s')]])->get();
+
+        foreach ($reserves as $key => $reserve) {
+          $user = $reserve->user()->first();
+          $emailJob = (new DeletedItemMailJob($user, $equipment , $reserve))->delay(Carbon::now()->addSeconds(12));
+          dispatch($emailJob);
+          $reserve->equipments()->detach($equipment->id_equipment);
+          $reserve->save();
+        }
+
         $this->equipmentRepository->destroy($id_equipment);
 
         $equipments = $type->equipment()->select(['serial_number AS description', 'id_equipment as id'])->where('is_deleted','=',0)->paginate($this->amountPerPage);
@@ -189,7 +201,6 @@ class EquipmentController extends Controller
         {
             $equipment->site()->dissociate();
             $orders = $this->equipmentRepository->getById($id_equipment)->reserve()->get();
-            \Debugbar::info($orders);
             foreach ($orders as $key => $order) {
               $model = \App\ReserveRoom::findOrFail($order->id_reserve_room);
               $model->is_deleted = true;
@@ -206,7 +217,6 @@ class EquipmentController extends Controller
                 abort(400);
 
             $orders = $this->equipmentRepository->getById($id_equipment)->reserve()->where('is_deleted', '=', 0)->get();
-            \Debugbar::info($orders);
             foreach ($orders as $key => $order) {
               $model = \App\ReserveRoom::findOrFail($order->id_reserve_room);
               $model->is_deleted = true;
